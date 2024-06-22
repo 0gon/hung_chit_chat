@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>DevLog Chating</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 500px;
+            margin: 0 auto;
+            padding: 25px
+        }
+
+        .container h1 {
+            text-align: left;
+            padding: 5px 5px 5px 15px;
+            color: #FFBB00;
+            border-left: 3px solid #FFBB00;
+            margin-bottom: 20px;
+        }
+
+        .chating {
+            background-color: #000;
+            width: 500px;
+            height: 500px;
+            overflow: auto;
+        }
+
+        .chating .me {
+            color: #F6F6F6;
+            text-align: right;
+        }
+
+        .chating .others {
+            color: #FFE400;
+            text-align: left;
+        }
+
+        .chating .start {
+            color: #AAAAAA;
+            text-align: center;
+        }
+
+        .chating .exit {
+            color: red;
+            text-align: center;
+        }
+
+        input {
+            width: 330px;
+            height: 25px;
+        }
+
+        #sendBtn{
+            display: none;
+        }
+
+    </style>
+</head>
+
+<script type="text/javascript">
+    var ws;
+    var name;
+
+    function newMsg(type, name, text) {
+        let obj = { type, name, text }
+        return JSON.stringify(obj);
+    }
+
+    function wsOpen() {
+        //websocket을 지정한 URL로 연결
+        ws = new WebSocket("ws://" + location.host + "/chating");
+        wsEvt();
+    }
+
+    function wsEvt() {
+        //소켓이 열리면 동작
+        ws.onopen = function (e) {
+            console.log('웹소켓 연결...')
+        }
+
+        //서버로부터 데이터 수신 (메세지를 전달 받음)
+        ws.onmessage = function (e) {
+            var msgJson = e.data; // 전달 받은 데이터
+            console.log('msg', msgJson);
+
+
+            if (msgJson != null && msgJson.trim() != '') {
+                var msg = JSON.parse(msgJson);
+
+                //채팅 메시지를 전달받은 경우
+                if (msg.type == "message") {
+                    if (msg.userName == name) {
+                        $("#chating").append("<p class='me'>" + msg.text + "</p>");
+                    } else {
+                        $("#chating").append("<p class='others'>" + msg.name + " : " + msg.text + "</p>");
+                    }
+
+                }
+                //새로운 유저가 입장하였을 경우
+                else if (msg.type == "open") {
+                    if (msg.userName == name) {
+                        $("#chating").append("<p class='start'>[채팅에 참가하였습니다.]</p>");
+                    } else {
+                        $("#chating").append("<p class='start'>[" + msg.name + "]님이 입장하였습니다." + "</p>");
+                    }
+                }
+                //유저가 퇴장하였을 경우
+                else if (msg.type == "close") {
+                    $("#chating").append("<p class='exit'>[" + msg.name + "]님이 퇴장하였습니다." + "</p>");
+
+                }
+                else {
+                    console.warn("unknown type!")
+                }
+            }
+
+            ws.onclose = function () {
+                console.log('웹소켓 종료...')
+            }
+        }
+
+        document.addEventListener("keypress", function (e) {
+            if (e.keyCode == 13) { //enter press
+                send();
+            }
+        });
+    }
+
+    function chatName() {
+        name = $("#userName").val();
+        if (name == null || name.trim() == "") {
+            alert("사용자 이름을 입력해주세요.");
+            $("#userName").focus();
+        } else {
+            wsOpen();
+            $("#chatting").attr("disabled", false);
+            $("#sendBtn").show();
+            $("#startBtn").hide();
+        }
+    }
+
+    function send() {
+        var obj = {
+            type: "message",
+            name: name,
+            msg: $("#chatting").val()
+        }
+        //서버에 데이터 전송
+        ws.send(JSON.stringify(obj))
+        $('#chatting').val("");
+    }
+</script>
+
+<body>
+    <div id="container" class="container">
+        <h1>DevLog Chat</h1>
+        <input type="hidden" id="sessionId" value="">
+
+        <div id="chating" class="chating">
+        </div>
+
+        <div id="yourMsg">
+            <table class="inputTable">
+                <tr>
+                    <th>메시지</th>
+                    <th><input id="chatting" placeholder="보내실 메시지를 입력하세요." disabled></th>
+
+                    <th>
+                        <button onclick="chatName()" id="startBtn">채팅 참가</button>
+                        <button onclick="send()" id="sendBtn">보내기</button>
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
