@@ -5,6 +5,67 @@
     <title>WebSocket Chat</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        .chat-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .chat-inputs {
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-inputs input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .chat-inputs button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        .chat-inputs button:hover {
+            background-color: #0056b3;
+        }
+        .chat-messages {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+        .message span {
+            font-weight: bold;
+        }
+    </style>
     <script>
         var stompClient = null;
 
@@ -43,7 +104,8 @@
         function showMessage(roomId, message, senderId) {
             var messages = document.getElementById('messages');
             var messageElement = document.createElement('div');
-            messageElement.textContent ="[" + roomId + "]" + senderId + ": " + message;
+            messageElement.className = 'message';
+            messageElement.innerHTML = "<span>[" + roomId + "] " + senderId + ":</span> " + message;
             messages.appendChild(messageElement);
         }
 
@@ -53,12 +115,15 @@
     </script>
 </head>
 <body>
-<div>
-    <input type="number" id="senderId" placeholder="Enter your ID">
-    <input type="text" id="message" placeholder="Enter your message here">
-    <input type="number" id="roomId" placeholder="Enter your Room">
-    <button onclick="sendMessage()">Send</button>
+<div class="chat-container">
+    <div class="chat-header">WebSocket Chat</div>
+    <div class="chat-inputs">
+        <input type="number" id="senderId" placeholder="Enter your ID">
+        <input type="text" id="message" placeholder="Enter your message here">
+        <input type="number" id="roomId" placeholder="Enter your Room">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    <div id="messages" class="chat-messages"></div> <!-- 메시지를 표시할 영역 -->
 </div>
-<div id="messages"></div>  <!-- 메시지를 표시할 영역 -->
 </body>
 </html>
