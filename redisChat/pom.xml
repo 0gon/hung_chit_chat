@@ -20,6 +20,8 @@
         <lombok.version>1.18.30</lombok.version>
         <httpclient.version>4.5.13</httpclient.version>
         <json.version>20220320</json.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
     </properties>
 
 
