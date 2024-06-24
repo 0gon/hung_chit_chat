@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script>
+        var stompClient = null;
+
+        function connect() {
+            var socket = new SockJS('/chat');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+
+                // 메시지 수신 경로 구독 예시
+                stompClient.subscribe('/queue/1', function (message) {
+                    var messageBody = JSON.parse(message.body);
+                    showMessage(messageBody.roomId, messageBody.message, messageBody.senderId);
+                });
+            }, function (error) {
+                console.error('STOMP error', error);
+            });
+        }
+
+        function sendMessage() {
+            var message = document.getElementById('message').value;
+            var senderId = document.getElementById('senderId').value;
+            var roomId = document.getElementById('roomId').value;
+            if (message.trim() === "" || senderId.trim() === "") {
+                return;
+            }
+            var messageObject = {
+                'message': message,
+                'senderId': senderId,
+                'roomId': roomId
+            };
+            stompClient.send("/app/message", {}, JSON.stringify(messageObject));
+            document.getElementById('message').value = ''; // 메시지 전송 후 입력 필드 초기화
+        }
+
+        function showMessage(roomId, message, senderId) {
+            var messages = document.getElementById('messages');
+            var messageElement = document.createElement('div');
+            messageElement.textContent ="[" + roomId + "]" + senderId + ": " + message;
+            messages.appendChild(messageElement);
+        }
+
+        window.addEventListener('load', function() {
+            connect();
+        });
+    </script>
+</head>
+<body>
+<div>
+    <input type="number" id="senderId" placeholder="Enter your ID">
+    <input type="text" id="message" placeholder="Enter your message here">
+    <input type="number" id="roomId" placeholder="Enter your Room">
+    <button onclick="sendMessage()">Send</button>
+</div>
+<div id="messages"></div>  <!-- 메시지를 표시할 영역 -->
+</body>
+</html>
