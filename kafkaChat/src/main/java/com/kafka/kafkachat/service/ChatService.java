@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -19,5 +22,13 @@ public class ChatService {
         ChatMessage chatMessage = chatMessageDto.toEntity(chatMessageDto);
 
         chatRepository.save(chatMessage);
+    }
+
+    public List<ChatMessageDto> getMessagesByRoomId(Long roomId) {
+
+        List<ChatMessage> findMessage = chatRepository.findByRoomId(roomId);
+
+        return findMessage.stream().map(ChatMessageDto::new).collect(Collectors.toList());
+
     }
 }

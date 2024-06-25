@@ -24,8 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         // 메시지 브로커 구성 "Prefixes" -> /app/message -> ChatController 에서 @MessageMapping("/message") 로 매핑됨
         registry.setApplicationDestinationPrefixes("/app");
-        // /topic/message 를하면 클라이언트에서 /message 로 메시지를 받을 수 있다.
-        registry.enableSimpleBroker("/queue", "/topic");
+        registry.enableSimpleBroker("/queue");
     }
 
 }
