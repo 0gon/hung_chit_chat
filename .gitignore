@@ -3,7 +3,7 @@
 ## 빌더등 제외하고 싶은 폴더들은 하위 모듈에서 별도로 ignore 파일 생성해서 설정하기
 
 # 앱정보
-application.yml
+#application.yml
 application.properties
 
 # Java class files
