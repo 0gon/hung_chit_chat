@@ -1,8 +1,8 @@
 package com.kafka.kafkachat;
 
 import com.kafka.kafkachat.member.entity.Member;
-import com.kafka.kafkachat.room.entity.ChatRoom;
-import com.kafka.kafkachat.room.entity.UserChatRoom;
+import com.kafka.kafkachat.chat.entity.ChatRoom;
+import com.kafka.kafkachat.chat.entity.UserChatRoom;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

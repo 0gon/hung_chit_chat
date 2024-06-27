@@ -13,11 +13,12 @@ public class ChatMessageDto {
 
     private Long senderId;
     private String message;
-    private String chatRoomName;
+    private Long chatRoomId;
 
     public ChatMessageDto(ChatMessage chatMessage) {
         this.senderId = chatMessage.getSenderId();
         this.message = chatMessage.getMessage();
+        this.chatRoomId = chatMessage.getChatRoom().getId();
     }
 
     public ChatMessage toEntity(ChatMessageDto chatMessageDto) {

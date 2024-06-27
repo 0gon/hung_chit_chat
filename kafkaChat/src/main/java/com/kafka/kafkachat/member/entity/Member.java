@@ -1,6 +1,8 @@
 package com.kafka.kafkachat.member.entity;
 
-import com.kafka.kafkachat.room.entity.UserChatRoom;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.kafka.kafkachat.chat.entity.UserChatRoom;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
