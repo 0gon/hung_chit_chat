@@ -1,5 +1,6 @@
 package com.kafka.kafkachat.chat.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.kafka.kafkachat.member.entity.Member;
