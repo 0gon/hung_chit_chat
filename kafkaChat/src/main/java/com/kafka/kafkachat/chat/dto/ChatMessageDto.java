@@ -13,19 +13,17 @@ public class ChatMessageDto {
 
     private Long senderId;
     private String message;
-    private Long roomId;
+    private String chatRoomName;
 
     public ChatMessageDto(ChatMessage chatMessage) {
         this.senderId = chatMessage.getSenderId();
         this.message = chatMessage.getMessage();
-        this.roomId = chatMessage.getRoomId();
     }
 
     public ChatMessage toEntity(ChatMessageDto chatMessageDto) {
         return ChatMessage.builder()
                 .senderId(chatMessageDto.senderId)
                 .message(chatMessageDto.message)
-                .roomId(chatMessageDto.roomId)
                 .sendDate(LocalDateTime.now())
                 .build();
     }

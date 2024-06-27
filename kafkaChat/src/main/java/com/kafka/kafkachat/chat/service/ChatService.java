@@ -23,11 +23,8 @@ public class ChatService {
         chatRepository.save(chatMessage);
     }
 
-    public List<ChatMessageDto> getMessagesByRoomId(Long roomId) {
-
-        List<ChatMessage> findMessage = chatRepository.findByRoomId(roomId);
-
-        return findMessage.stream().map(ChatMessageDto::new).collect(Collectors.toList());
-
-    }
+//    public List<ChatMessageDto> getMessagesByRoomId(Long roomId) {
+//        List<ChatMessage> findMessage = chatRepository.findByRoomId(roomId);
+//        return findMessage.stream().map(ChatMessageDto::new).collect(Collectors.toList());
+//    }
 }

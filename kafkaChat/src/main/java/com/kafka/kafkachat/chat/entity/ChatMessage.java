@@ -1,8 +1,7 @@
 package com.kafka.kafkachat.chat.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.kafka.kafkachat.room.entity.ChatRoom;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,14 +9,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatMessage {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     private LocalDateTime sendDate;
 
@@ -25,13 +27,16 @@ public class ChatMessage {
 
     private String message;
 
-    private Long roomId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chatroom_id")
+    private ChatRoom chatRoom;
 
     @Builder
-    public ChatMessage(LocalDateTime sendDate, Long senderId, String message, Long roomId) {
+    public ChatMessage(LocalDateTime sendDate, Long senderId, String message, ChatRoom chatRoom) {
         this.sendDate = sendDate;
         this.senderId = senderId;
         this.message = message;
-        this.roomId = roomId;
+        this.chatRoom = chatRoom;
     }
+
 }

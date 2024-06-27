@@ -1,5 +1,6 @@
 package com.kafka.kafkachat.room.entity;
 
+import com.kafka.kafkachat.chat.entity.ChatMessage;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +26,6 @@ public class ChatRoom {
     public ChatRoom(String name) {
         this.name = name;
     }
-
 
     // ===          연관관계 편의 메서드         === //
     public void addUserChatRoom(UserChatRoom room) {

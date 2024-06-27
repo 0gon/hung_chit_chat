@@ -41,8 +41,8 @@ public class ChatController {
 
     }
 
-    @GetMapping("/getMessage/{roomId}")
-    public ResponseEntity<List<ChatMessageDto>> subscribe(@PathVariable Long roomId) {
-        return ResponseEntity.ok(chatService.getMessagesByRoomId(roomId));
-    }
+//    @GetMapping("/getMessage/{roomId}")
+//    public ResponseEntity<List<ChatMessageDto>> subscribe(@PathVariable Long roomId) {
+//        return ResponseEntity.ok(chatService.getMessagesByRoomId(roomId));
+//    }
 }
