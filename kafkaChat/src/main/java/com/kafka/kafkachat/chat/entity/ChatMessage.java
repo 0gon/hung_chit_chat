@@ -1,4 +1,4 @@
-package com.kafka.kafkachat.entity;
+package com.kafka.kafkachat.chat.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

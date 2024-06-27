@@ -1,6 +1,6 @@
-package com.kafka.kafkachat.repository;
+package com.kafka.kafkachat.chat.repository;
 
-import com.kafka.kafkachat.entity.ChatMessage;
+import com.kafka.kafkachat.chat.entity.ChatMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

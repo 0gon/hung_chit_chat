@@ -1,8 +1,7 @@
-package com.kafka.kafkachat.controller;
+package com.kafka.kafkachat.chat.controller;
 
-import ch.qos.logback.core.model.Model;
-import com.kafka.kafkachat.dto.ChatMessageDto;
-import com.kafka.kafkachat.service.ChatService;
+import com.kafka.kafkachat.chat.dto.ChatMessageDto;
+import com.kafka.kafkachat.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +11,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -38,7 +35,10 @@ public class ChatController {
     public void sendMessage(@Payload ChatMessageDto chatMessageDto) {
         log.info("Received message: " + chatMessageDto.getMessage());
         chatService.saveMessage(chatMessageDto);
-        messagingTemplate.convertAndSend("/queue/" + chatMessageDto.getRoomId(), chatMessageDto);
+        // SimpleMessingTemplate -> Spirng WebSocket
+        //messagingTemplate.convertAndSend("/queue/" + chatMessageDto.getRoomId(), chatMessageDto);
+
+
     }
 
     @GetMapping("/getMessage/{roomId}")

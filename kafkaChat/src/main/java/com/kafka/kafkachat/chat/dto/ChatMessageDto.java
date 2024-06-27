@@ -1,6 +1,6 @@
-package com.kafka.kafkachat.dto;
+package com.kafka.kafkachat.chat.dto;
 
-import com.kafka.kafkachat.entity.ChatMessage;
+import com.kafka.kafkachat.chat.entity.ChatMessage;
 import lombok.*;
 
 import java.time.LocalDateTime;
