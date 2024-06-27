@@ -1,7 +1,6 @@
 package com.kafka.kafkachat.chat.service;
 
 import com.kafka.kafkachat.chat.dto.ChatMessageDto;
-import com.kafka.kafkachat.chat.dto.ChatRoomDto;
 import com.kafka.kafkachat.chat.entity.ChatMessage;
 import com.kafka.kafkachat.chat.entity.ChatRoom;
 import com.kafka.kafkachat.chat.repository.ChatRepository;
@@ -9,9 +8,6 @@ import com.kafka.kafkachat.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)

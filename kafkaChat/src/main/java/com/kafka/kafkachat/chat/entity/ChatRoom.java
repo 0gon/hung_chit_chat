@@ -2,6 +2,7 @@ package com.kafka.kafkachat.chat.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class ChatRoom {
     private String name;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
     public ChatRoom(String name) {
