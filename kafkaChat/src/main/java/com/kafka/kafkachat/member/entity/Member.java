@@ -20,7 +20,7 @@ public class Member {
 
     private String username;
 
-    @OneToMany(mappedBy = "members")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
     public Member(String username) {
@@ -28,7 +28,7 @@ public class Member {
     }
 
     // ===          연관관계 편의 메서드         === //
-    public void setUserChatRooms(UserChatRoom userChatRooms) {
+    public void addUserChatRoom(UserChatRoom userChatRooms) {
         this.userChatRooms.add(userChatRooms);
         userChatRooms.setMember(this);
     }

@@ -17,16 +17,19 @@ public class ChatRoom {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "chatRooms")
-    private List<UserChatRoom> rooms = new ArrayList<>();
+    private String name;
 
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
+    private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
-
+    public ChatRoom(String name) {
+        this.name = name;
+    }
 
 
     // ===          연관관계 편의 메서드         === //
-    public void setUserChatRoom(UserChatRoom room) {
-        this.rooms.add(room);
+    public void addUserChatRoom(UserChatRoom room) {
+        this.userChatRooms.add(room);
         room.setChatRoom(this);
     }
 

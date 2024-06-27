@@ -13,29 +13,31 @@ public class UserChatRoom {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member members;
+    private Member member;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatroom_id")
-    private ChatRoom chatRooms;
+    private ChatRoom chatRoom;
 
 
 
     // ===          연관관계 편의 메서드         === //
     public UserChatRoom(Member member, ChatRoom chatRoom) {
-        member.setUserChatRooms(this);
-        chatRoom.setUserChatRoom(this);
+        this.member = member;
+        this.chatRoom = chatRoom;
+        member.getUserChatRooms().add(this);
+        chatRoom.getUserChatRooms().add(this);
     }
 
     public void setMember(Member member) {
-        this.members = member;
+        this.member = member;
         member.getUserChatRooms().add(this);
     }
 
     public void setChatRoom(ChatRoom chatRoom) {
-        this.chatRooms = chatRoom;
-        chatRoom.getRooms().add(this);
+        this.chatRoom = chatRoom;
+        chatRoom.getUserChatRooms().add(this);
     }
 }
