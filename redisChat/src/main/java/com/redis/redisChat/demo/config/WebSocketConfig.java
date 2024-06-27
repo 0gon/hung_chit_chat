@@ -1,5 +1,6 @@
-package com.redis.redisChat.demo.chat;
+package com.redis.redisChat.demo.config;
 
+import com.redis.redisChat.demo.webSocket.handler.WebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;

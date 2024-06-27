@@ -1,92 +1,72 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ko">
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <meta charset="UTF-8">
-    <title>DevLog Chating</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
     <style>
-        * {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
         }
-
-        .container {
-            width: 500px;
-            margin: 0 auto;
-            padding: 25px
+        .login-container {
+            background-color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-
-        .container h1 {
-            text-align: left;
-            padding: 5px 5px 5px 15px;
-            color: #FFBB00;
-            border-left: 3px solid #FFBB00;
+        h2 {
             margin-bottom: 20px;
+            color: #333;
         }
-
-        .chating {
-            background-color: #000;
-            width: 500px;
-            height: 500px;
-            overflow: auto;
+        .form-group {
+            margin-bottom: 15px;
         }
-
-        .chating .me {
-            color: #F6F6F6;
-            text-align: right;
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
         }
-
-        .chating .others {
-            color: #FFE400;
-            text-align: left;
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-
-        .chating .start {
-            color: #AAAAAA;
-            text-align: center;
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
         }
-
-        .chating .exit {
-            color: red;
-            text-align: center;
+        .btn:hover {
+            background-color: #4cae4c;
         }
-
-        input {
-            width: 330px;
-            height: 25px;
-        }
-
-        #sendBtn{
-            display: none;
-        }
-
     </style>
 </head>
-
-
 <body>
-    <div id="container" class="container">
-        <h1>DevLog Chat</h1>
-        <input type="hidden" id="sessionId" value="">
-
-        <div id="chating" class="chating">
+<div class="login-container">
+    <h2>로그인</h2>
+    <form action="/login" method="post">
+        <div class="form-group">
+            <label for="id">아이디</label>
+            <input type="text" id="id" name="id" required>
         </div>
-
-        <div id="yourMsg">
-            <table class="inputTable">
-                <tr>
-                    <th>메시지</th>
-                    <th><input id="chatting" placeholder="보내실 메시지를 입력하세요." disabled></th>
-
-                    <th>
-                        <button onclick="chatName()" id="startBtn">채팅 참가</button>
-                        <button onclick="send()" id="sendBtn">보내기</button>
-                    </th>
-                </tr>
-            </table>
+        <div class="form-group">
+            <label for="nickname">닉네임</label>
+            <input type="text" id="nickname" name="nickname" required>
         </div>
-    </div>
+        <button type="submit" class="btn">로그인</button>
+    </form>
+</div>
 </body>
-
 </html>

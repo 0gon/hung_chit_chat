@@ -1,4 +1,4 @@
-package com.redis.redisChat.demo.redis;
+package com.redis.redisChat.demo.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

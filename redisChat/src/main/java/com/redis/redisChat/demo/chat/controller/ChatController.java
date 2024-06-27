@@ -1,4 +1,4 @@
-package com.redis.redisChat.demo.chat;
+package com.redis.redisChat.demo.chat.controller;
 
 import org.springframework.stereotype.Controller;
 

@@ -1,4 +1,4 @@
-package com.redis.redisChat.demo.chat;
+package com.redis.redisChat.demo.webSocket.handler;
 
 import java.util.HashMap;
 import java.util.Map;
