@@ -1,5 +1,6 @@
 package com.kafka.kafkachat.config;
 
+import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -19,13 +20,6 @@ import java.util.Map;
 public class KafkaConfig {
 
     @Bean
-    public KafkaAdmin kafkaAdmin(){
-        Map<String, Object> configs = new HashMap<String, Object>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        return new KafkaAdmin(configs);
-    }
-
-    @Bean
     public ProducerFactory<String, String> producerFactory(){
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -37,5 +31,20 @@ public class KafkaConfig {
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
+    }
+
+    @Bean
+    public KafkaAdmin kafkaAdmin() {
+        Map<String, Object> configs = new HashMap<>();
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        return new KafkaAdmin(configs);
+    }
+
+    @Bean
+    public AdminClient adminClient() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put("api.version.request", false);  // 이 설정 추가
+        return AdminClient.create(config);
     }
 }

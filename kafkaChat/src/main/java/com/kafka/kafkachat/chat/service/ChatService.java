@@ -8,9 +8,13 @@ import com.kafka.kafkachat.chat.entity.ChatRoom;
 import com.kafka.kafkachat.chat.repository.ChatRepository;
 import com.kafka.kafkachat.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,6 +26,7 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
 
     private final RedisTemplate<String, Object> redisTemplate;
+    private final AdminClient adminClient;
 
     @Transactional
     public void saveMessage(ChatMessageDto chatMessageDto) {
@@ -63,6 +68,15 @@ public class ChatService {
             return chatRoom;
         }
         return ChatConverter.toEntity(chatRoomDto);
+    }
+
+    public void createKafkaTopic(Long id) {
+        try{
+            NewTopic newTopic = new NewTopic("chat-room", 1, (short)1);
+            adminClient.createTopics(List.of(newTopic)).all().get();
+        } catch(Exception e){
+            throw new RuntimeException("Falied to create kafka topic: " + id, e);
+        }
     }
 
 //    public List<ChatMessageDto> getMessagesByRoomId(Long roomId) {

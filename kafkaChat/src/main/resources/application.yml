@@ -13,6 +13,9 @@ spring:
     producer: # 생산자
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    properties:
+     api.version.request: false  # 추가하여 호환성 문제를 해결
+
 
   # DB 설정
   datasource:

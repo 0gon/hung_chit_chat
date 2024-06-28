@@ -1,16 +1,19 @@
 package com.kafka.kafkachat.chat.controller;
 
 import com.kafka.kafkachat.chat.dto.ChatMessageDto;
+import com.kafka.kafkachat.chat.dto.ChatRoomDto;
 import com.kafka.kafkachat.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -20,7 +23,7 @@ import java.util.List;
 public class ChatController {
 
     private final ChatService chatService;
-    private final SimpMessagingTemplate messagingTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @GetMapping("/chat")
     public String connectChat() {
@@ -35,10 +38,9 @@ public class ChatController {
     public void sendMessage(@Payload ChatMessageDto chatMessageDto) {
         log.info("Received message: " + chatMessageDto.getMessage());
         chatService.saveMessage(chatMessageDto);
-        // SimpleMessingTemplate -> Spirng WebSocket
-        //messagingTemplate.convertAndSend("/queue/" + chatMessageDto.getRoomId(), chatMessageDto);
 
-
+        // kafka로 메시지 전송
+        kafkaTemplate.send("chat-room-" + chatMessageDto.getId(), chatMessageDto.getMessage());
     }
 
 //    @GetMapping("/getMessage/{roomId}")

@@ -1,10 +1,7 @@
 package com.kafka.kafkachat.chat.dto;
 
 import com.kafka.kafkachat.chat.entity.ChatRoom;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Setter
 public class ChatRoomDto {
     private Long id;
     private String name;
