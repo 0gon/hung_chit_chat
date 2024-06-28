@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ChatRoom {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +26,6 @@ public class ChatRoom {
     private String name;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
     public ChatRoom(String name) {

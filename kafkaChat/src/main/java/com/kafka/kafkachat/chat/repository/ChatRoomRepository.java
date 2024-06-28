@@ -10,7 +10,5 @@ import java.util.Optional;
 @Repository
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
-    // Redis 캐시 적용
-    @Cacheable(value = "chatRooms", key = "#id")
     Optional<ChatRoom> findById(Long id);
 }
