@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -75,7 +75,7 @@
 
     function wsOpen() {
         //websocket을 지정한 URL로 연결
-        ws = new WebSocket("ws://" + location.host + "/chating");
+        ws = new WebSocket("ws://" + location.host + "/ws_chating");
         wsEvt();
     }
 
@@ -156,30 +156,45 @@
         ws.send(JSON.stringify(obj))
         $('#chatting').val("");
     }
+
+
+    let member = {
+       id: get_cookie("member_id"),
+       nickName: get_cookie("member_nickName"),
+    }
+
+    console.log(member)
+
+
+    function get_cookie(name) {
+        var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return value? value[2] : null;
+    }
+
+
 </script>
 
 <body>
-    <div id="container" class="container">
-        <h1>DevLog Chat</h1>
-        <input type="hidden" id="sessionId" value="">
+<div id="container" class="container">
+    <h1>DevLog Chat</h1>
 
-        <div id="chating" class="chating">
-        </div>
-
-        <div id="yourMsg">
-            <table class="inputTable">
-                <tr>
-                    <th>메시지</th>
-                    <th><input id="chatting" placeholder="보내실 메시지를 입력하세요." disabled></th>
-
-                    <th>
-                        <button onclick="chatName()" id="startBtn">채팅 참가</button>
-                        <button onclick="send()" id="sendBtn">보내기</button>
-                    </th>
-                </tr>
-            </table>
-        </div>
+    <div id="chating" class="chating">
     </div>
+
+    <div id="yourMsg">
+        <table class="inputTable">
+            <tr>
+                <th>메시지</th>
+                <th><input id="chatting" placeholder="보내실 메시지를 입력하세요." disabled></th>
+
+                <th>
+                    <button onclick="chatName()" id="startBtn">채팅 참가</button>
+                    <button onclick="send()" id="sendBtn">보내기</button>
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 
 </html>

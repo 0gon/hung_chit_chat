@@ -1,15 +1,19 @@
-package com.redis.redisChat.demo.member.dto;
+package com.redis.redisChat.demo.domain.member.entity;
 
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter
+@Entity
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDTO {
+public class Member {
 
+    @Id
     private String id;
     private String nickName;
 

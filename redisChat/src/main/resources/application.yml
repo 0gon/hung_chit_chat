@@ -9,6 +9,15 @@ spring:
     ansi:
       enabled: always
 
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+  thymeleaf:
+    cache: false
+
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:tcp://localhost/~/testDB/chat
@@ -17,6 +26,7 @@ spring:
 
   jpa:
     hibernate:
+#      ddl-auto: create
       ddl-auto: update
     show-sql: true
 
