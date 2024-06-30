@@ -1,9 +1,11 @@
-package com.kafka.kafkachat.config;
+package com.kafka.kafkachat.config.kafka;
 
+import jakarta.annotation.PostConstruct;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -18,6 +20,9 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 public class KafkaConfig {
+
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String bootstrapServers;
 
     @Bean
     public ProducerFactory<String, String> producerFactory(){
@@ -36,14 +41,14 @@ public class KafkaConfig {
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         return new KafkaAdmin(configs);
     }
 
     @Bean
     public AdminClient adminClient() {
         Map<String, Object> config = new HashMap<>();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put("api.version.request", false);  // 이 설정 추가
         return AdminClient.create(config);
     }
