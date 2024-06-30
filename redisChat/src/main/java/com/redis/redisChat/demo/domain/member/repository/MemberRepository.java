@@ -16,4 +16,7 @@ public class MemberRepository {
         return member.getId();
     }
 
+    public Member find(String id) {
+        return em.find(Member.class, id);
+    }
 }
