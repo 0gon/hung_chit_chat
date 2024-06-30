@@ -36,3 +36,12 @@ spring:
       settings:
         web-allow-others: true
       path: /h2-console
+
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+
