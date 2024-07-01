@@ -17,7 +17,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class ChatRoom {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +26,12 @@ public class ChatRoom {
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
     private List<UserChatRoom> userChatRooms = new ArrayList<>();
+
+    @Builder
+    public ChatRoom(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public ChatRoom(String name) {
         this.name = name;

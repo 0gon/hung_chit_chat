@@ -17,18 +17,21 @@ public class KafkaConsumerService {
     private final SimpMessagingTemplate messagingTemplate;
 
     // 임시 토픽 1개
-    @KafkaListener(topics = "chat-room", groupId = "chat-group")
-    public void listen(String message, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
+    @KafkaListener(topics = "chat-room-A", groupId = "chat-room")
+    public void listen(ChatMessageDto messageDto, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
         try{
 
         // Kafka로부터 메시지를 받아 처리
-        log.info("Received message from Kafka: " + message);
+        log.info("Received message from Kafka: " + messageDto.getMessage());
+        log.info("GetId: " + messageDto.getChatRoomId());
+        log.info("topic: " + topic);
 
-        Long roomId = Long.valueOf(topic.replace("chat-room-", ""));
+        Long roomId = messageDto.getChatRoomId();
 
         ChatMessageDto chatMessageDto = ChatMessageDto.builder()
-                .id(roomId)
-                .message(message)
+                .chatRoomId(roomId)
+                .senderId(messageDto.getSenderId())
+                .message(messageDto.getMessage())
                 .build();
 
         messagingTemplate.convertAndSend("/queue/" + roomId, chatMessageDto);

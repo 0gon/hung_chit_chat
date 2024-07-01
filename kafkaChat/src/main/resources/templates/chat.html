@@ -114,6 +114,7 @@
 
         function connect() {
             var inputRoomId = document.getElementById('chatRoomId').value;
+            chatRoomId = inputRoomId;
             var socket = new SockJS('/chat');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
@@ -137,6 +138,9 @@
                     // 메시지 수신 경로 구독 예시
                     stompClient.subscribe('/queue/' + chatRoomId, function (message) {
                         var messageBody = JSON.parse(message.body);
+                        console.log("sub - " + messageBody.chatRoomId);
+                        console.log("sub - " + messageBody.message);
+                        console.log("sub - " + messageBody.senderId);
                         showMessage(messageBody.chatRoomId, messageBody.message, messageBody.senderId);
                     });
                 }
@@ -148,6 +152,7 @@
         function sendMessage() {
             var message = document.getElementById('message').value;
             var senderId = document.getElementById('senderId').value;
+
             if (message.trim() === "" || senderId.trim() === "" || chatRoomId === null) {
                 return;
             }

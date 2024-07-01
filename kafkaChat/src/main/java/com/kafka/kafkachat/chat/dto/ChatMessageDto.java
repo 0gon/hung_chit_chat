@@ -17,14 +17,13 @@ public class ChatMessageDto {
     private Long chatRoomId;
 
     public ChatMessageDto(ChatMessage chatMessage) {
-        this.senderId = chatMessage.getSenderId();
+        this.senderId = chatMessage.getSender().getId();
         this.message = chatMessage.getMessage();
         this.chatRoomId = chatMessage.getChatRoom().getId();
     }
 
     public ChatMessage toEntity(ChatMessageDto chatMessageDto) {
         return ChatMessage.builder()
-                .senderId(chatMessageDto.senderId)
                 .message(chatMessageDto.message)
                 .sendDate(LocalDateTime.now())
                 .build();

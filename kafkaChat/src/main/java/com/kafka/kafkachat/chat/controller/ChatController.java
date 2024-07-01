@@ -9,11 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ import java.util.List;
 public class ChatController {
 
     private final ChatService chatService;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @GetMapping("/chat")
     public String connectChat() {
@@ -40,11 +38,11 @@ public class ChatController {
         chatService.saveMessage(chatMessageDto);
 
         // kafka로 메시지 전송
-        kafkaTemplate.send("chat-room-" + chatMessageDto.getId(), chatMessageDto.getMessage());
+        kafkaTemplate.send("chat-room-A", chatMessageDto);
     }
 
-//    @GetMapping("/getMessage/{roomId}")
-//    public ResponseEntity<List<ChatMessageDto>> subscribe(@PathVariable Long roomId) {
-//        return ResponseEntity.ok(chatService.getMessagesByRoomId(roomId));
-//    }
+    @GetMapping("/getMessage/{roomId}")
+    public ResponseEntity<List<ChatMessageDto>> subscribe(@PathVariable Long roomId) {
+        return ResponseEntity.ok(chatService.getMessagesByRoomId(roomId));
+    }
 }

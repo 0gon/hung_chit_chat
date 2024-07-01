@@ -1,6 +1,7 @@
 package com.kafka.kafkachat.chat.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.kafka.kafkachat.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,7 +21,8 @@ public class ChatMessage {
 
     private LocalDateTime sendDate;
 
-    private Long senderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member sender;
 
     private String message;
 
@@ -29,9 +31,9 @@ public class ChatMessage {
     private ChatRoom chatRoom;
 
     @Builder
-    public ChatMessage(LocalDateTime sendDate, Long senderId, String message, ChatRoom chatRoom) {
+    public ChatMessage(LocalDateTime sendDate, Member sender, String message, ChatRoom chatRoom) {
         this.sendDate = sendDate;
-        this.senderId = senderId;
+        this.sender = sender;
         this.message = message;
         this.chatRoom = chatRoom;
     }

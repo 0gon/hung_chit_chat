@@ -6,17 +6,19 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     consumer: # 소비자
-      group-id: chat-room                                                                       # 변경 필요
-      auto-offset-reset: earliest                                                               # 카프카를 처음 시작하거나 커밋된 오프셋이 없을때 읽기 시작할 포인트 설정, earliest(오래된 메시지부터) latest(최근 메시지부터), none(없으면 오류)
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer                # 메시지 키를 역직렬화, kafka는 메시지를 바이트 배열로 전송하므로 객체로 변환 필요
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer              # 역직렬화
+      group-id: chat-room                                                                                     # 변경 필요
+      auto-offset-reset: earliest                                                                             # 카프카를 처음 시작하거나 커밋된 오프셋이 없을때 읽기 시작할 포인트 설정, earliest(오래된 메시지부터) latest(최근 메시지부터), none(없으면 오류)
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer                              # 메시지 키를 역직렬화, kafka는 메시지를 바이트 배열로 전송하므로 객체로 변환 필요
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer              # 역직렬화
       properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: '*'
         max-poll-records: 500
         fetch-min-size: 50000
         fetch-max-wait: 500
     producer: # 생산자
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         retries: 3
         batch-size: 16384
@@ -26,12 +28,13 @@ spring:
   # DB 설정
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost:9093/~/testDB/testdc
+    url: jdbc:h2:tcp://localhost:9096/~/testDB/testdc
     username: sa
     password:
 
 # JPA 설정
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
     show-sql: true

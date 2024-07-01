@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.kafka.kafkachat.chat.entity.ChatMessage;
 import com.kafka.kafkachat.chat.entity.UserChatRoom;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,6 +30,13 @@ public class Member {
     private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
     public Member(String username) {
+        this.username = username;
+    }
+
+
+    @Builder
+    Member(Long id, String username) {
+        this.id = id;
         this.username = username;
     }
 
