@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Application</title>
+    <title>회원가입</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,31 +39,24 @@
         .button:hover {
             background-color: #0056b3;
         }
-        .signup-button {
-            background-color: #28a745;
-        }
-        .signup-button:hover {
-            background-color: #218838;
-        }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Welcome to Chat Application</h1>
-    <input type="text" id="userName" class="input" placeholder="Enter your Name">
-    <button class="button" onclick="enterChatRoom()">Login</button>
-    <button class="button signup-button" onclick="signup()">Sign Up</button>
+    <h1>회원가입</h1>
+    <input type="text" id="name" class="input" placeholder="이름 입력">
+    <button class="button" onclick="signup()">회원가입</button>
 </div>
 
 <script>
-    function enterChatRoom() {
-        const userName = document.getElementById('userName').value;
+    function signup() {
+        const name = document.getElementById('name').value;
 
-        if (userName) {
+        if (name) {
             const memberDto = {
-                username:userName
+                name: name
             };
-            fetch('/checkLogin', {
+            fetch('/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -76,24 +69,17 @@
                     }
                     return response.json();
                 })
-                .then((data) => {
-                    alert("로그인에 성공하셨습니다.");
-                    localStorage.setItem("userId", data.id)
-                    localStorage.setItem("userName", data.name)
+                .then(data => {
+                    alert(data.name + "님 회원가입에 성공하셨습니다.");
                     window.location.href = '/';
                 })
                 .catch(error => {
-                    console.error('로그인 중 오류가 발생했습니다:', error);
-                    alert('로그인에 실패했습니다. 다시 시도해주세요.');
+                    console.error('회원가입 중 오류가 발생했습니다:', error);
+                    alert('회원가입에 실패했습니다. 다시 시도해주세요.');
                 });
         } else {
-            alert('ID와 비밀번호를 입력해주세요.');
+            alert('이름을 입력해주세요.');
         }
-    }
-
-    function signup() {
-        // Redirect to the signup page
-        window.location.href = '/signup';
     }
 </script>
 </body>
