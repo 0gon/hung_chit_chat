@@ -38,4 +38,8 @@ public class ChatMessage {
         this.chatRoom = chatRoom;
     }
 
+    public void setChatRoom(ChatRoom chatRoom) {
+        this.chatRoom = chatRoom;
+        chatRoom.addChatMessage(this);
+    }
 }

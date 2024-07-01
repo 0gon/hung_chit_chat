@@ -33,11 +33,7 @@ public class MemberService {
     }
 
     public MemberDto findUser(MemberDto memberDto) {
-        Member member = Member.builder()
-                .username(memberDto.getName())
-                .build();
-
-        Member findMember = memberRepository.findByUsername(member).orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
+        Member findMember = memberRepository.findByUsername(memberDto.getName()).orElseThrow(() -> new IllegalArgumentException("USER_NOT_FOUND"));
 
         return MemberDto.builder()
                 .id(findMember.getId())

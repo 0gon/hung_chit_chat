@@ -32,6 +32,7 @@ public class KafkaConsumerService {
                 .chatRoomId(roomId)
                 .senderId(messageDto.getSenderId())
                 .message(messageDto.getMessage())
+                .senderName(messageDto.getSenderName())
                 .build();
 
         messagingTemplate.convertAndSend("/queue/" + roomId, chatMessageDto);

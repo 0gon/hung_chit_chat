@@ -27,6 +27,9 @@ public class ChatRoom {
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
     private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatMessage> chatMessages = new ArrayList<>();
+
     @Builder
     public ChatRoom(Long id, String name) {
         this.id = id;
@@ -41,6 +44,11 @@ public class ChatRoom {
     public void addUserChatRoom(UserChatRoom room) {
         this.userChatRooms.add(room);
         room.setChatRoom(this);
+    }
+
+    public void addChatMessage(ChatMessage message) {
+        this.chatMessages.add(message);
+        message.setChatRoom(this);
     }
 
 }

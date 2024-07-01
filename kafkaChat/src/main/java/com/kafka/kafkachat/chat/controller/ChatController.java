@@ -1,8 +1,11 @@
 package com.kafka.kafkachat.chat.controller;
 
+import com.kafka.kafkachat.chat.dto.ChatCreatedDto;
 import com.kafka.kafkachat.chat.dto.ChatMessageDto;
 import com.kafka.kafkachat.chat.dto.ChatRoomDto;
+import com.kafka.kafkachat.chat.dto.ResponseChatCreatedDto;
 import com.kafka.kafkachat.chat.service.ChatService;
+import com.kafka.kafkachat.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -44,5 +49,11 @@ public class ChatController {
     @GetMapping("/getMessage/{roomId}")
     public ResponseEntity<List<ChatMessageDto>> subscribe(@PathVariable Long roomId) {
         return ResponseEntity.ok(chatService.getMessagesByRoomId(roomId));
+    }
+
+    @PostMapping("/rooms")
+    public ResponseEntity<ResponseChatCreatedDto> createRoom(@RequestBody ChatCreatedDto chatCreatedDto){
+        ResponseChatCreatedDto room = chatService.createRoom(chatCreatedDto);
+        return ResponseEntity.ok().body(room);
     }
 }

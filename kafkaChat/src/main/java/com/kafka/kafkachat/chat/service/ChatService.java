@@ -1,11 +1,9 @@
 package com.kafka.kafkachat.chat.service;
 
-import com.kafka.kafkachat.chat.dto.ChatConverter;
-import com.kafka.kafkachat.chat.dto.ChatMessageDto;
-import com.kafka.kafkachat.chat.dto.ChatRoomDto;
-import com.kafka.kafkachat.chat.dto.ResponseResult;
+import com.kafka.kafkachat.chat.dto.*;
 import com.kafka.kafkachat.chat.entity.ChatMessage;
 import com.kafka.kafkachat.chat.entity.ChatRoom;
+import com.kafka.kafkachat.chat.entity.UserChatRoom;
 import com.kafka.kafkachat.chat.repository.ChatRepository;
 import com.kafka.kafkachat.chat.repository.ChatRoomRepository;
 import com.kafka.kafkachat.member.dto.MemberDto;
@@ -31,7 +29,6 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
 
     private final RedisTemplate<String, Object> redisTemplate;
-    private final AdminClient adminClient;
     private final MemberRepository memberRepository;
 
     @Transactional
@@ -49,6 +46,29 @@ public class ChatService {
                 .build();
 
         chatRepository.save(chatMessage);
+    }
+
+    @Transactional
+    public ResponseChatCreatedDto createRoom(ChatCreatedDto chatCreatedDto){
+
+        Member sender = memberRepository.findById(chatCreatedDto.getSenderId()).orElseThrow(() -> new IllegalArgumentException("SENDER NOT FOUND"));
+        Member recipient = memberRepository.findById(chatCreatedDto.getRecipientId()).orElseThrow(() -> new IllegalArgumentException("RECIPIENT NOT FOUND"));
+
+        String roomName = chatCreatedDto.getRoomName();
+
+        if(roomName == null || roomName.isEmpty()){
+            roomName = sender.getUsername() + "님의 방";
+        }
+        ChatRoom chatRoom = new ChatRoom(roomName);
+
+        UserChatRoom userChatRoom = new UserChatRoom(sender, chatRoom);
+        UserChatRoom userChatRoom2 = new UserChatRoom(recipient, chatRoom);
+
+        chatRoom.addUserChatRoom(userChatRoom);
+        chatRoom.addUserChatRoom(userChatRoom2);
+
+        ChatRoom chatroom = chatRoomRepository.save(chatRoom);
+        return ResponseChatCreatedDto.builder().roomId(chatroom.getId()).build();
     }
 
     /**
