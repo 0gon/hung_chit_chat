@@ -44,40 +44,10 @@
 <body>
 <div class="container">
     <h1>Welcome to Chat Application</h1>
-    <input type="text" id="roomNumber" class="input" placeholder="Enter Room Number">
-    <button class="button" onclick="createTopic()">Create Chat Room Topic</button>
     <button class="button" onclick="enterChatRoom()">Enter Chat Room</button>
 </div>
 
 <script>
-    function createTopic() {
-        const roomNumber = document.getElementById('roomNumber').value;
-        if (!roomNumber) {
-            alert('Please enter a room number');
-            return;
-        }
-
-        // Implement the logic to create a chat room topic
-        fetch('/api/createChatRoom', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name: roomNumber, id: roomNumber }) // example payload
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('Chat room topic created successfully!');
-                } else {
-                    alert('Failed to create chat room topic.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while creating the chat room topic.');
-            });
-    }
-
     function enterChatRoom() {
         // Redirect to the chat room page
         window.location.href = '/chat';

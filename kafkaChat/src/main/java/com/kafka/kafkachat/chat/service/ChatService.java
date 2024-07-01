@@ -70,15 +70,6 @@ public class ChatService {
         return ChatConverter.toEntity(chatRoomDto);
     }
 
-    public void createKafkaTopic(Long id) {
-        try{
-            NewTopic newTopic = new NewTopic("chat-room", 1, (short)1);
-            adminClient.createTopics(List.of(newTopic)).all().get();
-        } catch(Exception e){
-            throw new RuntimeException("Falied to create kafka topic: " + id, e);
-        }
-    }
-
 //    public List<ChatMessageDto> getMessagesByRoomId(Long roomId) {
 //        List<ChatMessage> findMessage = chatRepository.findByRoomId(roomId);
 //        return findMessage.stream().map(ChatMessageDto::new).collect(Collectors.toList());
