@@ -1,9 +1,6 @@
 package com.kafka.kafkachat.chat.controller;
 
-import com.kafka.kafkachat.chat.dto.ChatCreatedDto;
-import com.kafka.kafkachat.chat.dto.ChatMessageDto;
-import com.kafka.kafkachat.chat.dto.ChatRoomDto;
-import com.kafka.kafkachat.chat.dto.ResponseChatCreatedDto;
+import com.kafka.kafkachat.chat.dto.*;
 import com.kafka.kafkachat.chat.service.ChatService;
 import com.kafka.kafkachat.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -40,6 +38,7 @@ public class ChatController {
     @MessageMapping("/message")
     public void sendMessage(@Payload ChatMessageDto chatMessageDto) {
         log.info("Received message: " + chatMessageDto.getMessage());
+        chatMessageDto.setTimestamp(LocalDateTime.now());
         chatService.saveMessage(chatMessageDto);
 
         // kafka로 메시지 전송
@@ -47,7 +46,7 @@ public class ChatController {
     }
 
     @GetMapping("/getMessage/{roomId}")
-    public ResponseEntity<List<ChatMessageDto>> subscribe(@PathVariable Long roomId) {
+    public ResponseEntity<List<ChatMessageResponseDto>> subscribe(@PathVariable Long roomId) {
         return ResponseEntity.ok(chatService.getMessagesByRoomId(roomId));
     }
 

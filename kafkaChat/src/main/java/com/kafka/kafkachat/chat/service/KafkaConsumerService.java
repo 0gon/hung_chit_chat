@@ -1,6 +1,7 @@
 package com.kafka.kafkachat.chat.service;
 
 import com.kafka.kafkachat.chat.dto.ChatMessageDto;
+import com.kafka.kafkachat.chat.dto.ChatMessageResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -8,6 +9,9 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +32,12 @@ public class KafkaConsumerService {
 
         Long roomId = messageDto.getChatRoomId();
 
-        ChatMessageDto chatMessageDto = ChatMessageDto.builder()
+        ChatMessageResponseDto chatMessageDto = ChatMessageResponseDto.builder()
                 .chatRoomId(roomId)
                 .senderId(messageDto.getSenderId())
                 .message(messageDto.getMessage())
                 .senderName(messageDto.getSenderName())
+                .timestamp(messageDto.getTimestamp().format(DateTimeFormatter.ofPattern("HH:mm")))
                 .build();
 
         messagingTemplate.convertAndSend("/queue/" + roomId, chatMessageDto);

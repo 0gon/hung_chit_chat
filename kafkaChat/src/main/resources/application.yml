@@ -54,7 +54,3 @@ spring:
       port: 6379
   cache:
     type: redis
-logging:
-  level:
-    org.springframework.cache: DEBUG
-    org.springframework.data.redis: DEBUG

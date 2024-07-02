@@ -31,6 +31,10 @@ public class ChatService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final MemberRepository memberRepository;
 
+    /** 메시지 보내기
+     * @param chatMessageDto
+     * chatMessageDto = senderId, senderName, message, chatRoomId
+     * */
     @Transactional
     public void saveMessage(ChatMessageDto chatMessageDto) {
 
@@ -43,11 +47,16 @@ public class ChatService {
                 .message(chatMessageDto.getMessage())
                 .sender(result.getMember())
                 .chatRoom(result.getChatRoom())
+                .timestamp(chatMessageDto.getTimestamp())
                 .build();
 
         chatRepository.save(chatMessage);
     }
 
+    /** 방 생성 로직
+     * @param chatCreatedDto
+     * chatCreatedDto = senderId, recipientId, roomName
+     * */
     @Transactional
     public ResponseChatCreatedDto createRoom(ChatCreatedDto chatCreatedDto){
 
@@ -116,11 +125,17 @@ public class ChatService {
 
     }
 
-    public List<ChatMessageDto> getMessagesByRoomId(Long roomId) {
+    /** 채팅방 메시지 전체를 불러오는 로직
+     * @param roomId
+     * */
+    public List<ChatMessageResponseDto> getMessagesByRoomId(Long roomId) {
         List<ChatMessage> findMessage = chatRepository.findChatMessageByChatRoomId(roomId);
-        return findMessage.stream().map(ChatMessageDto::new).collect(Collectors.toList());
+        return findMessage.stream().map(ChatMessageResponseDto::new).collect(Collectors.toList());
     }
 
+    /** 레디스에 Key, Object 저장
+     * TTL은 1시간으로 설정
+     * */
     private void insertRedis(String key, Object object){
         //TTL 설정 : Redis 에서 1시간동안 관리
         redisTemplate.opsForValue().set(key, object, 1, TimeUnit.HOURS);
