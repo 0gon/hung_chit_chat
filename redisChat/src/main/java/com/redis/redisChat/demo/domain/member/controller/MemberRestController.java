@@ -20,8 +20,8 @@ public class MemberRestController {
 
     private final MemberService service;
 
-    @PostMapping("/api/login")
-    public void login(MemberDTO memberDTO, HttpServletResponse response) throws URISyntaxException, IOException {
+    @PostMapping("/api/signin")
+    public void signin(MemberDTO memberDTO, HttpServletResponse response) throws URISyntaxException, IOException {
 
         log.info("user signin: {}", memberDTO.getId());
 

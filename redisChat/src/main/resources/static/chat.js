@@ -4,8 +4,13 @@ let member = {
     nickName: get_cookie("member_nickName"),
 }
 
+
+$(function () {
+    wsOpen();
+})
+
 function newMsg(type, text) {
-    let obj = { type, ...member.nickName, text }
+    let obj = { type, ...member, text }
     console.log('obj', obj)
     return JSON.stringify(obj);
 }
@@ -20,6 +25,7 @@ function wsEvt() {
     //소켓이 열리면 동작
     ws.onopen = function (e) {
         console.log('웹소켓 연결...')
+        ws.send(newMsg("open", null));
     }
 
     //서버로부터 데이터 수신 (메세지를 전달 받음)
@@ -36,7 +42,7 @@ function wsEvt() {
                 if (msg.userName == 1) {
                     $("#chating").append("<p class='me'>" + msg.text + "</p>");
                 } else {
-                    $("#chating").append("<p class='others'>" + msg.name + " : " + msg.text + "</p>");
+                    $("#chating").append("<p class='others'>" + msg.nickName + " : " + msg.text + "</p>");
                 }
 
             }
@@ -45,12 +51,12 @@ function wsEvt() {
                 if (msg.userName == name) {
                     $("#chating").append("<p class='start'>[채팅에 참가하였습니다.]</p>");
                 } else {
-                    $("#chating").append("<p class='start'>[" + msg.name + "]님이 입장하였습니다." + "</p>");
+                    $("#chating").append("<p class='start'>[" + msg.nickName + "]님이 입장하였습니다." + "</p>");
                 }
             }
             //유저가 퇴장하였을 경우
             else if (msg.type == "close") {
-                $("#chating").append("<p class='exit'>[" + msg.name + "]님이 퇴장하였습니다." + "</p>");
+                $("#chating").append("<p class='exit'>[" + msg.nickName + "]님이 퇴장하였습니다." + "</p>");
 
             }
             else {
@@ -70,27 +76,11 @@ function wsEvt() {
     });
 }
 
-function chatName() {
-    name = $("#userName").val();
-    if (name == null || name.trim() == "") {
-        alert("사용자 이름을 입력해주세요.");
-        $("#userName").focus();
-    } else {
-        wsOpen();
-        $("#chatting").attr("disabled", false);
-        $("#sendBtn").show();
-        $("#startBtn").hide();
-    }
-}
 
 function send() {
-    var obj = {
-        type: "message",
-        name: name,
-        msg: $("#chatting").val()
-    }
     //서버에 데이터 전송
-    ws.send(JSON.stringify(obj))
+    let text = $('#chatting').val();
+    ws.send(newMsg("message", text));
     $('#chatting').val("");
 }
 

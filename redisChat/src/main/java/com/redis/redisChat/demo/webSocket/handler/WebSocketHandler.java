@@ -27,7 +27,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
         sessionMap.put(session.getId(), session);
         for (String key : sessionMap.keySet()) {
             WebSocketSession wss = sessionMap.get(key);
-            
         }
     }
 

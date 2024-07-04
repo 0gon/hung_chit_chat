@@ -4,6 +4,9 @@ import com.redis.redisChat.demo.domain.member.dto.MemberDTO;
 import com.redis.redisChat.demo.domain.member.entity.Member;
 import com.redis.redisChat.demo.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +23,13 @@ public class MemberService {
         member.setId(memberDTO.getId());
         member.setNickName(memberDTO.getNickName());
 
-        String memberId = repo.save(member);
-        return memberId;
+        repo.save(member);
+        return member.getId();
+    }
+
+    @Transactional
+    public Optional<Member> find(String memberId) {
+        return repo.findById(memberId);
     }
 
 }
