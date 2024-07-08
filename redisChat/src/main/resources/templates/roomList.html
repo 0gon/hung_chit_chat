@@ -1,93 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>친구 목록 및 방 리스트</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .container {
-        width: 500px;
-        margin: 20px auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    .header h1 {
-        font-size: 24px;
-        margin: 0;
-    }
-    .button-container {
-        display: flex;
-    }
-    .button {
-        padding: 10px 20px;
-        margin-left: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .button:hover {
-        background-color: #0056b3;
-    }
-    .room-list {
-        margin-top: 20px;
-    }
-    .room-item {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>친구 목록 및 방 리스트</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="/roomList.css" rel="stylesheet" type="text/css">
+    <script type="module" src="/roomList.js"></script>
 </head>
+
 <body>
-<div class="container">
-    <div class="header">
-        <h1>친구 목록 및 방 리스트</h1>
-        <div class="button-container">
-            <button class="button">친구 추가</button>
-            <button class="button">방 생성</button>
+    <div class="container">
+        <div class="header">
+            <h1>친구 목록 및 방 리스트</h1>
+            <div class="button-container">
+                <button class="button addFriendBtn">친구 추가</button>
+                <button class="button test">방 생성</button>
+            </div>
+        </div>
+        <div class="room-list" id="room-list">
+            <!-- 방 리스트는 여기에 AJAX로 동적으로 추가될 예정 -->
         </div>
     </div>
-    <div class="room-list" id="room-list">
-        <!-- 방 리스트는 여기에 AJAX로 동적으로 추가될 예정 -->
-    </div>
-</div>
-
-<script>
-    // AJAX를 사용하여 방 리스트를 가져오는 예시
-    document.addEventListener("DOMContentLoaded", function() {
-        // AJAX 요청 예시 (실제로는 서버 API와 연결하여 데이터를 가져와야 함)
-        setTimeout(function() {
-            var rooms = [
-                { id: 1, name: "방 이름 1" },
-                { id: 2, name: "방 이름 2" },
-                { id: 3, name: "방 이름 3" }
-            ];
-
-            var roomListElement = document.getElementById("room-list");
-            rooms.forEach(function(room) {
-                var roomItem = document.createElement("div");
-                roomItem.classList.add("room-item");
-                roomItem.textContent = room.name;
-                roomListElement.appendChild(roomItem);
-            });
-        }, 1000); // 예시로 1초 후에 데이터를 가져오는 것으로 설정
-    });
-</script>
 
 </body>
+
 </html>
