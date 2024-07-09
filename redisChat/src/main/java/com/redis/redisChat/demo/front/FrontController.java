@@ -1,10 +1,12 @@
 package com.redis.redisChat.demo.front;
 
+import java.net.CookieHandler;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.redis.redisChat.demo.domain.member.entity.Member;
 import com.redis.redisChat.demo.domain.member.service.MemberService;
@@ -14,6 +16,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
@@ -40,7 +43,7 @@ public class FrontController {
     @GetMapping("/roomList")
     public String roomList(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        String memberId = getCookieValue(cookies, "member_id");
+        String memberId = CookieHandler.getCookieValue(cookies, "member_id");
         System.out.println("memberId: " + memberId);
 
         Optional<Member> optionalMember = memberService.find(memberId);
@@ -69,6 +72,11 @@ public class FrontController {
         }
 
         return null;
+    }
+
+    @GetMapping("/popup/{popupName}")
+    public String addFriend(@PathVariable(value = "popupName") String popupName) {
+        return "/popup/" + popupName;
     }
 
 }

@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.redis.redisChat.demo.domain.friendship.service.FriendshipService;
 import com.redis.redisChat.demo.domain.member.dto.MemberDTO;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +28,15 @@ public class FriendshipRestController {
         String test = service.addFriend(friend);
         return ResponseEntity.ok(test);
     }
+
+    @PostMapping("/api/friendship/getFriends")
+    public String getFriends(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        
+
+        return entity;
+    }
+    
     
 
 }

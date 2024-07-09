@@ -1,6 +1,8 @@
 import friend from "/component/friend.js";
 
 var popup = null;
+window.receiveValueFromChild = receiveValueFromChild;
+window.unlockParent = unlockParent;
 
 $(function () {
     // AJAX 요청 예시 (실제로는 서버 API와 연결하여 데이터를 가져와야 함)
@@ -18,65 +20,51 @@ $(function () {
             roomItem.textContent = room.name;
             roomListElement.appendChild(roomItem);
         });
-    }, 1000); // 예시로 1초 후에 데이터를 가져오는 것으로 설정
+    }, 1); // 예시로 1초 후에 데이터를 가져오는 것으로 설정
 
 
-    friend.addFriend("asdf");
 })
 
-$(document).on("click", ".addFriendBtn", openPopup);
+$(document).on("click", ".addFriendBtn", function () {
+    openPopup("/popup/addFriend");
+});
 
 
-function openPopup() {
-    let url = $(location).attr('origin') + "/test";
-    makePopup();
-}
+$(document).on('click', '.makeRoomBtn', function () {
+    openPopup("/popup/makeRoom");
+})
 
-function makePopup() {
+
+
+function openPopup(uri) {
+    lockParent();
 
     if (popup && !popup.closed) {
         popup.close();
     }
-    
+
     // 팝업 창의 너비와 높이
     let popupWidth = 500;
     let popupHeight = 700;
 
-    // 화면 중앙에서 팝업의 위치를 계산 - 위치 수동조정
-    let left = Math.ceil((window.screen.width - popupWidth) / 2) - 50;
-    let top = Math.ceil((window.screen.height - popupHeight) / 2) - 50;
+    // 부모 창의 위치와 크기
+    let parentLeft = window.screenX || window.screenLeft;
+    let parentTop = window.screenY || window.screenTop;
+    let parentWidth = window.innerWidth;
+    let parentHeight = window.innerHeight;
+
+    // 부모 창의 중앙에서 팝업의 위치를 계산
+    let left = parentLeft + Math.ceil((parentWidth - popupWidth) / 2);
+    let top = parentTop + Math.ceil((parentHeight - popupHeight) / 2);
+
+    let url = $(location).attr('origin') + uri;
 
     // 팝업 창 열기
-    popup = window.open('', 'popup_test', `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`);
+    popup = window.open(url, 'popup_test', `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`);
 
     // 팝업 차단 여부 확인
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
         alert('팝업이 차단되었습니다.');
-    } else {
-        // 팝업이 정상적으로 열렸을 때, 팝업 내용 추가
-        const popupContent = `
-        <html>
-        <head>
-          <title>팝업</title>
-          <style>
-            body { text-align: center; padding: 20px; }
-            button { padding: 10px 20px; font-size: 16px; }
-          </style>
-        </head>
-        <body>
-          <h1>팝업 내용</h1>
-          <p>이곳에 팝업 내용을 추가할 수 있습니다.</p>
-          <button onclick="closePopup()">팝업 닫기</button>
-          <script>
-            function closePopup() {
-              window.close();
-            }
-          </script>
-        </body>
-        </html>
-      `;
-
-        popup.document.write(popupContent);
     }
 }
 
@@ -87,10 +75,16 @@ window.addEventListener('unload', () => {
     }
 });
 
+function lockParent() {
+    $('#modalOverlay').show();
+}
 
-$(document).on('click', '.test', function() {
-    console.log(popup);
-    if (popup && !popup.closed) {
-        popup.close();
-    }
-})
+function unlockParent() {
+    $('#modalOverlay').hide();
+}
+
+function receiveValueFromChild(friendId) {
+    unlockParent();
+    friend.addFriend(friendId);
+    console.log("finished")
+}

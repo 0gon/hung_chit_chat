@@ -5,6 +5,12 @@ class Friend {
 
     }
 
+
+    /**
+     * alert로 처리중인데, 팝업창이 alert때문에 바로 종료가 안됨.
+     * 나중에 다른 방식으로 처리하도록 하기
+     * @param {String} friendId 
+     */
     addFriend(friendId) {
         let friend = {
             id: friendId,
@@ -17,16 +23,10 @@ class Friend {
             contentType: "application/json",
             data: JSON.stringify(friend),
             success(result, status, xhr) {
-                console.log('xhr', xhr)
-                console.log('status', status)
-                console.log('result', result)
-
+                alert(result);
             },
             error(xhr, status, error) {
-                console.log('error', error)
-                console.log('status', status)
-                console.log('xhr', xhr)
-
+                alert("addFriend error");
             },
         })
     }
