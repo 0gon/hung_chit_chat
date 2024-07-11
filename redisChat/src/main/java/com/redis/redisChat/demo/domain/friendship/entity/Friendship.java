@@ -34,12 +34,12 @@ public class Friendship {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", insertable = false, updatable = false)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "friend_id")
+    @JoinColumn(name = "friend_id", insertable = false, updatable = false)
     private Member friend;
 
 }

@@ -1,91 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>친구 리스트와 선택된 친구 전송 예제</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // 친구 리스트를 받아오는 함수
-            function getFriendList() {
-                $.ajax({
-                    url: 'your_server_endpoint_to_get_friends_list',
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            displayFriendList(response.friends);
-                        } else {
-                            alert('친구 리스트를 불러오는 데 실패하였습니다.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('친구 리스트를 불러오는 중 오류 발생:', error);
+        // 친구 리스트를 받아오는 함수
+        function getFriendList() {
+            $.ajax({
+                url: '/api/friendship/getFriends',
+                method: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    console.log('', response);
+
+                    displayFriendList(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('친구 리스트를 불러오는 중 오류 발생:', error);
+                }
+            });
+        }
+
+        // 받아온 친구 리스트를 화면에 표시하는 함수
+        function displayFriendList(friends) {
+            var friendList = $('#friendList');
+            friendList.empty(); // 기존 리스트 초기화
+
+            $.each(friends, function (index, friend) {
+                // 친구를 체크박스로 추가
+                var checkbox = $('<input>').attr({
+                    type: 'checkbox',
+                    name: 'selectedFriends',
+                    value: friend.id
+                });
+                var label = $('<label>').text(friend.nickName);
+                var br = $('<br>');
+
+                friendList.append(checkbox, label, br);
+            });
+        }
+
+        // 선택된 친구들을 서버에 전송하는 함수
+        function sendSelectedFriends() {
+            var selectedFriends = [];
+            $('input[name="selectedFriends"]:checked').each(function () {
+                selectedFriends.push($(this).val());
+            });
+
+            console.log('', JSON.stringify(selectedFriends));
+            
+
+            $.ajax({
+                url: '/api/room/makeRoom',
+                method: 'POST',
+                data: JSON.stringify(selectedFriends),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        alert('선택한 친구들을 성공적으로 전송하였습니다.');
+                    } else {
+                        alert('친구들을 전송하는 데 실패하였습니다.');
                     }
-                });
-            }
+                },
+                error: function (xhr, status, error) {
+                    console.error('친구들을 전송하는 중 오류 발생:', error);
+                }
+            });
+        }
 
-            // 받아온 친구 리스트를 화면에 표시하는 함수
-            function displayFriendList(friends) {
-                var friendList = $('#friendList');
-                friendList.empty(); // 기존 리스트 초기화
 
-                $.each(friends, function(index, friend) {
-                    // 친구를 체크박스로 추가
-                    var checkbox = $('<input>').attr({
-                        type: 'checkbox',
-                        name: 'selectedFriends',
-                        value: friend.memberId
-                    });
-                    var label = $('<label>').text(friend.nickname);
-                    var br = $('<br>');
+        window.addEventListener('unload', () => {
+            opener.parent.unlockParent();
+        });
 
-                    friendList.append(checkbox, label, br);
-                });
-            }
 
-            // 선택된 친구들을 서버에 전송하는 함수
-            function sendSelectedFriends() {
-                var selectedFriends = [];
-                $('input[name="selectedFriends"]:checked').each(function() {
-                    selectedFriends.push($(this).val());
-                });
-
-                // memberId만을 전송하도록 설정
-                var dataToSend = {
-                    selectedFriends: selectedFriends
-                };
-
-                $.ajax({
-                    url: 'your_server_endpoint_to_send_selected_friends',
-                    method: 'POST',
-                    data: JSON.stringify(dataToSend),
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            alert('선택한 친구들을 성공적으로 전송하였습니다.');
-                        } else {
-                            alert('친구들을 전송하는 데 실패하였습니다.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('친구들을 전송하는 중 오류 발생:', error);
-                    }
-                });
-            }
-
+        $(function () {
             // 페이지 로드 시 친구 리스트를 받아오기
             getFriendList();
+        })
 
-            // 전송 버튼 클릭 시 선택된 친구들을 서버에 전송
-            $('#sendBtn').click(function() {
-                sendSelectedFriends();
-            });
+        // 전송 버튼 클릭 시 선택된 친구들을 서버에 전송
+        $(document).on('click', '#sendBtn', function () {
+            sendSelectedFriends();
         });
     </script>
 </head>
+
 <body>
     <h2>친구 리스트</h2>
     <div id="friendList">
@@ -93,4 +97,5 @@
     </div>
     <button id="sendBtn">선택한 친구 전송</button>
 </body>
+
 </html>

@@ -1,6 +1,7 @@
 package com.redis.redisChat.demo.domain.member.controller;
 
 import com.redis.redisChat.demo.domain.member.dto.MemberDTO;
+import com.redis.redisChat.demo.domain.member.entity.Member;
 import com.redis.redisChat.demo.domain.member.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @Slf4j
@@ -33,7 +37,7 @@ public class MemberRestController {
         Cookie cookie2 = new Cookie("member_nickName", memberDTO.getNickName());
         cookie2.setPath("/");
         response.addCookie(cookie2);
-        response.sendRedirect("/chat");
+        response.sendRedirect("/roomList");
     }
 
     @PostMapping("/api/signup")
@@ -44,4 +48,11 @@ public class MemberRestController {
         response.sendRedirect("/login");
     }
 
+
+    @GetMapping("/api/test")
+    public void getMethodName(@RequestParam String memberId, String changeNickName) {
+        service.test(memberId, changeNickName);
+
+    }
+    
 }

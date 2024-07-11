@@ -25,7 +25,7 @@ public class Member {
 
     private String nickName;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<MemberRoom> MemberRooms;
+    // @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    // private List<MemberRoom> MemberRooms;
 
 }

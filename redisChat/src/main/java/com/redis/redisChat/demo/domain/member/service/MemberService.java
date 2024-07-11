@@ -32,4 +32,12 @@ public class MemberService {
         return repo.findById(memberId);
     }
 
+    @Transactional
+    public void test(String memberId, String changeNickName) {
+        Member member = repo.findById(memberId).get();
+        System.out.println("member: " + member);
+        member.setNickName(changeNickName);
+        System.out.println("member: " + member);
+    }
+
 }

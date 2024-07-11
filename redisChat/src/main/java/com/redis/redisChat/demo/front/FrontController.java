@@ -1,6 +1,5 @@
 package com.redis.redisChat.demo.front;
 
-import java.net.CookieHandler;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.redis.redisChat.demo.comm.CookieHandler;
 import com.redis.redisChat.demo.domain.member.entity.Member;
 import com.redis.redisChat.demo.domain.member.service.MemberService;
 import com.redis.redisChat.demo.domain.memberRoom.entity.MemberRoom;
@@ -54,11 +54,11 @@ public class FrontController {
             System.out.println("member: " + member);
         }
 
-        List<MemberRoom> memberRooms = member.getMemberRooms();
-        System.out.println("memberRooms: " + memberRooms);
-        for (MemberRoom memberRoom : memberRooms) {
-            System.out.println("memberRoom: " + memberRoom);
-        }
+        // List<MemberRoom> memberRooms = member.getMemberRooms();
+        // System.out.println("memberRooms: " + memberRooms);
+        // for (MemberRoom memberRoom : memberRooms) {
+        //     System.out.println("memberRoom: " + memberRoom);
+        // }
 
         return "roomList.html";
     }

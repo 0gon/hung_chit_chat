@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class CookieHandler {
 
-    private String getCookieValue(HttpServletRequest request, String name) {
+    public static String getCookieValue(HttpServletRequest request, String name) {
 
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
