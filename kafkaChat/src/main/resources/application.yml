@@ -27,7 +27,7 @@ spring:
 
   # DB 불러오기
   profiles:
-    include: db
+    include: db-local
 
   # JPA 설정
   jpa:

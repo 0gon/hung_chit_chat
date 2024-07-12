@@ -1,3 +1,9 @@
+# 앱정보
+#application.yml
+#application.properties
+application-db.yml
+application-db-local.yml
+
 HELP.md
 .gradle
 build/
