@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,12 @@ public class Member {
 
     @Column(nullable = false, unique = true)
     private String username;
+
+    private String password;
+
+    private int gender;
+    
+    private LocalDateTime createDate;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserChatRoom> userChatRooms = new ArrayList<>();

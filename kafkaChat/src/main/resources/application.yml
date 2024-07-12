@@ -25,19 +25,20 @@ spring:
         linger-ms: 1
         buffer-memory: 33554432
 
-  # DB 설정
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost:9096/~/testDB/testdc
-    username: sa
-    password:
+  # DB 불러오기
+  profiles:
+    include: db
 
-# JPA 설정
+  # JPA 설정
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+    properties:
+      hibernate:
+        show_sql: true
+        #dialect: org.hibernate.dialect.MariaDBDialect
 
   h2:
     console:

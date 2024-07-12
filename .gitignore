@@ -5,6 +5,7 @@
 # 앱정보
 #application.yml
 application.properties
+application-db.yml
 
 # Java class files
 *.class
