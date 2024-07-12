@@ -13,4 +13,9 @@ import java.util.List;
 public class ChatRoomDto {
     private Long id;
     private String name;
+
+    public ChatRoomDto(ChatRoom chatRoom) {
+        this.id = chatRoom.getId();
+        this.name = chatRoom.getName();
+    }
 }

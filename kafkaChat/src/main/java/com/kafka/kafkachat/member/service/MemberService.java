@@ -1,13 +1,21 @@
 package com.kafka.kafkachat.member.service;
 
+import com.kafka.kafkachat.chat.dto.ChatRoomDto;
+import com.kafka.kafkachat.chat.entity.ChatRoom;
 import com.kafka.kafkachat.member.dto.MemberDto;
+import com.kafka.kafkachat.member.dto.MemberHaveRoomsDto;
+import com.kafka.kafkachat.member.dto.UserChatRoomDto;
 import com.kafka.kafkachat.member.entity.Member;
+import com.kafka.kafkachat.member.repository.MemberQueryRepository;
 import com.kafka.kafkachat.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +23,7 @@ import java.time.LocalDateTime;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberQueryRepository memberQueryRepository;
 
 
     @Transactional
@@ -24,7 +33,7 @@ public class MemberService {
                 .password(memberDto.getPassword())
                 .createAt(LocalDateTime.now())
                 .gender(memberDto.getGender())
-                .phoneNumber(memberDto.getPhoneNubmer())
+                .phoneNumber(memberDto.getPhoneNumber())
                 .build();
 
         try {
@@ -45,5 +54,19 @@ public class MemberService {
                 .id(findMember.getId())
                 .name(findMember.getUsername())
                 .build();
+    }
+
+    /**
+     * N+1 문제 해결 -> Entity 조회 -> fetch join 사용
+     * */
+    public MemberHaveRoomsDto findRooms(Long userId){
+
+        List<ChatRoom> chatRooms = memberQueryRepository.findRoomByMemberId(userId);
+
+        return MemberHaveRoomsDto.builder()
+                .memberId(userId)
+                .chatRoomDtos(chatRooms.stream().map(ChatRoomDto::new).toList())
+                .build();
+
     }
 }

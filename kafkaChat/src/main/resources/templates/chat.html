@@ -3,141 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>WebSocket Chat</title>
+    <link rel="stylesheet" href="/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            flex-direction: column;
-        }
-        .chat-container, .chat-messages-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 500px;
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
-        .chat-header {
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #333;
-        }
-        .set-room-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .set-room-container input {
-            flex: 1;
-            margin-right: 10px;
-        }
-        .set-room-container button {
-            background-color: #28a745;
-            border: none;
-            color: white;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .set-room-container button:hover {
-            background-color: #218838;
-        }
-        .chat-inputs {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .chat-inputs input {
-            padding: 15px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .chat-inputs #message {
-            flex: 1;
-            margin-right: 10px;
-        }
-        .chat-inputs button {
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            width: 20%;
-            box-sizing: border-box;
-        }
-        .chat-inputs button:hover {
-            background-color: #0056b3;
-        }
-        .chat-messages-container {
-            width: 500px;
-            display: flex;
-            flex-direction: column;
-            margin-top: 20px;
-        }
-        .chat-messages {
-            flex: 1;
-            max-height: 400px;
-            overflow-y: auto;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-        }
-        .message {
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            word-wrap: break-word;
-            position: relative;
-        }
-        .message span {
-            font-weight: bold;
-        }
-        .message-time {
-            position: absolute;
-            bottom: 5px;
-            right: 10px;
-            font-size: 0.8em;
-            color: #777;
-        }
-        .back-button {
-            padding: 10px 20px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-        .back-button:hover {
-            background-color: #c82333;
-        }
-    </style>
     <script>
         var stompClient = null;
         var chatRoomId = null;
 
-        function connect() {
-            var inputRoomId = document.getElementById('chatRoomId').value;
-            chatRoomId = inputRoomId;
+        function connect(roomId) {
             var socket = new SockJS('/chat');
             stompClient = Stomp.over(socket);
+
+            // Debug console disable
+            stompClient.debug = () => {};
+
             stompClient.connect({}, function (frame) {
                 console.log('Connected: ' + frame);
+                chatRoomId = roomId;
 
                 // 이전 메시지 가져오기
-                fetch('/api/chat/getMessage/' + inputRoomId)
+                fetch('/api/chat/message/' + roomId)
                     .then(response => response.json()) // JSON 응답 처리
                     .then(data => {
                         data.forEach(messageBody => {
@@ -146,17 +31,12 @@
                     })
                     .catch(error => console.error('Error fetching messages:', error));
 
-                if (inputRoomId.trim() !== "") {
-                    chatRoomId = inputRoomId;
-                    document.getElementById('chatRoomId').disabled = true; // roomId 필드 비활성화
-                    document.getElementById('setRoomButton').disabled = true; // 설정 버튼 비활성화
-
                     // 메시지 수신 경로 구독 예시
-                    stompClient.subscribe('/queue/' + chatRoomId, function (message) {
+                    stompClient.subscribe('/queue/' + roomId, function (message) {
                         var messageBody = JSON.parse(message.body);
                         showMessage(messageBody.chatRoomId, messageBody.message, messageBody.senderName, messageBody.timestamp);
                     });
-                }
+
             }, function (error) {
                 console.error('STOMP error', error);
             });
@@ -183,34 +63,85 @@
         function showMessage(chatRoomId, message, senderName, timestamp) {
             var messages = document.getElementById('messages');
             var messageElement = document.createElement('div');
-            messageElement.className = 'message';
-            messageElement.innerHTML = "<span>[" + chatRoomId + "] " + senderName + ":</span> " + message + "<div class='message-time'>" + timestamp + "</div>";
+            var localSenderName = localStorage.getItem('userName'); // localStorage에서 userId 가져오기
+
+            // 메시지 소유자를 기준으로 CSS 클래스를 다르게 설정
+            if (senderName === localSenderName) {
+                messageElement.className = 'message message-right'; // 오른쪽에 표시
+                messageElement.innerHTML = message + "<div class='message-time'>" + timestamp + "</div>";
+            } else {
+                messageElement.className = 'message message-left'; // 왼쪽에 표시
+                messageElement.innerHTML = "<span>[" + chatRoomId + "] " + senderName + ":</span> " + message + "<div class='message-time'>" + timestamp + "</div>";
+            }
+
             messages.appendChild(messageElement);
+            messages.scrollTop = messages.scrollHeight; // 새로운 메시지가 추가될 때 스크롤 하단으로 이동
         }
 
         function goBack() {
             window.history.back();
         }
+
+        function connectToRoom(roomId) {
+            connect(roomId);
+        }
+
+        function fetchChatRooms(){
+            var senderId = localStorage.getItem('userId');
+
+            // 채팅방 입장
+            fetch('/api/member/chatRooms/' + senderId)
+                .then(response => response.json()) // JSON 응답 처리
+                .then(data => {
+                    var chatRoomList = document.querySelector('.chat-room-list');
+                    chatRoomList.innerHTML = ''; // 기존 목록 비우기
+                    data["chatRoomDtos"].forEach(chatRoomDtos => {
+                        var listItem = document.createElement("li");
+                        listItem.onclick = () => {
+                            connectToRoom(chatRoomDtos.id);
+                        };
+                        chatRoomList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching chat rooms:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchChatRooms();
+
+            // 메시지 입력 필드에 이벤트 리스너 추가
+            var messageInput = document.getElementById('message');
+            messageInput.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        }); // 페이지 로드 시 채팅방 목록 가져오기
     </script>
 </head>
 <body>
-<div class="chat-container">
-    <button class="back-button" onclick="goBack()">Back</button>
-    <div class="chat-header">WebSocket Chat</div>
-    <div class="set-room-container">
-        <input type="number" id="chatRoomId" placeholder="Enter your Room">
-        <button id="setRoomButton" onclick="connect()">Connect</button>
+<div class="split-container-wrapper">
+    <div class="split-container">
+        <button class="back-button" onclick="goBack()">Back</button>
+        <div class="left-panel">
+            <ul class="chat-room-list">
+                <!-- 채팅방 목록 -->
+            </ul>
+        </div>
+        <div class="right-panel">
+            <div class="chat-messages-container">
+                <div class="chat-header">Messages</div>
+                <div id="messages" class="chat-messages"></div> <!-- 메시지를 표시할 영역 -->
+            </div>
+            <div class="chat-container">
+                <div class="chat-inputs">
+                    <input type="text" id="message" placeholder="Enter your message here">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="chat-messages-container">
-    <div class="chat-header">Messages</div>
-    <div id="messages" class="chat-messages"></div> <!-- 메시지를 표시할 영역 -->
-</div>
-<div class="chat-container">
-    <div class="chat-inputs">
-        <input type="text" id="message" placeholder="Enter your message here">
-        <button onclick="sendMessage()">Send</button>
-    </div>
-</div>
+
 </body>
 </html>

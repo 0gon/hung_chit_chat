@@ -1,16 +1,18 @@
 package com.kafka.kafkachat.chat.service;
 
 import com.kafka.kafkachat.chat.dto.*;
+import com.kafka.kafkachat.chat.dto.response.ResponseChatCreatedDto;
+import com.kafka.kafkachat.chat.dto.response.ResponseGetChatRoomsDto;
 import com.kafka.kafkachat.chat.entity.ChatMessage;
 import com.kafka.kafkachat.chat.entity.ChatRoom;
 import com.kafka.kafkachat.chat.entity.UserChatRoom;
 import com.kafka.kafkachat.chat.repository.ChatRepository;
+import com.kafka.kafkachat.chat.repository.ChatRoomQueryRepository;
 import com.kafka.kafkachat.chat.repository.ChatRoomRepository;
 import com.kafka.kafkachat.member.dto.MemberDto;
 import com.kafka.kafkachat.member.entity.Member;
 import com.kafka.kafkachat.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.kafka.clients.admin.AdminClient;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,8 @@ public class ChatService {
     private final ChatRepository chatRepository;
 
     private final ChatRoomRepository chatRoomRepository;
+
+    private final ChatRoomQueryRepository chatRoomQueryRepository;
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final MemberRepository memberRepository;

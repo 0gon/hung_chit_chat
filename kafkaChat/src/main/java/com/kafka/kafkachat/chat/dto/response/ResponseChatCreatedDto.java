@@ -1,4 +1,4 @@
-package com.kafka.kafkachat.chat.dto;
+package com.kafka.kafkachat.chat.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

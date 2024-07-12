@@ -16,5 +16,5 @@ public class MemberDto {
     private String password;
     private int gender;
     private LocalDateTime createAt;
-    private String phoneNubmer;
+    private String phoneNumber;
 }

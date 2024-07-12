@@ -35,21 +35,35 @@ public class initDB {
         public void dbInit1(){
             Member member = new Member("User1");
             Member member2 = new Member("User2");
+            Member member3 = new Member("User3");
 
             ChatRoom chatRoom = new ChatRoom("Welcome");
+            ChatRoom chatRoom2 = new ChatRoom("Welcome2");
 
             UserChatRoom userChatRoom = new UserChatRoom(member, chatRoom);
             UserChatRoom userChatRoom2 = new UserChatRoom(member2, chatRoom);
+            UserChatRoom userChatRoomE = new UserChatRoom(member, chatRoom2);
+            UserChatRoom userChatRoomE2 = new UserChatRoom(member3, chatRoom2);
 
             // 연관관계 편의 메서드로 연관관계 설정
             member.addUserChatRoom(userChatRoom);
             member2.addUserChatRoom(userChatRoom2);
+
+            member.addUserChatRoom(userChatRoomE);
+            member3.addUserChatRoom(userChatRoomE2);
+
             chatRoom.addUserChatRoom(userChatRoom);
             chatRoom.addUserChatRoom(userChatRoom2);
+
+            chatRoom2.addUserChatRoom(userChatRoomE);
+            chatRoom2.addUserChatRoom(userChatRoomE2);
 
             em.persist(member);
             em.persist(member2);
             em.persist(chatRoom);
+
+            em.persist(member3);
+            em.persist(chatRoom2);
         }
     }
 }

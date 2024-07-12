@@ -3,7 +3,8 @@ package com.kafka.kafkachat.chat.controller;
 
 import com.kafka.kafkachat.chat.dto.ChatCreatedDto;
 import com.kafka.kafkachat.chat.dto.ChatMessageResponseDto;
-import com.kafka.kafkachat.chat.dto.ResponseChatCreatedDto;
+import com.kafka.kafkachat.chat.dto.response.ResponseChatCreatedDto;
+import com.kafka.kafkachat.chat.dto.response.ResponseGetChatRoomsDto;
 import com.kafka.kafkachat.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ public class ChatRestController {
 
     private final ChatService chatService;
 
-    @GetMapping("/getMessage/{roomId}")
+    @GetMapping("/message/{roomId}")
     public ResponseEntity<List<ChatMessageResponseDto>> subscribe(@PathVariable Long roomId) {
         return ResponseEntity.ok(chatService.getMessagesByRoomId(roomId));
     }
@@ -30,4 +31,5 @@ public class ChatRestController {
         ResponseChatCreatedDto room = chatService.createRoom(chatCreatedDto);
         return ResponseEntity.ok().body(room);
     }
+
 }
