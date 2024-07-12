@@ -137,7 +137,7 @@
                 console.log('Connected: ' + frame);
 
                 // 이전 메시지 가져오기
-                fetch('/getMessage/' + inputRoomId)
+                fetch('/api/chat/getMessage/' + inputRoomId)
                     .then(response => response.json()) // JSON 응답 처리
                     .then(data => {
                         data.forEach(messageBody => {

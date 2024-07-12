@@ -1,10 +1,5 @@
 package com.kafka.kafkachat.member.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.kafka.kafkachat.chat.entity.ChatMessage;
 import com.kafka.kafkachat.chat.entity.UserChatRoom;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,7 +27,9 @@ public class Member {
 
     private int gender;
     
-    private LocalDateTime createDate;
+    private LocalDateTime createAt;
+
+    private String phoneNumber;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserChatRoom> userChatRooms = new ArrayList<>();
@@ -41,12 +38,16 @@ public class Member {
         this.username = username;
     }
 
-
     @Builder
-    Member(Long id, String username) {
+    public Member(Long id, String username, String password, int gender, LocalDateTime createAt, String phoneNumber) {
         this.id = id;
         this.username = username;
+        this.password = password;
+        this.gender = gender;
+        this.createAt = createAt;
+        this.phoneNumber = phoneNumber;
     }
+
 
     // ===          연관관계 편의 메서드         === //
     public void addUserChatRoom(UserChatRoom userChatRooms) {

@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -19,6 +21,10 @@ public class MemberService {
     public MemberDto createUser(MemberDto memberDto) {
         Member member = Member.builder()
                 .username(memberDto.getName())
+                .password(memberDto.getPassword())
+                .createAt(LocalDateTime.now())
+                .gender(memberDto.getGender())
+                .phoneNumber(memberDto.getPhoneNubmer())
                 .build();
 
         try {

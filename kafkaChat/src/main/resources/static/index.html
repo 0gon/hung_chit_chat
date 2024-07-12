@@ -51,6 +51,7 @@
 <div class="container">
     <h1>Welcome to Chat Application</h1>
     <input type="text" id="userName" class="input" placeholder="Enter your Name">
+    <input type="password" id="password" class="input" placeholder="Enter your password">
     <button class="button" onclick="enterChatRoom()">Login</button>
     <button class="button signup-button" onclick="signup()">Sign Up</button>
 </div>
@@ -58,12 +59,14 @@
 <script>
     function enterChatRoom() {
         const userName = document.getElementById('userName').value;
+        const password = document.getElementById('password').value;
 
         if (userName) {
             const memberDto = {
-                name:userName
+                name:userName,
+                password:password
             };
-            fetch('/users', {
+            fetch('/api/member/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
