@@ -1,7 +1,6 @@
 package com.redis.redisChat.demo.domain.member.controller;
 
-import com.redis.redisChat.demo.domain.member.dto.MemberDTO;
-import com.redis.redisChat.demo.domain.member.entity.Member;
+import com.redis.redisChat.demo.domain.member.dto.MemberDto;
 import com.redis.redisChat.demo.domain.member.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +23,7 @@ public class MemberRestController {
     private final MemberService service;
 
     @PostMapping("/api/signin")
-    public void signin(MemberDTO memberDTO, HttpServletResponse response) throws URISyntaxException, IOException {
+    public void signin(MemberDto memberDTO, HttpServletResponse response) throws URISyntaxException, IOException {
 
         log.info("user signin: {}", memberDTO.getId());
 
@@ -41,7 +39,7 @@ public class MemberRestController {
     }
 
     @PostMapping("/api/signup")
-    public void signup(MemberDTO memberDTO, HttpServletResponse response) throws URISyntaxException, IOException {
+    public void signup(MemberDto memberDTO, HttpServletResponse response) throws URISyntaxException, IOException {
         String memberId = service.save(memberDTO);
         log.info("user signup: {}", memberId);
 

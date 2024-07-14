@@ -4,14 +4,13 @@ import com.redis.redisChat.demo.domain.friendship.dto.FriendDto;
 import com.redis.redisChat.demo.domain.friendship.entity.Friendship;
 import com.redis.redisChat.demo.domain.friendship.exception.CustomNotFoundException;
 import com.redis.redisChat.demo.domain.friendship.repository.FriendshipReopository;
-import com.redis.redisChat.demo.domain.member.dto.MemberDTO;
+import com.redis.redisChat.demo.domain.member.dto.MemberDto;
 import com.redis.redisChat.demo.domain.member.entity.Member;
 import com.redis.redisChat.demo.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class FriendshipService {
     private final FriendshipReopository friendshipReopository;
 
     @Transactional
-    public String addFriend(MemberDTO friendDTO) {
+    public String addFriend(MemberDto friendDTO) {
         String friendId = friendDTO.getId();
         Member friend = null;
         try {

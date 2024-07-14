@@ -1,6 +1,6 @@
 package com.redis.redisChat.demo.domain.member.service;
 
-import com.redis.redisChat.demo.domain.member.dto.MemberDTO;
+import com.redis.redisChat.demo.domain.member.dto.MemberDto;
 import com.redis.redisChat.demo.domain.member.entity.Member;
 import com.redis.redisChat.demo.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class MemberService {
     private final MemberRepository repo;
 
     @Transactional
-    public String save(MemberDTO memberDTO) {
+    public String save(MemberDto memberDTO) {
         Member member = new Member();
 
         member.setId(memberDTO.getId());

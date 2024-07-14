@@ -6,21 +6,37 @@ window.unlockParent = unlockParent;
 
 $(function () {
     // AJAX 요청 예시 (실제로는 서버 API와 연결하여 데이터를 가져와야 함)
-    setTimeout(function () {
-        var rooms = [
-            { id: 1, name: "방 이름 1" },
-            { id: 2, name: "방 이름 2" },
-            { id: 3, name: "방 이름 3" }
-        ];
+    $.ajax({
+        url: "/api/room/getRooms",
+        type: "post",
+        async: false,
+        contentType: "application/json",
+        success(result, status, xhr) {
+            console.log(result);
+            drawRooms(result);
+        },
+        error(xhr, status, error) {
+            console.error(error)
+        },
+    })
 
+    function drawRooms(rooms) {
         var roomListElement = document.getElementById("room-list");
         rooms.forEach(function (room) {
             var roomItem = document.createElement("div");
             roomItem.classList.add("room-item");
-            roomItem.textContent = room.name;
+            roomItem.textContent = room.id;
+
+            var div = document.createElement("div");
+            let memberIds = [];
+            room.memberRooms.forEach(function(memberRoom) {
+                memberIds.push(memberRoom.memberId);
+            })
+            div.textContent = memberIds.join(',');
+            roomItem.appendChild(div);
             roomListElement.appendChild(roomItem);
         });
-    }, 1); // 예시로 1초 후에 데이터를 가져오는 것으로 설정
+    }
 
 
 })
