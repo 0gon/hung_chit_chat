@@ -3,20 +3,18 @@ package com.redis.redisChat.demo.front;
 import java.util.List;
 import java.util.Optional;
 
+import com.redis.redisChat.demo.server.domain.member.entity.Member;
+import com.redis.redisChat.demo.server.domain.member.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.redis.redisChat.demo.comm.CookieHandler;
-import com.redis.redisChat.demo.domain.member.entity.Member;
-import com.redis.redisChat.demo.domain.member.service.MemberService;
-import com.redis.redisChat.demo.domain.memberRoom.entity.MemberRoom;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
