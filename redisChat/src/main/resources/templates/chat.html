@@ -11,25 +11,21 @@
 
 
 <body>
-<div id="container" class="container">
-    <h1>DevLog Chat</h1>
+    <div id="container" class="container">
+        <h1>DevLog Chat</h1>
 
-    <div id="chating" class="chating">
+        <div id="chating" class="chating">
+        </div>
+
+        <div id="yourMsg">
+            <div>메시지</div>
+            <div><input id="chatting" placeholder="보내실 메시지를 입력하세요."></div>
+
+            <div>
+                <button onclick="send()" id="sendBtn">보내기</button>
+            </div>
+        </div>
     </div>
-
-    <div id="yourMsg">
-        <table class="inputTable">
-            <tr>
-                <th>메시지</th>
-                <th><input id="chatting" placeholder="보내실 메시지를 입력하세요."></th>
-
-                <th>
-                    <button onclick="send()" id="sendBtn">보내기</button>
-                </th>
-            </tr>
-        </table>
-    </div>
-</div>
 </body>
 
 </html>
