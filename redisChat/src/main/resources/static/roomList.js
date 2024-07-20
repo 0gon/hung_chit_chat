@@ -32,6 +32,7 @@ $(function () {
             roomItem.appendChild(span);
 
             var div = document.createElement("div");
+            div.classList.add("members");
             let memberIds = [];
             room.memberRooms.forEach(function (memberRoom) {
                 memberIds.push(memberRoom.memberId);
@@ -57,7 +58,8 @@ $(document).on('click', '.makeRoomBtn', function () {
 
 $(document).on('click', '.room-item', function () {
     let roomId = $(this).find('.room_id').html();
-    openRoom(`/popup/room?roomId=${roomId}`, roomId);
+    let members = $(this).find('.members').html();
+    openRoom(`/popup/room?roomId=${roomId}&members=${members}`, roomId);
 })
 
 

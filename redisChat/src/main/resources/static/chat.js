@@ -3,14 +3,18 @@ let member = {
     id: get_cookie("member_id"),
     nickName: get_cookie("member_nickName"),
 }
+let roomId = null;
+let members = [];
 
 
 $(function () {
     wsOpen();
+    roomId = getUrlParam("roomId");
+    members = getUrlParam("members").split(",");
 })
 
 function newMsg(type, text) {
-    let obj = { type, ...member, text }
+    let obj = { type, ...member, text , roomId, members}
     console.log('obj', obj)
     return JSON.stringify(obj);
 }
