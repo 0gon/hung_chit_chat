@@ -12,12 +12,12 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 public class WebSocketConfig implements WebSocketConfigurer{
 
     private final WebSocketHandler webSocketHandler;
-    private final WebSocketInterceptor webSocketIntercepter;
+    private final WebSocketInterceptor webSocketInterceptor;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(webSocketHandler, "/ws_chating")
-                .addInterceptors(webSocketIntercepter);
+                .addInterceptors(webSocketInterceptor);
 //                .withSockJS();
 //             .setAllowedOriginPatterns("*")
     }

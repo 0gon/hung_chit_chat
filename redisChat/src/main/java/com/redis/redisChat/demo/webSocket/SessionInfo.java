@@ -21,11 +21,15 @@ import lombok.ToString;
 @AllArgsConstructor
 public class SessionInfo {
 
-    @Id
-    String memberId;
+    @Id @GeneratedValue
+    @Column(name = "session_info_id")
+    Long id;
 
+    String memberId;
     String internalIp; // 내부 ip
     String externalIp; // 외부 ip
+    int port; // 서버의 포트번호
+    String sessionId; // 웹소켓세션 id
 
 
 

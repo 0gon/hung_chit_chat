@@ -30,7 +30,6 @@ public class RedisSubscribeListener implements MessageListener {
             log.info("Redis SUB Message: {}", publishMessage);
 
 
-            log.info("\n");
 
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
