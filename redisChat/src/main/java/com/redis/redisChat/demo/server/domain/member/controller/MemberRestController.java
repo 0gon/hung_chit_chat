@@ -33,7 +33,7 @@ public class MemberRestController {
         Cookie cookie2 = new Cookie("member_nickName", memberDTO.getNickName());
         cookie2.setPath("/");
         response.addCookie(cookie2);
-        response.sendRedirect("/roomList");
+        response.sendRedirect("/app");
     }
 
     @PostMapping("/api/signup")

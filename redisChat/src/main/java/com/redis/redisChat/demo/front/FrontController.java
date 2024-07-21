@@ -38,43 +38,24 @@ public class FrontController {
         return "signup.html";
     }
 
-    @GetMapping("/roomList")
-    public String roomList(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        String memberId = CookieHandler.getCookieValue(cookies, "member_id");
-        System.out.println("memberId: " + memberId);
-
-        Optional<Member> optionalMember = memberService.find(memberId);
-        Member member = null;
-
-        if (optionalMember.isPresent()) {
-            member = optionalMember.get();
-            System.out.println("member: " + member);
-        }
-
-        // List<MemberRoom> memberRooms = member.getMemberRooms();
-        // System.out.println("memberRooms: " + memberRooms);
-        // for (MemberRoom memberRoom : memberRooms) {
-        //     System.out.println("memberRoom: " + memberRoom);
-        // }
-
-        return "roomList.html";
+    @GetMapping("/app")
+    public String roomList() {
+        return "app.html";
     }
 
-    private String getCookieValue(Cookie[] cookies, String name) {
-        for (Cookie cookie : cookies) {
-            String cookieName = cookie.getName();
-            if (cookieName.equals(name)) {
-                return cookie.getValue();
-            }
-        }
-
-        return null;
+    @GetMapping("/popup/addFriend")
+    public String addFriend() {
+        return "/popup/addFriend.html";
     }
 
-    @GetMapping("/popup/{popupName}")
-    public String addFriend(@PathVariable(value = "popupName") String popupName) {
-        return "/popup/" + popupName;
+    @GetMapping("/popup/makeRoom")
+    public String makeRoom() {
+        return "/popup/makeRoom.html";
+    }
+
+    @GetMapping("/popup/room")
+    public String room() {
+        return "/popup/room.html";
     }
 
 }

@@ -15,8 +15,6 @@ spring:
     livereload:
       enabled: true
 
-  thymeleaf:
-    cache: false
 
   datasource:
     driver-class-name: org.h2.Driver
