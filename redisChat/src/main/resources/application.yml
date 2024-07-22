@@ -9,11 +9,11 @@ spring:
     ansi:
       enabled: always
 
-  devtools:
-    restart:
-      enabled: true
-    livereload:
-      enabled: true
+#  devtools:
+#    restart:
+#      enabled: true
+#    livereload:
+#      enabled: true
 
 
   datasource:

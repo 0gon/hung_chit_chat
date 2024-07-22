@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.context.WebServerApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,9 +33,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private final int port;
     private final ConcurrentHashMap<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
 
-    public WebSocketHandler(SessionInfoService service, WebServerApplicationContext webServerAppContext) {
+    public WebSocketHandler(SessionInfoService service, Environment environment) {
         this.service = service;
-        this.port = webServerAppContext.getWebServer().getPort();
+        this.port = Integer.parseInt(environment.getProperty("server.port"));
     }
 
 
@@ -100,7 +101,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         Long sessionInfoId = (Long) session.getAttributes().get("sessionInfoId");
-        service. // last todo: 삭제코드 만들기
+        log.info("세션 id: {}", sessionInfoId);
+        service.deleteById(sessionInfoId);
         sessions.remove(session.getId(), session);
         log.info("소켓연결 종료. 세션: {}", session.getId());
     }

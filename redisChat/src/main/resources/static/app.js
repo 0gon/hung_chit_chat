@@ -1,18 +1,23 @@
 import friend from "/component/friend.js";
-import { wsOpen, wsEvt } from "/component/wsUtil.js";
 
 var popup = null;
 let roomPopups = {};
 window.receiveValueFromAddFriend = receiveValueFromAddFriend;
 window.receiveValueFromRoom = receiveValueFromRoom;
 window.unlockParent = unlockParent;
+window.show = show;
+
+function show() {
+    console.log(retryIntervalId);
+}
+
 
 var ws;
+let retryIntervalId = null;
 
 $(function () {
     getRooms();
-    ws = wsOpen();
-    wsEvt(ws, deliveMsgToRoom);
+    connWS();
 })
 
 $(document).on("click", ".addFriendBtn", function () {
@@ -30,6 +35,33 @@ $(document).on('click', '.room-item', function () {
     openRoom(`/popup/room?roomId=${roomId}&members=${members}`, roomId);
 })
 
+
+// #region 웹소켓
+function connWS() {
+    ws = new WebSocket("ws://" + location.host + "/ws_chating" + location.search);
+
+    //소켓이 열리면 동작
+    ws.onopen = function (e) {
+        console.log('웹소켓 연결...')
+    }
+
+    //서버로부터 데이터 수신 (메세지를 전달 받음)
+    ws.onmessage = function (e) {
+        var msgJson = e.data; // 전달 받은 데이터
+        var msg = JSON.parse(msgJson);
+        console.log('msg', msg);
+
+        deliveMsgToRoom(msg);
+    }
+
+
+    ws.onclose = function () {
+        console.log('웹소켓 종료...재연결 시도...')
+        ws = null;
+        setTimeout(connWS, 3000); // 재연결 시도. ws 연결 실패 시 onclose 함수 실행되서 반복으로 안해도 됨
+    }
+}
+// #endregion
 
 function openRoom(uri, roomId) {
     let url = $(location).attr('origin') + uri;

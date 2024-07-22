@@ -17,6 +17,10 @@ public class SessionInfoService {
         return repository.save(sessionInfo);
     }
 
+    public void deleteById(Long sessionInfoId) {
+        repository.deleteById(sessionInfoId);
+    }
+
     public List<SessionInfo> findByMemberId(String memberId) {
         return repository.findByMemberId(memberId);
     }
