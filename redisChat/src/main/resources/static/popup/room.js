@@ -31,6 +31,10 @@ $(document).on('keydown', '#chatting', function (e) {
     }
 })
 
+$(document).on('click', '#sendBtn', function () {
+    send();
+})
+
 
 function send() {
     let text = $('#chatting').val();
@@ -51,7 +55,7 @@ function receiveValueFromParent(value) {
     drawMsg(value);
 }
 
-function drawMsg(msg) {
+function drawMsg(e) {
     var msgJson = e.data; // 전달 받은 데이터
     var msg = JSON.parse(msgJson);
     console.log('msg', msg);

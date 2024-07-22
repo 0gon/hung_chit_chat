@@ -21,6 +21,8 @@ public class SessionInfoService {
         return repository.findByMemberId(memberId);
     }
 
-
+    public List<SessionInfo> findByMemberIdIn(List<String> memberIds) {
+        return repository.findByMemberIdIn(memberIds);
+    }
 
 }
