@@ -1,7 +1,8 @@
 ## WINDOW
 
 1. DB 실행
-> java -cp "C:\Program Files (x86)\H2\bin\h2-2.2.224.jar" org.h2.tools.Server -tcp -tcpPort 9096 -tcpAllowOthers -web -webPort 8082 -baseDir "C:\Program Files (x86)\H2\data"
+> java -cp "C:\Program Files (x86)\H2\bin\h2-2.2.224.jar" org.h2.tools.Server -tcp -tcpPort 9096 -tcpAllowOthers -web -webPort 8082 -baseDir "C:\Program Files (x86)\H2\data" \
+> net start mariadb
 2. 레디스 실행
 > redis-cli.exe 실행
 3. 카프카 실행

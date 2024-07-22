@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+
+  ## DB
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:tcp://localhost/~/testDB/testdc
+    username: sa
+    password:
+
+  ## JPA
+  jpa:
+    database-platform:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        show_sql: true
