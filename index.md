@@ -1,7 +1,6 @@
 ---
 layout: default
-title: 1번
+title: 사용법
 nav_order: 1
 ---
 
-인덱스\ㅇㅇ
