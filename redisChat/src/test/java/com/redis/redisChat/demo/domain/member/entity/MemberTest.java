@@ -1,6 +1,7 @@
 package com.redis.redisChat.demo.domain.member.entity;
 
-import com.redis.redisChat.demo.domain.member.repository.MemberRepository;
+import com.redis.redisChat.demo.server.domain.member.entity.Member;
+import com.redis.redisChat.demo.server.domain.member.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
