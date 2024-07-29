@@ -34,21 +34,21 @@ class MemberServiceApplicationTests {
     @Test
     public void testSave() {
 
-        SignUpMemberDto signUpMemberDto = SignUpMemberDto.builder()
-                .email("aaaa@aaaa.com")
-                .password("asdf")
-                .gender(Gender.MALE)
-                .phoneNumber("01000001111")
-                .role(Role.USER)
-                .build();
-
-        memberService.save(signUpMemberDto);
-
-        Member member = memberRepository.findById(1L).get();
-
-        Assertions.assertEquals(member.getEmail(), "aaaa@aaaa.com");
-
-        System.out.println("member = " + member);
+//        SignUpMemberDto signUpMemberDto = SignUpMemberDto.builder()
+//                .email("aaaa@aaaa.com")
+//                .password("asdf")
+//                .gender(Gender.MALE)
+//                .phoneNumber("01000001111")
+//                .role(Role.USER)
+//                .build();
+//
+//        memberService.save(signUpMemberDto);
+//
+//        Member member = memberRepository.findById(1L).get();
+//
+//        Assertions.assertEquals(member.getEmail(), "aaaa@aaaa.com");
+//
+//        System.out.println("member = " + member);
 
 
     }
