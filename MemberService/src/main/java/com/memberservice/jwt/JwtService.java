@@ -22,7 +22,7 @@ public class JwtService {
 
     private final JwtUtil jwtUtil;
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    //private final RedisTemplate<String, Object> redisTemplate;
 
     private final MemberRepository memberRepository;
 
