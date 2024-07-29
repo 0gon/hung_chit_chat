@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <title>팝업</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>친구 추가</h1>
+    <input type="text" name="friendId">
+    <button class="submit">추가</button>
+
+    <script>
+        $(document).on('click', '.submit', sendValueToParent)
+
+        function sendValueToParent() {
+            let friendId = $('input[name=friendId]').val();
+
+            // 부모 창의 함수 호출
+            opener.parent.receiveValueFromAddFriend(friendId);
+
+            // 팝업 창 닫기
+            window.close();
+        }
+
+        window.addEventListener('unload', () => {
+            opener.parent.unlockParent();
+        });
+    </script>
+</body>
+
+</html>

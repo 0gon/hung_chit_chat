@@ -9,22 +9,23 @@ import com.memberservice.service.MemberService;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @SpringBootTest
 @Transactional
 class MemberServiceApplicationTests {
 
-    @Autowired
-    MemberService memberService;
-    @Autowired
-    EntityManager em;
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberService memberService;
+    private final EntityManager em;
+    private final MemberRepository memberRepository;
+
+    public MemberServiceApplicationTests(MemberService memberService, EntityManager em, MemberRepository memberRepository) {
+        this.memberService = memberService;
+        this.em = em;
+        this.memberRepository = memberRepository;
+    }
 
     @Test
     void contextLoads() {
