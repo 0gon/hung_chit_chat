@@ -1,6 +1,6 @@
 package com.memberservice.jwt;
 
-import com.memberservice.Permit_URLs;
+import com.memberservice.PermitURIs;
 import com.memberservice.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,7 +14,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -28,7 +27,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String filterSkipPath = request.getRequestURI();
 
         // 로그인, 회원가입은 필터적용 X, anyMatch - 하나라도 포함되면 더 이상 실행 X
-        if(Arrays.stream(Permit_URLs.PERMIT_ALL).anyMatch(filterSkipPath::contains)){
+        if(PermitURIs.SKIP_URIS.stream().anyMatch(filterSkipPath::contains)){
             filterChain.doFilter(request, response);
             return;
         }
