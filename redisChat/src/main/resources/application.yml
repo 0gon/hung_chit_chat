@@ -18,7 +18,10 @@ spring:
 
   datasource:
     driver-class-name: org.h2.Driver
+#    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:h2:tcp://localhost/~/testDB/chat
+#    url: jdbc:h2:tcp://host.docker.internal/~/testDB/chat
+#    url: ${DB_URL}
     username: sa
     password:
 
@@ -26,7 +29,7 @@ spring:
     hibernate:
       # ddl-auto: create-drop
       ddl-auto: update
-#    show-sql: true
+    show-sql: true
 
   h2:
     console:
