@@ -1,0 +1,14 @@
+server:
+  port: 3000
+
+spring:
+  web:
+    resources:
+      static-locations: classpath:/
+
+  application:
+    name: front
+
+  output:
+    ansi:
+      enabled: always

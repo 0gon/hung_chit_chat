@@ -1,10 +1,9 @@
 package com.memberservice.config;
 
 
-import com.memberservice.Permit_URLs;
+import com.memberservice.PermitURIs;
 import com.memberservice.jwt.JwtRequestFilter;
 import com.memberservice.jwt.JwtUtil;
-import com.memberservice.service.CustomUserDetails;
 import com.memberservice.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -24,6 +23,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
+
     /**
      * H2 는 Security 에 안걸리게
      * */
@@ -34,14 +36,16 @@ public class SecurityConfig {
     }
 
     @Bean
-    protected SecurityFilterChain springSecurityFilterChain(HttpSecurity http, JwtUtil jwtUtil, CustomUserDetailsService customUserDetailsService) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((request) -> request
-                        .requestMatchers(Permit_URLs.PERMIT_ALL).permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers(PermitURIs.PERMIT_ALL).permitAll()
+                        .anyRequest().authenticated()
+                )
                 .headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .addFilterBefore(new JwtRequestFilter(jwtUtil, customUserDetailsService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 }
