@@ -1,15 +1,9 @@
 server:
-  port: 8081
+  port: 8089
 
 spring:
   profiles:
-    include: local    # application-local.yml 을 포함시킴
-
-#  h2:
-#    console:
-#      enabled: false
-#      settings:
-#        web-allow-others: false
+    include: local    # application-home.yml ? ????
 
   jpa:
     hibernate:
@@ -19,10 +13,6 @@ spring:
         format_sql: true
         show_sql: true
         dialect: org.hibernate.dialect.MariaDBDialect
-
-
-  main:
-    allow-bean-definition-overriding: true
 
 jwt:
   secret: "8GKpRztVsBEoonycMMhilEuoX6Y2YtNy"

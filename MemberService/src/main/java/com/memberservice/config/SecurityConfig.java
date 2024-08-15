@@ -2,8 +2,6 @@ package com.memberservice.config;
 
 
 import com.memberservice.PermitURIs;
-import com.memberservice.jwt.JwtRequestFilter;
-import com.memberservice.jwt.JwtUtil;
 import com.memberservice.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

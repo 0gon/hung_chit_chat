@@ -1,4 +1,4 @@
-package com.memberservice.jwt;
+package com.memberservice.config;
 
 import com.memberservice.PermitURIs;
 import com.memberservice.service.CustomUserDetailsService;
@@ -62,6 +62,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                }
+
+               response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
 
         filterChain.doFilter(request, response);
