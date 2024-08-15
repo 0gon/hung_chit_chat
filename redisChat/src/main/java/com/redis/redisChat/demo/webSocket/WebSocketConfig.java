@@ -9,7 +9,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 @RequiredArgsConstructor
-public class WebSocketConfig implements WebSocketConfigurer{
+public class WebSocketConfig implements WebSocketConfigurer {
 
     private final WebSocketHandler webSocketHandler;
     private final WebSocketInterceptor webSocketInterceptor;
@@ -17,11 +17,9 @@ public class WebSocketConfig implements WebSocketConfigurer{
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(webSocketHandler, "/ws_chating")
-                .addInterceptors(webSocketInterceptor);
-//                .withSockJS();
-//             .setAllowedOriginPatterns("*")
+                .addInterceptors(webSocketInterceptor)
+                .setAllowedOriginPatterns("*");
     }
 
 
-    
 }

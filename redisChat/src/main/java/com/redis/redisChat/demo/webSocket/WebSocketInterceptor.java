@@ -34,6 +34,8 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
         attributes.put("internal_ip", internalIP);
         attributes.put("external_ip", externalIP);
 
+        log.info("핸드셰이크 지나가는중...");
+
         return true;
     }
 

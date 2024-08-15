@@ -60,40 +60,49 @@ public class WebSocketHandler extends TextWebSocketHandler {
     /* 클라이언트로부터 메시지 수신시 동작 */
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        // 메세지 형변환
-        String msg = message.getPayload();
-        log.info("수신메세지: {}", msg);
-        JSONObject jsonObject = Util.jsonToObjectParser(msg);
+        try {
+            // 메세지 형변환
+            String msg = message.getPayload();
+            log.info("수신메세지: {}", msg);
+            JSONObject jsonObject = Util.jsonToObjectParser(msg);
 
-        // 메세지 수신자들 세션 정보 확인
-        JSONArray jsonArray = (JSONArray) jsonObject.get("members");
-        List<String> memberIds = new ArrayList<>();
-        for (Object object: jsonArray) {
-            String memberId = (String) object;
-            memberIds.add(memberId);
-        }
-        List<SessionInfo> sessionInfos = service.findByMemberIdIn(memberIds);
 
-        // 메세지 전송
-        RestTemplate restTemplate = new RestTemplate();
-        for (SessionInfo sessionInfo : sessionInfos) {
-            String url = "http://" + sessionInfo.getInternalIp() + ":" + sessionInfo.getPort() + "/send-message";
-            JSONObject payload = new JSONObject();
-            payload.put("sessionId", sessionInfo.getSessionId());
-            payload.put("message", msg);
-
-            log.info("타 세션으로 보내는 페이로드 문자열: {}",payload.toString());
-
-            // HTTP POST 요청
-            try {
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                HttpEntity<String> entity = new HttpEntity<>(payload.toString(), headers);
-
-                restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-            } catch (Exception e) {
-                log.error("메시지 전송 실패: " + e.getMessage());
+            // 메세지 수신자들 세션 정보 확인
+            JSONArray jsonArray = (JSONArray) jsonObject.get("members");
+            List<String> memberIds = new ArrayList<>();
+            for (Object object : jsonArray) {
+                String memberId = (String) object;
+                memberIds.add(memberId);
             }
+            List<SessionInfo> sessionInfos = service.findByMemberIdIn(memberIds);
+
+            // 메세지 전송
+            RestTemplate restTemplate = new RestTemplate();
+            for (SessionInfo sessionInfo : sessionInfos) {
+                String url = "http://" + sessionInfo.getInternalIp() + ":" + sessionInfo.getPort() + "/send-message";
+                JSONObject payload = new JSONObject();
+                payload.put("sessionId", sessionInfo.getSessionId());
+                payload.put("message", msg);
+
+                log.info("타 세션으로 보내는 페이로드 문자열: {}", payload.toString());
+
+                // HTTP POST 요청
+                try {
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    HttpEntity<String> entity = new HttpEntity<>(payload.toString(), headers);
+
+                    restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+                } catch (Exception e) {
+                    log.error("메시지 전송 실패: " + e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JSONObject errorMessage = new JSONObject();
+            errorMessage.put("type", "error");
+            errorMessage.put("body", "메세지 전송 실패");
+            session.sendMessage(new TextMessage(errorMessage.toJSONString()));
         }
     }
 
