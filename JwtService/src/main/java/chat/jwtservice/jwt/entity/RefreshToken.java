@@ -39,6 +39,7 @@ public class RefreshToken {
         this.expiresAt = expiresAt;
     }
 
+    // Persist 전 실행 -> 데이터 생성된 일로부터 +3 일
     @PrePersist
     public void prePersist() {
         this.expiresAt = this.createdAt.plusDays(3); // 생성일 + 3일
