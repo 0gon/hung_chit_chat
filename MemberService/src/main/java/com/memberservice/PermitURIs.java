@@ -11,6 +11,9 @@ public class PermitURIs {
 //            "/login",
 //            "/signUp",
 //            "/h2-console",
+            "/login",
+            "/auth/**",
+            "/error",
             "/"
             );
 
