@@ -2,11 +2,8 @@ server:
   port: 8081
 
 spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/testDB
-    username: root
-    password: root
+  profiles:
+    include: local    # application-local.yml 을 포함시킴
 
 #  h2:
 #    console:
@@ -16,7 +13,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -26,3 +23,6 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
+
+jwt:
+  secret: "8GKpRztVsBEoonycMMhilEuoX6Y2YtNy"

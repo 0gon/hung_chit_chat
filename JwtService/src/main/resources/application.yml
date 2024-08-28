@@ -1,0 +1,18 @@
+server:
+  port: 8089
+
+spring:
+  profiles:
+    include: local    # application-home.yml ? ????
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MariaDBDialect
+
+jwt:
+  secret: "8GKpRztVsBEoonycMMhilEuoX6Y2YtNy"

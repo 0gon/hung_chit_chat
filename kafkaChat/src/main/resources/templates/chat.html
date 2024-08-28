@@ -93,10 +93,11 @@
             fetch('/api/member/chatRooms/' + senderId)
                 .then(response => response.json()) // JSON 응답 처리
                 .then(data => {
-                    var chatRoomList = document.querySelector('.chat-room-list');
+                    var chatRoomList = document.querySelector('.jwt-room-list');
                     chatRoomList.innerHTML = ''; // 기존 목록 비우기
                     data["chatRoomDtos"].forEach(chatRoomDtos => {
                         var listItem = document.createElement("li");
+                        listItem.textContent = chatRoomDtos.name;
                         listItem.onclick = () => {
                             connectToRoom(chatRoomDtos.id);
                         };
