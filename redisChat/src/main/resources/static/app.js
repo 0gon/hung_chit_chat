@@ -38,7 +38,7 @@ $(document).on('click', '.room-item', function () {
 
 // #region 웹소켓
 function connWS() {
-    ws = new WebSocket("ws://" + location.host + "/ws_chating" + location.search);
+    ws = new WebSocket("ws://" + location.host + "/ws" + location.search);
 
     //소켓이 열리면 동작
     ws.onopen = function (e) {
