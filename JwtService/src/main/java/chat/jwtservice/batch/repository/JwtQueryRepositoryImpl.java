@@ -1,7 +1,5 @@
 package chat.jwtservice.batch.repository;
 
-import chat.jwtservice.jwt.entity.QRefreshToken;
-import chat.jwtservice.jwt.entity.RefreshToken;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

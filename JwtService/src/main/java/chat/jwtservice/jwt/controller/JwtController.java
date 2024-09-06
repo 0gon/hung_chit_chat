@@ -9,13 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth/v1/")
+@RequestMapping("/jwt-service")
 @RequiredArgsConstructor
 public class JwtController {
 
     private final JwtService jwtService;
 
-    @PostMapping("generate")
+    @PostMapping("/auth/v1/generate")
     public ResponseEntity<ResponseTokenDto> generatedToken(@Valid @RequestBody RequestTokenDto requestTokenDto) {
 
         ResponseTokenDto responseTokenDto = jwtService.generateToken(requestTokenDto);

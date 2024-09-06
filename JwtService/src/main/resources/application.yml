@@ -13,6 +13,8 @@ spring:
         format_sql: true
         show_sql: true
         dialect: org.hibernate.dialect.MariaDBDialect
+  application:
+    name: jwt-service
 
 jwt:
   secret: "8GKpRztVsBEoonycMMhilEuoX6Y2YtNy"
