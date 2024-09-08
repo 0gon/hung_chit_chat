@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -47,9 +48,9 @@ class MemberServiceApplicationTests {
                 .role(Role.USER)
                 .build();
 
-        memberService.save(signUpMemberDto);
+        Member savedMember = memberService.save(signUpMemberDto);
 
-        Member member = memberRepository.findById(1L).get();
+        Member member = memberRepository.findById(savedMember.getId()).get();
 
         Assertions.assertEquals(member.getEmail(), "aaaa@aaaa.com");
 

@@ -10,7 +10,8 @@ public class PermitURIs {
     public static final List<String> URIs = List.of(
             "/user-service/login",
             "/user-service/auth/**",
-            "/error"
+            "/error",
+            "/api/v1/memberService/signUp"
             );
 
     // Security 설정에서 사용할 배열

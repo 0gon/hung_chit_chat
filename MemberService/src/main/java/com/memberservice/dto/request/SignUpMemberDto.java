@@ -12,8 +12,8 @@ import lombok.Getter;
 @Builder
 public class SignUpMemberDto {
 
-    @NotBlank(message = "required email")
     @Email
+    @NotBlank(message = "required email")
     private String email;
 
     @NotBlank(message = "required password")

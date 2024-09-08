@@ -17,13 +17,14 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // todo: 만약에 memeber 바로 반환하는거 보기 싫으면 dto 만드셈
     @Transactional
-    public void save(SignUpMemberDto signUpMemberDto) {
+    public Member save(SignUpMemberDto signUpMemberDto) {
 
         // 비밀번호 encode
         signUpMemberDto.EncodePassword(passwordEncoder.encode(signUpMemberDto.getPassword()));
 
         Member member = Converter.RequestToEntity(signUpMemberDto);
-        memberRepository.save(member);
+        return memberRepository.save(member);
     }
 }
