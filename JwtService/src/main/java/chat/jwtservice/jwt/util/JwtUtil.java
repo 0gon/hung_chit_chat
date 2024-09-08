@@ -46,4 +46,13 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC256(SECRET_KEY));                                       // 서명, SECRET_KEY 를 HMAC256 알고리즘으로 변환
     }
 
+    /**
+     * 토큰 추출
+     * @param token 토큰
+     * @return 토큰에서 추출한 ID
+     * */
+    public String extractUsername(String token) {
+        return JWT.decode(token).getSubject();
+    }
+
 }

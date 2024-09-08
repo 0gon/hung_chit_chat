@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -26,11 +27,12 @@ public class JwtService {
     @Transactional
     public ResponseTokenDto generateToken(RequestTokenDto requestTokenDto) {
 
+        String generateRefreshToken = jwtUtil.generateRefreshToken(requestTokenDto.getEmail(), requestTokenDto.getUserId());
+
         String accessToken = jwtUtil.generateAccessToken(requestTokenDto.getEmail(), requestTokenDto.getUserId());
-        String refreshToken = jwtUtil.generateRefreshToken(requestTokenDto.getEmail(), requestTokenDto.getUserId());
 
         RefreshToken refreshTokenEntity = RefreshToken.builder()
-                .refreshToken(refreshToken)
+                .refreshToken(generateRefreshToken)
                 .userId(requestTokenDto.getUserId())
                 .build();
 
@@ -38,7 +40,26 @@ public class JwtService {
 
         return ResponseTokenDto.builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .refreshToken(generateRefreshToken)
+                .build();
+    }
+    /**
+     * 리프레쉬 토큰으로 엑세스 토큰 재발급
+     * */
+    @Transactional(readOnly = true)
+    public ResponseTokenDto generateTokenByRefreshToken(RequestTokenDto requestTokenDto) {
+
+        RefreshToken findRefreshToken = jwtRepository.findByRefreshToken(requestTokenDto.getRefreshToken()).orElseThrow(() -> new IllegalStateException("Refresh token not found"));
+
+        if (LocalDateTime.now().isAfter(findRefreshToken.getExpiresAt())) {     // 만료 되었으면 exception
+            throw new IllegalStateException("Refresh token Expired");
+        }
+
+        String accessToken = jwtUtil.generateAccessToken(requestTokenDto.getEmail(), requestTokenDto.getUserId());
+
+        return ResponseTokenDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(requestTokenDto.getRefreshToken())
                 .build();
     }
 }
