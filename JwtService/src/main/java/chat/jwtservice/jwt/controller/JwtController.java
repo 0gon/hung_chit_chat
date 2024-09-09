@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/jwt-service")
+@RequestMapping("/jwt")
 @RequiredArgsConstructor
 public class JwtController {
 

@@ -42,7 +42,7 @@ class JwtServiceApplicationTests {
 
         RequestTokenDto requestTokenDto = RequestTokenDto.builder()
                 .email("ttt@ttt.com")
-                .userId(1L)
+                .memberId("asdgbosdiv")
                 .build();
 
         try {
@@ -57,12 +57,10 @@ class JwtServiceApplicationTests {
             if(byRefreshToken.isEmpty()){
                 Assertions.fail("Not Saved Jwt Token in Database");
             } else{
-                Assertions.assertThat(byRefreshToken.get().getUserId()).isEqualTo(1L);
+                Assertions.assertThat(byRefreshToken.get().getMemberId()).isEqualTo("asdgbosdiv");
                 Assertions.assertThat(byRefreshToken.get().getRefreshToken()).isEqualTo(responseTokenDto.getRefreshToken());
                 System.out.println("responseTokenDto = " + responseTokenDto.getRefreshToken());
             }
-
-            //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJzdWIiOiJ0dHRAdHR0LmNvbSIsImlhdCI6MTcyNTc3MDM0MCwiZXhwIjoxNzI2MDI5NTQwLCJ0b2tlbl90eXBlIjoicmVmcmVzaCJ9.B7A1ftotJs-WX8mnU-NWV4A134eUsezH_fkQB2V1QS0
 
         } catch (Exception e) {
             e.printStackTrace();

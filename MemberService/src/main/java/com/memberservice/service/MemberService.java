@@ -2,12 +2,15 @@ package com.memberservice.service;
 
 import com.memberservice.converter.Converter;
 import com.memberservice.dto.request.SignUpMemberDto;
+import com.memberservice.dto.response.ResponseMemberGatewayDto;
 import com.memberservice.entity.Member;
 import com.memberservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +29,19 @@ public class MemberService {
 
         Member member = Converter.RequestToEntity(signUpMemberDto);
         return memberRepository.save(member);
+    }
+
+    /**
+     * API GATEWAY SERVICE 요청 시 id, memberId, email 반환
+     * */
+    public ResponseMemberGatewayDto retrieveMemberByMemberId(String memberId) {
+
+        Member findOptionalMember = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("MEMBER NOT FOUND"));
+
+        return ResponseMemberGatewayDto.builder()
+                .id(findOptionalMember.getId())
+                .email(findOptionalMember.getEmail())
+                .memberId(findOptionalMember.getMemberId())
+                .build();
     }
 }

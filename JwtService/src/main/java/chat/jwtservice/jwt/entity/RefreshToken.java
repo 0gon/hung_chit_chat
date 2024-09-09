@@ -21,7 +21,7 @@ public class RefreshToken {
     @Id @GeneratedValue
     private Long id;
 
-    private Long userId;
+    private String memberId;
 
     private String refreshToken;
 
@@ -31,9 +31,9 @@ public class RefreshToken {
     private LocalDateTime expiresAt;
 
     @Builder
-    public RefreshToken(Long id, Long userId, String refreshToken, LocalDateTime createdAt, LocalDateTime expiresAt) {
+    public RefreshToken(Long id, String memberId, String refreshToken, LocalDateTime createdAt, LocalDateTime expiresAt) {
         this.id = id;
-        this.userId = userId;
+        this.memberId = memberId;
         this.refreshToken = refreshToken;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;

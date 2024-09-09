@@ -1,6 +1,7 @@
 server:
   port: 8000
 
+# eureka 사용시 적용, 로드밸런서 적용
 #eureka:
 #  client:
 #    register-with-eureka: true
@@ -8,17 +9,27 @@ server:
 #    service-url:
 #      defaultZone: http://localhost:8761/eureka
 
+jwt:
+  secret: "8GKpRztVsBEoonycMMhilEuoX6Y2YtNy"
+
 spring:
+  main:
+    web-application-type: reactive    # spring cloud gateway 는 반응형 웹 앱을 지원하므로 설정 필요
   application:
     name: api-gateway-service
   cloud:
     gateway:
       routes:
         - id: member-service
-          uri: lb://MEMBER-SERVICE
+          uri: http://localhost:8081/members
+          # 추후에 로드밸런서 적용시 lb://MEMBER-SERVICE 이용
           predicates:
-            - Path=/member-service/**
+            - Path=/members/**
+          filters:
+            - JwtVerificationFilter
         - id: jwt-service
-          uri: lb://JWT-SERVICE
+          uri: http://localhost:8089/jwt
           predicates:
-            -  Path=/jwt-service/**
+            -  Path=/jwt/**
+          filters:
+            - JwtVerificationFilter

@@ -23,6 +23,3 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
-
-jwt:
-  secret: "8GKpRztVsBEoonycMMhilEuoX6Y2YtNy"

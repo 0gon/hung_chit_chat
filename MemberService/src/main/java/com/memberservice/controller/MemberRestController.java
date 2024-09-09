@@ -7,20 +7,31 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberRestController {
 
-    private final MemberService service;
+    private final MemberService memberService;
 
-    @PostMapping("api/v1/memberService/signUp")
+    @GetMapping("/test")
+    public String test() {
+        return "test Online";
+    }
+
+    @GetMapping("/{memberId}")
+    public ResponseEntity<?> retrieveMember(@PathVariable("memberId") String memberId) {
+
+        memberService.retrieveMemberByMemberId(memberId);
+        return ResponseEntity.ok().body("");
+    }
+
+    @PostMapping("/signUp")
     public ResponseEntity<String> sighUp(@RequestBody @Valid SignUpMemberDto dto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -33,7 +44,7 @@ public class MemberRestController {
         }
 
         try {
-            service.save(dto);
+            memberService.save(dto);
             return ResponseEntity.ok("success");
         } catch (Exception e) {
             e.printStackTrace();
