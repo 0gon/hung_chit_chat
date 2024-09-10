@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.apigatewayservice.dto.ResponseMemberGatewayDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -98,9 +99,13 @@ public class JwtVerificationUtil {
         Mono<Boolean> booleanMono = webClient.get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(String.class)
-                .map(response ->  {System.out.println("Response: " + response); return true;}) // 성공적인 응답 시 true 반환
-                .onErrorReturn(false);
+                .bodyToMono(ResponseMemberGatewayDto.class)
+                .map(responseMemberGatewayDto ->  {return email.equals(responseMemberGatewayDto.getEmail());}) // 성공적인 응답 시 true 반환
+                .onErrorResume(e -> {
+                    // 오류가 발생한 경우 false 반환
+                    System.err.println("Error occurred: " + e.getMessage());
+                    return Mono.just(false);
+                });
 
 
         return false;
