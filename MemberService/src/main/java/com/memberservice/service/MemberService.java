@@ -6,6 +6,9 @@ import com.memberservice.dto.response.ResponseMemberGatewayDto;
 import com.memberservice.entity.Member;
 import com.memberservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -33,8 +37,11 @@ public class MemberService {
 
     /**
      * API GATEWAY SERVICE 요청 시 id, memberId, email 반환
+     * @return type ResponseMemberGatewayDto
      * */
     public ResponseMemberGatewayDto retrieveMemberByMemberId(String memberId) {
+
+        log.info("Retrieving member by member id {}", memberId);
 
         Member findOptionalMember = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("MEMBER NOT FOUND"));
 

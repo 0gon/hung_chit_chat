@@ -1,6 +1,9 @@
 package chat.jwtservice.jwt.util;
 
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,7 +18,7 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
-    /***S
+    /***
      * Access 토큰 생성
      * @param email 유저 ID
      * @return 생성된 JWT token 문자열 반환
@@ -49,9 +52,9 @@ public class JwtUtil {
     /**
      * 토큰 추출
      * @param token 토큰
-     * @return 토큰에서 추출한 ID
+     * @return 토큰에서 추출한 Subject
      * */
-    public String extractUsername(String token) {
+    public String extractSubject(String token) {
         return JWT.decode(token).getSubject();
     }
 

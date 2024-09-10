@@ -50,8 +50,8 @@ class JwtServiceApplicationTests {
 
             Assertions.assertThat(responseTokenDto).isNotNull();
 
-            String username = jwtUtil.extractUsername(responseTokenDto.getAccessToken());
-            Assertions.assertThat(username).isEqualTo("ttt@ttt.com");
+            String subject = jwtUtil.extractSubject(responseTokenDto.getAccessToken());
+            Assertions.assertThat(subject).isEqualTo("access");
 
             Optional<RefreshToken> byRefreshToken = jwtRepository.findByRefreshToken(responseTokenDto.getRefreshToken());
             if(byRefreshToken.isEmpty()){
@@ -60,6 +60,9 @@ class JwtServiceApplicationTests {
                 Assertions.assertThat(byRefreshToken.get().getMemberId()).isEqualTo("asdgbosdiv");
                 Assertions.assertThat(byRefreshToken.get().getRefreshToken()).isEqualTo(responseTokenDto.getRefreshToken());
                 System.out.println("responseTokenDto = " + responseTokenDto.getRefreshToken());
+                // access
+                // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZW1iZXJfaWQiOiJhc2RnYm9zZGl2Iiwic3ViIjoiYWNjZXNzIiwiaWF0IjoxNzI1OTY5OTY4LCJleHAiOjE3MjU5NzM1NjgsImVtYWlsIjoidHR0QHR0dC5jb20ifQ.qSOSNTZwdjqAx_r8gAHszT-Tyrt3BULNWrKAVyDh8s8
+
             }
 
         } catch (Exception e) {
@@ -67,7 +70,7 @@ class JwtServiceApplicationTests {
         }
     }
 
-    @DisplayName("리프레쉬 토큰 테스트")
+    @DisplayName("토큰 생성")
     @Test
     public void JwtServiceApplicationTests() throws Exception{
 

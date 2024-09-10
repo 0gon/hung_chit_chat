@@ -9,9 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 
 @Slf4j
@@ -64,22 +68,22 @@ public class JwtVerificationUtil {
      * @param token 토큰
      * @return boolean
      */
-    public boolean validateToken(String token){
-        try{
+    public boolean validateToken(String token) {
+        try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET_KEY))
                     .build();
 
             DecodedJWT jwt = verifier.verify(token);
 
-            String email = jwt.getClaim("email").toString();
-            String memberId = jwt.getClaim("member_id").toString();
+            // .toString() -> .asString()  ==  toString 은 Claim 객체에 대한 설명을 반환 하기 때문에 ""결과값"" 이렇게 나올 수 있음, asString 으로 실제값 꺼내야함
+            String email = jwt.getClaim("email").asString();
+            String memberId = jwt.getClaim("member_id").asString();
 
             return this.checkMemberIdAndEmailFromDB(email, memberId);
-        } catch(JWTVerificationException e){
+        } catch (JWTVerificationException e) {
             log.error("token validation error : {} ", e.getMessage());
+            return false;
         }
-
-        return false;
     }
 
     /**
@@ -87,19 +91,19 @@ public class JwtVerificationUtil {
      * */
     protected boolean checkMemberIdAndEmailFromDB(String email, String memberId){
 
-        WebClient webClient = WebClient.create();
-
         String url = "http://localhost:8081/members/" + memberId;
 
-        Mono<String> response = webClient.get().uri(url)
+        WebClient webClient = WebClient.create();
+
+        Mono<Boolean> booleanMono = webClient.get()
+                .uri(url)
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(String.class)
+                .map(response ->  {System.out.println("Response: " + response); return true;}) // 성공적인 응답 시 true 반환
+                .onErrorReturn(false);
 
-        response.subscribe( result -> {
-            System.out.println("result = " + result);
-        });
 
-        return true;
+        return false;
 
     }
 }

@@ -28,7 +28,7 @@ public class MemberRestController {
     public ResponseEntity<?> retrieveMember(@PathVariable("memberId") String memberId) {
 
         memberService.retrieveMemberByMemberId(memberId);
-        return ResponseEntity.ok().body("");
+        return ResponseEntity.ok().body(memberService.retrieveMemberByMemberId(memberId));
     }
 
     @PostMapping("/signUp")
