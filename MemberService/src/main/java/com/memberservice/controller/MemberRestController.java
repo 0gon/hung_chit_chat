@@ -21,7 +21,7 @@ public class MemberRestController {
 
     @GetMapping("/test")
     public String test() {
-        return "test Online";
+        return "test Online1234";
     }
 
     @GetMapping(path = "/auth/{memberId}")
