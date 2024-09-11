@@ -24,8 +24,8 @@ public class MemberRestController {
         return "test Online";
     }
 
-    @GetMapping("/{memberId}")
-    public ResponseEntity<?> retrieveMember(@PathVariable("memberId") String memberId) {
+    @GetMapping("/test/{memberId}")
+    public ResponseEntity<?> retrieveMember(@PathVariable String memberId) {
 
         memberService.retrieveMemberByMemberId(memberId);
         return ResponseEntity.ok().body(memberService.retrieveMemberByMemberId(memberId));

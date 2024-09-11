@@ -33,11 +33,16 @@ public class JwtVerificationFilter extends AbstractGatewayFilterFactory {
             // Bearer 이후 jwt 토큰 추출
             String jwtToken = authorization.replace("Bearer ", "");
 
-            if (jwtVerificationUtil.validateToken(jwtToken)) {
-                return chain.filter(exchange);
-            }
-
-            return unauthorized(exchange);
+            return jwtVerificationUtil.validateToken(jwtToken)
+                    .flatMap(isValid -> {
+                        if (isValid) {
+                            // 토큰이 유효할 경우 체이닝을 통해 다음 필터로 전달
+                            return chain.filter(exchange);
+                        } else {
+                            // 토큰이 유효하지 않을 경우 401 Unauthorized 응답
+                            return unauthorized(exchange);
+                        }
+                    });
         });
     }
 

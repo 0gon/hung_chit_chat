@@ -9,14 +9,9 @@ import com.example.apigatewayservice.dto.ResponseMemberGatewayDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Date;
 
 @Slf4j
@@ -69,7 +64,7 @@ public class JwtVerificationUtil {
      * @param token 토큰
      * @return boolean
      */
-    public boolean validateToken(String token) {
+    public Mono<Boolean> validateToken(String token) {
         try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET_KEY))
                     .build();
@@ -80,35 +75,42 @@ public class JwtVerificationUtil {
             String email = jwt.getClaim("email").asString();
             String memberId = jwt.getClaim("member_id").asString();
 
-            return this.checkMemberIdAndEmailFromDB(email, memberId);
+            // 비동기적 체이닝 방식 사용 -> Spring cloud Gateway 에선 비동기 방식이 "필수", 동기 처리는 불가능 -> flatMap, then 메서드등 사용해서 처리 가능
+            return checkMemberIdAndEmailFromDB(email, memberId)
+                    .flatMap(isValid -> {
+                        if(isValid){
+                            log.info("isvalid : {}", isValid);
+                            return Mono.just(true);
+                        } else{
+                            log.info("isvalid : {}", isValid);
+                            return Mono.just(false);
+                        }
+                    });
         } catch (JWTVerificationException e) {
             log.error("token validation error : {} ", e.getMessage());
-            return false;
+            return Mono.just(false);
         }
     }
 
     /**
      * email, memberId 로 체크
      * */
-    protected boolean checkMemberIdAndEmailFromDB(String email, String memberId){
+    protected Mono<Boolean> checkMemberIdAndEmailFromDB(String email, String memberId){
 
-        String url = "http://localhost:8081/members/" + memberId;
+        String url = "http://localhost:8081/members/test/" + memberId;
 
         WebClient webClient = WebClient.create();
 
-        Mono<Boolean> booleanMono = webClient.get()
+        return webClient.get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ResponseMemberGatewayDto.class)
-                .map(responseMemberGatewayDto ->  {return email.equals(responseMemberGatewayDto.getEmail());}) // 성공적인 응답 시 true 반환
+                .map(responseMemberGatewayDto -> email.equals(responseMemberGatewayDto.getEmail()))
                 .onErrorResume(e -> {
                     // 오류가 발생한 경우 false 반환
-                    System.err.println("Error occurred: " + e.getMessage());
+                    log.error("Error occurred: " + e.getMessage());
                     return Mono.just(false);
                 });
-
-
-        return false;
 
     }
 }

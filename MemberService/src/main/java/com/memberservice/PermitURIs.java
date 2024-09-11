@@ -12,7 +12,8 @@ public class PermitURIs {
             "/user-service/auth/**",
             "/error",
             "/api/v1/memberService/signUp",
-            "/test"
+            "/test",
+            "/members/test/**"
             );
 
     // Security 설정에서 사용할 배열
