@@ -3,6 +3,8 @@ package com.memberservice.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @Builder
@@ -31,4 +33,9 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @PrePersist
+    public void prePersist() {
+        this.memberId = UUID.randomUUID().toString();
+    }
 }
