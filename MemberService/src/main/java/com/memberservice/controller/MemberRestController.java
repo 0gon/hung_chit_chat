@@ -24,14 +24,14 @@ public class MemberRestController {
         return "test Online";
     }
 
-    @GetMapping("/test/{memberId}")
+    @GetMapping(path = "/auth/{memberId}")
     public ResponseEntity<?> retrieveMember(@PathVariable String memberId) {
 
         memberService.retrieveMemberByMemberId(memberId);
         return ResponseEntity.ok().body(memberService.retrieveMemberByMemberId(memberId));
     }
 
-    @PostMapping("/signUp")
+    @PostMapping("/auth/signUp")
     public ResponseEntity<String> sighUp(@RequestBody @Valid SignUpMemberDto dto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();

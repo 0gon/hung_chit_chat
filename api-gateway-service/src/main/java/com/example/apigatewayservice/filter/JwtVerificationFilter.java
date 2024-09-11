@@ -33,6 +33,7 @@ public class JwtVerificationFilter extends AbstractGatewayFilterFactory {
             // Bearer 이후 jwt 토큰 추출
             String jwtToken = authorization.replace("Bearer ", "");
 
+            // 비동기적 체이닝 방식 사용 -> Spring cloud Gateway 에선 비동기 방식이 "필수", 동기 처리는 불가능 -> flatMap, then 메서드등 사용해서 처리 가능
             return jwtVerificationUtil.validateToken(jwtToken)
                     .flatMap(isValid -> {
                         if (isValid) {

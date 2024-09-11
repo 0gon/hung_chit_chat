@@ -43,12 +43,17 @@ public class MemberService {
 
         log.info("Retrieving member by member id {}", memberId);
 
-        Member findOptionalMember = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("MEMBER NOT FOUND"));
-
         return ResponseMemberGatewayDto.builder()
-                .id(findOptionalMember.getId())
-                .email(findOptionalMember.getEmail())
-                .memberId(findOptionalMember.getMemberId())
+                .email("ttt@ttt.com")
+                .memberId("asdgbosdiv")
                 .build();
+
+//        Member findOptionalMember = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("MEMBER NOT FOUND"));
+//
+//        return ResponseMemberGatewayDto.builder()
+//                .id(findOptionalMember.getId())
+//                .email(findOptionalMember.getEmail())
+//                .memberId(findOptionalMember.getMemberId())
+//                .build();
     }
 }
