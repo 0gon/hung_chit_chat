@@ -9,7 +9,7 @@ public class PermitURIs {
     //공통 URI 리스트
     public static final List<String> URIs = List.of(
             "/error",
-            "/test",
+            "/members/test",
             "/members/auth/**"
             );
 
