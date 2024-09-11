@@ -2,11 +2,18 @@ package com.memberservice.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.memberservice.config.JwtUtil;
+import com.memberservice.config.SecurityConfig;
 import com.memberservice.dto.request.SignUpMemberDto;
+import com.memberservice.repository.MemberRepository;
+import com.memberservice.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,11 +25,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(MemberRestController.class)
+@MockBean(JpaMetamodelMappingContext.class)
+@Import(SecurityConfig.class)
 class MemberRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper;
+
+    @MockBean
+    MemberService service;
+    @MockBean
+    MemberRepository repository;
+    @MockBean
+    JwtUtil jwtUtil;
 
     MemberRestControllerTest() {
         this.objectMapper = new ObjectMapper();
@@ -40,7 +56,7 @@ class MemberRestControllerTest {
 
 
 
-        mockMvc.perform(post("/api/v1/memberService/join")
+        mockMvc.perform(post("/members/auth/signUp")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonDto))
                 .andExpect(MockMvcResultMatchers.status().isOk())

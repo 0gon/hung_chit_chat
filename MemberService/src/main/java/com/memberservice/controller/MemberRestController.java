@@ -24,6 +24,7 @@ public class MemberRestController {
         return "test Online1234";
     }
 
+
     @GetMapping(path = "/auth/{memberId}")
     public ResponseEntity<?> retrieveMember(@PathVariable String memberId) {
 
@@ -33,17 +34,17 @@ public class MemberRestController {
 
     @PostMapping("/auth/signUp")
     public ResponseEntity<String> sighUp(@RequestBody @Valid SignUpMemberDto dto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
-            bindingResult.getAllErrors().forEach((error) -> {
-                String fieldName = ((FieldError) error).getField();
-                String errorMessage = error.getDefaultMessage();
-                errors.put(fieldName, errorMessage);
-            });
-            return ResponseEntity.badRequest().body("Validation failed: " + errors.toString());
-        }
-
         try {
+            if (bindingResult.hasErrors()) {
+                Map<String, String> errors = new HashMap<>();
+                bindingResult.getAllErrors().forEach((error) -> {
+                    String fieldName = ((FieldError) error).getField();
+                    String errorMessage = error.getDefaultMessage();
+                    errors.put(fieldName, errorMessage);
+                });
+                return ResponseEntity.badRequest().body("Validation failed: " + errors.toString());
+            }
+
             memberService.save(dto);
             return ResponseEntity.ok("success");
         } catch (Exception e) {
