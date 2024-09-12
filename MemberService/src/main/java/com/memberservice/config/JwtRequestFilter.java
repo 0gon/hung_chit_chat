@@ -35,7 +35,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")){
             // Bearer 타입이 아니거나, 토큰이 없으면 401 Unauthorized 응답
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
@@ -56,7 +56,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
         } else{
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
 
         filterChain.doFilter(request, response);

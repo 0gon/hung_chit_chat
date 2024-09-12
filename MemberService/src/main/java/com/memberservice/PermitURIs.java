@@ -8,10 +8,11 @@ public class PermitURIs {
 
     //공통 URI 리스트
     public static final List<String> URIs = List.of(
-            "/error"
-            , "/members/test"
-            , "/members/auth/**"
-            , "/members/auth/signUp"
+            "/error",
+            "/member/error",
+            "/members/test",
+            "/member/auth/",
+            "/members/auth/**"
             );
 
     // Security 설정에서 사용할 배열

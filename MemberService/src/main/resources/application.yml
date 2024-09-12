@@ -13,13 +13,17 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
         show_sql: true
 #        dialect: org.hibernate.dialect.MariaDBDialect
 
-
   main:
     allow-bean-definition-overriding: true
+
+# TRACE(상세) > DEBUG(디버깅) > INFO(정보) > WARN(경고) > ERROR(에러) > FATAL(치명적 에러) > OFF(끄기)
+logging:
+  level:
+    root: off

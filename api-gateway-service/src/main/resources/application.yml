@@ -12,6 +12,7 @@ server:
 jwt:
   secret: "8GKpRztVsBEoonycMMhilEuoX6Y2YtNy"
 
+
 spring:
   #main:
     #web-application-type: reactive    # spring cloud gateway 는 반응형 웹 앱을 지원하므로 설정 필요
@@ -20,16 +21,24 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: member-service
+        - id: member-service            # 로그인 이후의 멤버 API
           uri: http://localhost:8081
           # 추후에 로드밸런서 적용시 lb://MEMBER-SERVICE 이용
           predicates:
-            - Path=/members/**
+            - Path=/members/test
           filters:
             - JwtVerificationFilter
+        - id: member-auth-service       # 회원가입, 로그인 
+          uri: http://localhost:8081
+          predicates:
+            - Path=/members/auth/**
         - id: jwt-service
           uri: http://localhost:8089
           predicates:
             -  Path=/jwt/**
           filters:
             - JwtVerificationFilter
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
