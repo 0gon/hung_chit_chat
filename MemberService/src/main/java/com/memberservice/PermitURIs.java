@@ -11,7 +11,7 @@ public class PermitURIs {
             "/error",
             "/member/error",
             "/members/test",
-            "/member/auth/",
+            "/members/auth/",
             "/members/auth/**"
             );
 
