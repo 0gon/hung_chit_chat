@@ -1,11 +1,11 @@
 package com.memberservice;
 
-import com.memberservice.dto.request.SignUpMemberDto;
-import com.memberservice.entity.Gender;
-import com.memberservice.entity.Member;
-import com.memberservice.entity.Role;
-import com.memberservice.repository.MemberRepository;
-import com.memberservice.service.MemberService;
+import com.memberservice.member.dto.request.SignUpMemberDto;
+import com.memberservice.member.entity.Gender;
+import com.memberservice.member.entity.Member;
+import com.memberservice.member.entity.Role;
+import com.memberservice.member.repository.MemberRepository;
+import com.memberservice.member.service.MemberService;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 
