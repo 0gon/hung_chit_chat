@@ -1,4 +1,4 @@
-package com.memberservice.entity;
+package com.memberservice.member.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

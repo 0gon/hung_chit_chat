@@ -1,4 +1,4 @@
-package com.memberservice.entity;
+package com.memberservice.member.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

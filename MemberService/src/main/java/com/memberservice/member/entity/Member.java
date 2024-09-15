@@ -1,5 +1,7 @@
-package com.memberservice.entity;
+package com.memberservice.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.memberservice.member.dto.jackson.Views;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,9 +20,11 @@ public class Member extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @JsonView(Views.MemberIdAndEmail.class)
     private String memberId;
 
     @Column(unique = true)
+    @JsonView(Views.MemberIdAndEmail.class)
     private String email;
 
     private String password;
@@ -38,4 +42,5 @@ public class Member extends BaseEntity {
     public void prePersist() {
         this.memberId = UUID.randomUUID().toString();
     }
+
 }
