@@ -47,29 +47,6 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    /**
-     * API GATEWAY SERVICE 요청 시 id, memberId, email 반환
-     * @return type ResponseMemberGatewayDto
-     * */
-    public ResponseMemberGatewayDto retrieveMemberByMemberId(String memberId) {
-
-        log.info("Retrieving member by member id {}", memberId);
-
-        return ResponseMemberGatewayDto.builder()
-                .email("ttt@ttt.com")
-                .memberId("asdgbosdiv")
-                .build();
-
-//        Member findOptionalMember = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalArgumentException("MEMBER NOT FOUND"));
-//
-//        return ResponseMemberGatewayDto.builder()
-//                .id(findOptionalMember.getId())
-//                .email(findOptionalMember.getEmail())
-//                .memberId(findOptionalMember.getMemberId())
-//                .build();
-    }
-
-
     public ResponseTokenDto signIn(RequestLoginDto requestLoginDto) {
 
         Member member = memberRepository.findByEmail(requestLoginDto.getEmail()).orElseThrow();

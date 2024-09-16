@@ -39,6 +39,12 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                .formLogin(form -> {
+                    form.loginProcessingUrl("/members/auth/signIn");    // 로그인 처리 URL 설정
+                })
+                .logout(logout -> {
+                    // 로그아웃 처리할시 로직 추가
+                })
                 .addFilterBefore(new JwtRequestFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWT와 같은 토큰 기반 인증 사용 시 세션 사용 안 함
