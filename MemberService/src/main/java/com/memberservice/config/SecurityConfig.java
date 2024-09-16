@@ -40,7 +40,7 @@ public class SecurityConfig {
                 )
                 .headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .formLogin(form -> {
-                    form.loginProcessingUrl("/members/auth/signIn");    // 로그인 처리 URL 설정
+                    form.loginProcessingUrl("http://localhost:8000/members/auth/signIn");    // 로그인 처리 URL 설정
                 })
                 .logout(logout -> {
                     // 로그아웃 처리할시 로직 추가

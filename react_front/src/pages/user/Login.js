@@ -5,7 +5,7 @@ import { getApiUrl } from 'common/apiUtil';
 import { setCookie } from 'common/cookie';
 
 const LoginPage = () => {
-  const [id, setId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // 요청 진행 상태를 관리하는 상태
@@ -17,36 +17,44 @@ const LoginPage = () => {
   const handleLogin = async () => {
     setIsLoading(true); // 요청 시작 시 로딩 상태로 설정
 
-    const apiPath = '/api/v1/login';
+    const apiPath = 'http://localhost:8000/members/auth/signIn';
 
     try {
-      // const response = await fetch(`${apiUrl}${apiPath}`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     id,
-      //     password,
-      //   }),
-      // });
-
-      // if (!response.ok) {
-      //   throw new Error('로그인 요청 실패');
-      // }
-
-      // const data = await response.json();
-      // console.log('로그인 성공:', data);
-
+      
       // 로그인 성공 시 필요한 작업 (예: 토큰 저장, 사용자 상태 업데이트 등)
       // todo: 서버 완료되면 수정하기
+      const response = await fetch(apiPath, {
+        method: 'POST',
+        headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+            credentials: 'same-origin'
+      });
+
+      console.log(response); 
+      
+      if (!response.ok) { 
+        throw new Error('로그인 요청 실패');
+      }
+
+      const data = await response.json();
+      console.log('로그인 성공:', data);
+      console.log('로그인 성공:', data.accessToken);
+      console.log('로그인 성공:', data.refreshToken);
+
       {
-        setCookie('refresh token', 'test refresh token');
-        setCookie('access token', 'test access token');
+        setCookie('access token', data.accessToken);
+        setCookie('refresh token', data.refreshToken);
       }
 
       alert("로그인 성공!");
-      navigate('/home/chat'); // 로그인 후 메인 페이지로 이동
+      navigate('/asdf'); // 로그인 후 메인 페이지로 이동
+      setEmail('완료');
+      setPassword('완료');
     } catch (error) {
       console.error('로그인 오류:', error);
       alert("로그인 중 오류가 발생했습니다.");
@@ -54,7 +62,7 @@ const LoginPage = () => {
     } finally {
       setIsLoading(false); // 요청 완료 후 로딩 상태 해제
     }
-  };
+  }; 
 
   return (
     <UserLayout>
@@ -66,8 +74,8 @@ const LoginPage = () => {
         <input
           type="text"
           placeholder="아이디"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           style={{ marginBottom: '10px', padding: '10px', width: '100%', borderRadius: '4px', boxSizing: 'border-box' }}
         />
         <input
