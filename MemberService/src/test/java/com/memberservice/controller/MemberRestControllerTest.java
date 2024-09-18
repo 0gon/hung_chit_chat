@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(MemberRestController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-@Import(SecurityConfig.class)
 class MemberRestControllerTest {
 
     @Autowired
@@ -33,8 +32,6 @@ class MemberRestControllerTest {
     MemberService service;
     @MockBean
     MemberRepository repository;
-    @MockBean
-    JwtUtil jwtUtil;
 
     MemberRestControllerTest() {
         this.objectMapper = new ObjectMapper();
