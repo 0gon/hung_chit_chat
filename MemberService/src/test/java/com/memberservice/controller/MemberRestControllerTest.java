@@ -1,8 +1,6 @@
 package com.memberservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.memberservice.config.JwtUtil;
-import com.memberservice.config.SecurityConfig;
 import com.memberservice.member.controller.MemberRestController;
 import com.memberservice.member.dto.request.SignUpMemberDto;
 import com.memberservice.member.repository.MemberRepository;

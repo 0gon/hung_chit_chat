@@ -1,4 +1,4 @@
-package com.memberservice;
+package com.example.apigatewayservice.util;
 
 import java.util.HashSet;
 import java.util.List;

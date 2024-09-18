@@ -6,6 +6,7 @@ import com.memberservice.member.converter.Converter;
 import com.memberservice.member.dto.jackson.MemberView;
 import com.memberservice.member.dto.request.RequestLoginDto;
 import com.memberservice.member.dto.request.SignUpMemberDto;
+import com.memberservice.member.dto.response.ResponseMemberDto;
 import com.memberservice.member.dto.response.ResponseMemberGatewayDto;
 import com.memberservice.member.dto.response.ResponseTokenDto;
 import com.memberservice.member.entity.Member;
@@ -24,6 +25,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -89,5 +91,15 @@ public class MemberService {
         } else {
             throw new RuntimeException("no match password");
         }
+    }
+
+    public ResponseMemberDto getMemberByMemberId(String memberId){
+        Member findMember = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalStateException("USER NOT FOUND"));
+
+        return ResponseMemberDto.builder()
+                .email(findMember.getEmail())
+                .memberId(findMember.getMemberId())
+                .role(findMember.getRole())
+                .build();
     }
 }

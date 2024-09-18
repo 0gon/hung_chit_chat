@@ -27,3 +27,6 @@ spring:
 logging:
   level:
     root: off
+    org:
+      springframework:
+        security: DEBUG
