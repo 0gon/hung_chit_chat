@@ -16,14 +16,8 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity          // WebFlux 환경에서 Spring Security 설정
 public class SecurityFilter {
 
-    private final JwtRequestFilter jwtRequestFilter;
-
-    public SecurityFilter(JwtRequestFilter jwtRequestFilter) {
-        this.jwtRequestFilter = jwtRequestFilter;
-    }
-
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, JwtRequestFilter jwtRequestFilter) {
         http
                 .authorizeExchange(exchange -> exchange.pathMatchers("/members/auth/**")
                         .permitAll()

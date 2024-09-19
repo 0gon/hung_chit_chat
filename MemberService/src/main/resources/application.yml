@@ -4,16 +4,13 @@ server:
 spring:
   profiles:
     include: local    # application-local.yml 을 포함시킴
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
-#  h2:
-#    console:
-#      enabled: false
-#      settings:
-#        web-allow-others: false
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
@@ -26,7 +23,7 @@ spring:
 # TRACE(상세) > DEBUG(디버깅) > INFO(정보) > WARN(경고) > ERROR(에러) > FATAL(치명적 에러) > OFF(끄기)
 logging:
   level:
-    root: off
     org:
       springframework:
         security: DEBUG
+

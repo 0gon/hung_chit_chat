@@ -10,7 +10,6 @@ public class PermitURIs {
     public static final List<String> URIs = List.of(
             "/error",
             "/member/error",
-            "/members/test",
             "/members/auth/signIn",
             "/members/auth/signUp",
             "/members/auth/",

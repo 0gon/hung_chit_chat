@@ -35,9 +35,12 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC256(SECRET_KEY));                                       // 서명, SECRET_KEY 를 HMAC256 알고리즘으로 변환
     }
 
+    /**
+     * MemberService 에 member Role 요청
+     * @param memberId
+     * @return String 타입 Role
+     * */
     private String extractUserRole(String memberId) {
-
-        HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -50,18 +53,11 @@ public class JwtUtil {
 
         ResponseEntity<HashMap> response = restTemplate.getForEntity(uri, HashMap.class);
 
-        resultMap.clear();
+        if(response.getStatusCode().value() == 200 && response.getBody().get("role") != null) {
+           return "ROLE_" + response.getBody().get("role").toString();
+        }
 
-        // TODO :: Null 체크 + memberId 로 Role 검색 로직 추가
-
-//        // 헤더 정보
-//        resultMap.put("header", response.getHeaders());
-//        // 반환받은 실제 데이터 정보
-//        resultMap.put("body", response.getBody());
-//
-//        return response.getBody().get("role").toString();
-
-        return "USER";
+        throw new IllegalArgumentException("Invalid user");
 
     }
 

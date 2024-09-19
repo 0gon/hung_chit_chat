@@ -47,9 +47,8 @@ public class MemberRestController {
 
     /**
      * 사용자의 아이디와 비밀번호를 받아 응답으로 엑세스와 리프레시 토큰을 반환
-     * todo: 토큰의 저장위치가 정해진다면 수정해야됨
      */
-    @PostMapping("/auth/users/{memberId}")
+    @GetMapping("/auth/users/{memberId}")
     public ResponseEntity<ResponseMemberDto> signIn (@PathVariable String memberId) {
 
         ResponseMemberDto responseMemberDto = memberService.getMemberByMemberId(memberId);

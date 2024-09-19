@@ -53,7 +53,6 @@ public class MemberService {
 
         Member member = memberRepository.findByEmail(requestLoginDto.getEmail()).orElseThrow();
         if (passwordEncoder.matches(requestLoginDto.getPassword(), member.getPassword())) {
-
             MemberView memberView = Converter.MemberToView(member);
             String jsonBody = null;
             try {
