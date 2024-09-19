@@ -1,17 +1,12 @@
 server:
   port: 8081
 
-Spring:
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/memberDB
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
+spring:
+  profiles:
+    include: local    # application-local.yml 을 포함시킴
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
 
   jpa:
     hibernate:
@@ -20,3 +15,15 @@ Spring:
       hibernate:
         format_sql: true
         show_sql: true
+#        dialect: org.hibernate.dialect.MariaDBDialect
+
+  main:
+    allow-bean-definition-overriding: true
+
+# TRACE(상세) > DEBUG(디버깅) > INFO(정보) > WARN(경고) > ERROR(에러) > FATAL(치명적 에러) > OFF(끄기)
+logging:
+  level:
+    org:
+      springframework:
+        security: WARN
+

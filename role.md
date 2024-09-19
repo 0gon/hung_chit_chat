@@ -1,11 +1,12 @@
 # 룰 작성 ##
 
+front   포트 3000 \
 redisChat 포트 8081 \
 h2        포트 8082 \
 kafkaChat 포트 8083 \
 redis 포트 6379 \
-member 포트 8080
-
+member 포트 8080 \
+jwt 포트 8089
 
 
 # Commit Convention ##
@@ -18,12 +19,6 @@ refactor : 코드 리펙토링\
 test : 테스트 코드, 리펙토링 테스트 코드 추가\
 chore : 빌드 업무 수정, 패키지 매니저 수정
 
-### 예시
+### 예시 
 
-feat: "회원 가입 기능 구현"
-
-SMS, 이메일 중복확인 API 개발
-
-Resolves: #123\
-Ref: #456\
-Related to: #48, #45
+feat: [ #11 회원 가입 기능 구현 ] SMS, 이메일 중복확인 API 개발
