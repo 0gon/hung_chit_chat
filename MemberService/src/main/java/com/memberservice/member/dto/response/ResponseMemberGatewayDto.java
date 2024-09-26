@@ -1,4 +1,4 @@
-package com.example.apigatewayservice.dto;
+package com.memberservice.member.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

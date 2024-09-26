@@ -1,4 +1,4 @@
-package com.memberservice;
+package com.example.apigatewayservice.util;
 
 import java.util.HashSet;
 import java.util.List;
@@ -10,8 +10,9 @@ public class PermitURIs {
     public static final List<String> URIs = List.of(
             "/error",
             "/member/error",
-            "/members/test",
-            "/member/auth/",
+            "/members/auth/signIn",
+            "/members/auth/signUp",
+            "/members/auth/",
             "/members/auth/**"
             );
 

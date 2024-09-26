@@ -1,6 +1,6 @@
-package com.memberservice.repository;
+package com.memberservice.member.repository;
 
-import com.memberservice.entity.Member;
+import com.memberservice.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
