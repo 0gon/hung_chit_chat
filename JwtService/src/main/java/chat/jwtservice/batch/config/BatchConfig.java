@@ -5,6 +5,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -14,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@EnableBatchProcessing
+//@EnableBatchProcessing
 @RequiredArgsConstructor
 @EnableScheduling
 public class BatchConfig {
@@ -39,6 +40,7 @@ public class BatchConfig {
     @Bean
     public Job deleteExpiredTokensJob(Step deleteExpiredTokensStep) {
         return new JobBuilder("deleteExpiredTokensJob", jobRepository)
+                .incrementer(new RunIdIncrementer())
                 .start(deleteExpiredTokensStep)
                 .build();
     }
