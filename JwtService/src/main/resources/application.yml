@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -15,6 +15,9 @@ spring:
         dialect: org.hibernate.dialect.MariaDBDialect
   application:
     name: jwt-service
+  batch:
+    jdbc:
+      initialize-schema: always
 
 jwt:
   secret: "8GKpRztVsBEoonycMMhilEuoX6Y2YtNy"

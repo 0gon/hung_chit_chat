@@ -28,9 +28,10 @@ public class BatchScheduler {
      * 다섯번쨰 * -> 월(모든월)
      * 여섯번째 ? -> 요일(특정 요일 무시) -> 매일
      * */
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "*/10 * * * * ?")
     public void runBatchJob() {
         try {
+            log.info("크론식 테스트 10초마다 실행");
             jobLauncher.run(deleteExpiredTokensJob, new JobParameters());
         } catch (Exception e) {
             log.error(e);
