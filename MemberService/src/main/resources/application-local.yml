@@ -5,16 +5,16 @@
 #    password:
 #    driver-class-name: org.h2.Driver
 
+#spring:
+#  datasource:
+#    url: jdbc:mariadb://localhost:3306/member_db
+#    username: root
+#    password: root1234
+#    driver-class-name: org.mariadb.jdbc.Driver
+
 spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/member_db
     username: root
-    password: root1234
+    password: root
     driver-class-name: org.mariadb.jdbc.Driver
-
-#spring:
-#  datasource:
-#    url: jdbc:mariadb://localhost:3306/testdb
-#    username: root
-#    password: root
-#    driver-class-name: org.mariadb.jdbc.Driver

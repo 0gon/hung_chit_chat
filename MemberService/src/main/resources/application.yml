@@ -2,6 +2,9 @@ server:
   port: 8081
 
 spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 50
   profiles:
     include: local    # application-local.yml 을 포함시킴
   autoconfigure:
@@ -18,7 +21,7 @@ spring:
 #        dialect: org.hibernate.dialect.MariaDBDialect
 
   main:
-    allow-bean-definition-overriding: true
+    allow-bean-definition-overriding: false
 
 # TRACE(상세) > DEBUG(디버깅) > INFO(정보) > WARN(경고) > ERROR(에러) > FATAL(치명적 에러) > OFF(끄기)
 logging:
@@ -26,4 +29,3 @@ logging:
     org:
       springframework:
         security: WARN
-

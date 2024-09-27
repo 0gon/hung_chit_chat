@@ -14,6 +14,9 @@ jwt:
 
 
 spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 50
   #main:
     #web-application-type: reactive    # spring cloud gateway 는 반응형 웹 앱을 지원하므로 설정 필요
   application:
