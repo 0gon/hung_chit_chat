@@ -16,8 +16,15 @@ spring:
   application:
     name: jwt-service
   batch:
+    scheduler:
+      cron: "0 0 4 1/2 * ?"         # 운영용 -> 2일마다 새벽4시에 실행
+      #cron: "*/10 * * * * ?"       # 테스트용 -> 10초마다 실행
     jdbc:
       initialize-schema: always
 
 jwt:
   secret: "8GKpRztVsBEoonycMMhilEuoX6Y2YtNy"
+  expires:
+    AccessTokenDay: 3         # 시간 단위 1~24 권장 (1시간 ~ 24시간)
+    RefreshTokenDay: 7        # 하루 단위 1~30 권장 (1일 ~ 30일)
+

@@ -19,10 +19,11 @@ public class JwtQueryRepositoryImpl {
 
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * 만료기간이 지난 refresh Token 데이터 삭제
+     * */
     @Transactional
     public long bulkDelete(){
-        log.info("DELETE BULK DELETE");
-
         return queryFactory
                 .delete(refreshToken1)
                 .where(refreshToken1.expiresAt.before(LocalDateTime.now()))

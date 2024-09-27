@@ -15,9 +15,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-//@EnableBatchProcessing
+//@EnableBatchProcessing        // 스프링 배치 기본설정 활성화, 메타데이터 테이블을 사용해서 배치 작업의 상태와 실행 기록관리
 @RequiredArgsConstructor
-@EnableScheduling
+@EnableScheduling               // 단순 스케줄링 기능만 활성화, 메타데이터 테이블 필요X, 단순한 작업은 실행 가능
 public class BatchConfig {
 
     private final JobRepository jobRepository;
