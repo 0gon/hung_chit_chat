@@ -1,19 +1,19 @@
-package com.memberservice.member.converter;
+package com.memberservice.member.domain;
 
-import com.memberservice.member.model.dto.jackson.MemberView;
-import com.memberservice.member.model.dto.request.SignUpMemberDto;
-import com.memberservice.member.model.entity.Member;
-import com.memberservice.member.model.entity.Role;
+import com.memberservice.member.domain.dto.jackson.MemberView;
+import com.memberservice.member.domain.dto.request.SignUpMemberDto;
+import com.memberservice.member.domain.entity.Member;
+import com.memberservice.member.domain.entity.Role;
 
 public class Converter {
 
     /**
-     * @Param SignUpMemberDto
      * SignUpmemberDto -> Entity
      */
-    public static Member RequestToEntity(SignUpMemberDto signUpMemberDto) {
+    public static Member RequestToEntity(SignUpMemberDto signUpMemberDto, String identifier) {
 
         return Member.builder()
+                .memberId(identifier)
                 .email(signUpMemberDto.getEmail())
                 .password(signUpMemberDto.getPassword())
                 .name(signUpMemberDto.getName())

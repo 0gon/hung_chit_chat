@@ -1,4 +1,4 @@
-package com.memberservice.member.model.dto.jackson;
+package com.memberservice.member.domain.dto.jackson;
 
 public class Views {
     public static class Basic {}

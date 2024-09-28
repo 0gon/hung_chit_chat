@@ -1,4 +1,4 @@
-package com.memberservice.member.model.dto.response;
+package com.memberservice.member.domain.dto.response;
 
 import lombok.*;
 

@@ -1,14 +1,14 @@
-package com.memberservice.member.model.entity;
+package com.memberservice.member.domain.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Gender {
+public enum Role {
 
-    MALE("남성"),
-    FEMALE("여성");
+    USER("사용자"),
+    ADMIN("관리자");
 
     private final String desc;
 }

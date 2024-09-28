@@ -1,9 +1,9 @@
 package com.memberservice.member.controller;
 
-import com.memberservice.member.model.dto.request.RequestLoginDto;
-import com.memberservice.member.model.dto.request.SignUpMemberDto;
-import com.memberservice.member.model.dto.response.ResponseMemberDto;
-import com.memberservice.member.model.dto.response.ResponseTokenDto;
+import com.memberservice.member.domain.dto.request.RequestLoginDto;
+import com.memberservice.member.domain.dto.request.SignUpMemberDto;
+import com.memberservice.member.domain.dto.response.ResponseMemberDto;
+import com.memberservice.member.domain.dto.response.ResponseTokenDto;
 import com.memberservice.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

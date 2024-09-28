@@ -5,8 +5,8 @@ spring:
     password:
     driver-class-name: org.h2.Driver
 
-  ansi:
-    output:
+  output:
+    ansi:
       enabled: always
 
 #spring:

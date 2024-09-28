@@ -1,6 +1,6 @@
-package com.memberservice.member.model.dto.response;
+package com.memberservice.member.domain.dto.response;
 
-import com.memberservice.member.model.entity.Role;
+import com.memberservice.member.domain.entity.Role;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,11 +1,9 @@
-package com.memberservice.member.model.entity;
+package com.memberservice.member.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.memberservice.member.model.dto.jackson.Views;
+import com.memberservice.member.domain.dto.jackson.Views;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -37,10 +35,5 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @PrePersist
-    public void prePersist() {
-        this.memberId = UUID.randomUUID().toString();
-    }
 
 }

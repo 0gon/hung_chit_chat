@@ -5,7 +5,7 @@
 //import com.memberservice.relationship.entity.Relationship;
 //import com.memberservice.relationship.entity.RelationshipPK;
 //import com.memberservice.relationship.repository.RelationshipRepository;
-//import com.memberservice.member.repository.MemberRepository;
+//import com.memberservice.member.service.port.MemberRepository;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.stereotype.Service;
 //

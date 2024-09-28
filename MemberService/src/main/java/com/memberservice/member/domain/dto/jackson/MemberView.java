@@ -1,8 +1,8 @@
-package com.memberservice.member.model.dto.jackson;
+package com.memberservice.member.domain.dto.jackson;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.memberservice.member.model.entity.Gender;
-import com.memberservice.member.model.entity.Role;
+import com.memberservice.member.domain.entity.Gender;
+import com.memberservice.member.domain.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

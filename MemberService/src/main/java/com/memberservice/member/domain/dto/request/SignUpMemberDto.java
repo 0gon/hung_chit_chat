@@ -1,7 +1,7 @@
-package com.memberservice.member.model.dto.request;
+package com.memberservice.member.domain.dto.request;
 
-import com.memberservice.member.model.entity.Gender;
-import com.memberservice.member.model.entity.Role;
+import com.memberservice.member.domain.entity.Gender;
+import com.memberservice.member.domain.entity.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -30,5 +30,7 @@ public class SignUpMemberDto {
     public void EncodePassword(String encodedPassword) {
         this.password = encodedPassword;
     }
+
+
 
 }

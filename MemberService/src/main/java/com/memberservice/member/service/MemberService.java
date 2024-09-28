@@ -2,15 +2,16 @@ package com.memberservice.member.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.memberservice.member.converter.Converter;
-import com.memberservice.member.model.dto.jackson.MemberView;
-import com.memberservice.member.model.dto.request.RequestLoginDto;
-import com.memberservice.member.model.dto.request.SignUpMemberDto;
-import com.memberservice.member.model.dto.response.ResponseMemberDto;
-import com.memberservice.member.model.dto.response.ResponseTokenDto;
-import com.memberservice.member.model.entity.Member;
-import com.memberservice.member.model.dto.jackson.Views;
-import com.memberservice.member.repository.MemberRepository;
+import com.memberservice.member.domain.Converter;
+import com.memberservice.member.domain.dto.jackson.MemberView;
+import com.memberservice.member.domain.dto.request.RequestLoginDto;
+import com.memberservice.member.domain.dto.request.SignUpMemberDto;
+import com.memberservice.member.domain.dto.response.ResponseMemberDto;
+import com.memberservice.member.domain.dto.response.ResponseTokenDto;
+import com.memberservice.member.domain.entity.Member;
+import com.memberservice.member.domain.dto.jackson.Views;
+import com.memberservice.member.service.port.IdentifierFactory;
+import com.memberservice.member.service.port.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,9 +32,10 @@ import java.net.http.HttpRequest.BodyPublishers;
 @Slf4j
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepository memberJpaRepository;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
+    private final IdentifierFactory identifierFactory;
 
 
     // 회원가입
@@ -42,15 +44,15 @@ public class MemberService {
 
         // 비밀번호 encode
         signUpMemberDto.EncodePassword(passwordEncoder.encode(signUpMemberDto.getPassword()));
+        Member member = Converter.RequestToEntity(signUpMemberDto, identifierFactory.generate());
 
-        Member member = Converter.RequestToEntity(signUpMemberDto);
-        return memberRepository.save(member);
+        return memberJpaRepository.save(member);
     }
 
     // 로그인
     public ResponseTokenDto signIn(RequestLoginDto requestLoginDto) {
 
-        Member member = memberRepository.findByEmail(requestLoginDto.getEmail()).orElseThrow();
+        Member member = memberJpaRepository.findByEmail(requestLoginDto.getEmail()).orElseThrow();
         if (passwordEncoder.matches(requestLoginDto.getPassword(), member.getPassword())) {
             MemberView memberView = Converter.MemberToView(member);
             String jsonBody = null;
@@ -94,7 +96,7 @@ public class MemberService {
 
 
     public ResponseMemberDto getMemberByMemberId(String memberId){
-        Member findMember = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalStateException("USER NOT FOUND"));
+        Member findMember = memberJpaRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalStateException("USER NOT FOUND"));
 
         return ResponseMemberDto.builder()
                 .email(findMember.getEmail())
