@@ -1,16 +1,17 @@
 package chat.jwtservice.jwt.util;
 
+import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import com.auth0.jwt.JWT;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
 
 @Component
 @RequiredArgsConstructor
@@ -24,6 +25,9 @@ public class JwtUtil {
 
     @Value("${jwt.expires.RefreshTokenDay}")
     private Integer REFRESHTOKEN_DAY;
+
+    @Value("${domain.local}")
+    private String domain;
 
     /***
      * Access 토큰 생성
@@ -77,7 +81,7 @@ public class JwtUtil {
 
         URI uri = null;
         try {
-            uri  = new URI("http://localhost:8081/members/auth/users/" + memberId);
+            uri  = new URI(domain + ":8081/members/auth/users/" + memberId);
         } catch (URISyntaxException e){
             throw new IllegalArgumentException(e.getMessage());
         }

@@ -1,6 +1,7 @@
 package chat.jwtservice.jwt.service;
 
-import chat.jwtservice.jwt.dto.request.RequestTokenDto;
+import chat.jwtservice.jwt.dto.request.RequestLoginTokenDto;
+import chat.jwtservice.jwt.dto.request.RequestRefreshTokenDto;
 import chat.jwtservice.jwt.dto.response.ResponseTokenDto;
 import chat.jwtservice.jwt.entity.RefreshToken;
 import chat.jwtservice.jwt.repository.JwtRepository;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,15 +25,16 @@ public class JwtService {
      * 토큰 발급
      * */
     @Transactional
-    public ResponseTokenDto generateToken(RequestTokenDto requestTokenDto) {
+    public ResponseTokenDto generateToken(RequestLoginTokenDto requestLoginTokenDto) {
 
-        String generateRefreshToken = jwtUtil.generateRefreshToken(requestTokenDto.getEmail(), requestTokenDto.getMemberId());
+        String generateRefreshToken = jwtUtil.generateRefreshToken(requestLoginTokenDto.getEmail(), requestLoginTokenDto.getMemberId());
 
-        String accessToken = jwtUtil.generateAccessToken(requestTokenDto.getEmail(), requestTokenDto.getMemberId());
+        String accessToken = jwtUtil.generateAccessToken(requestLoginTokenDto.getEmail(), requestLoginTokenDto.getMemberId());
 
         RefreshToken refreshTokenEntity = RefreshToken.builder()
                 .refreshToken(generateRefreshToken)
-                .memberId(requestTokenDto.getMemberId())
+                .memberId(requestLoginTokenDto.getMemberId())
+                .email(requestLoginTokenDto.getEmail())
                 .build();
 
         jwtRepository.save(refreshTokenEntity);
@@ -47,19 +48,19 @@ public class JwtService {
      * 리프레쉬 토큰으로 엑세스 토큰 재발급
      * */
     @Transactional(readOnly = true)
-    public ResponseTokenDto generateTokenByRefreshToken(RequestTokenDto requestTokenDto) {
+    public ResponseTokenDto generateTokenByRefreshToken(RequestRefreshTokenDto requestRefreshTokenDto) {
 
-        RefreshToken findRefreshToken = jwtRepository.findByRefreshToken(requestTokenDto.getRefreshToken()).orElseThrow(() -> new IllegalStateException("Refresh token not found"));
+        RefreshToken findRefreshToken = jwtRepository.findByRefreshToken(requestRefreshTokenDto.getRefreshToken()).orElseThrow(() -> new IllegalStateException("Refresh token not found"));
 
         if (LocalDateTime.now().isAfter(findRefreshToken.getExpiresAt())) {     // 만료 되었으면 exception
             throw new IllegalStateException("Refresh token Expired");
         }
 
-        String accessToken = jwtUtil.generateAccessToken(requestTokenDto.getEmail(), requestTokenDto.getMemberId());
+        String accessToken = jwtUtil.generateAccessToken(findRefreshToken.getEmail(), findRefreshToken.getMemberId());
 
         return ResponseTokenDto.builder()
                 .accessToken(accessToken)
-                .refreshToken(requestTokenDto.getRefreshToken())
+                .refreshToken(requestRefreshTokenDto.getRefreshToken())
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package chat.jwtservice;
 
+import chat.jwtservice.jwt.dto.request.RequestLoginTokenDto;
 import chat.jwtservice.jwt.dto.request.RequestTokenDto;
 import chat.jwtservice.jwt.dto.response.ResponseTokenDto;
 import chat.jwtservice.jwt.entity.RefreshToken;
@@ -40,7 +41,7 @@ class JwtServiceApplicationTests {
     @Rollback(false)
     public void loginTest(){
 
-        RequestTokenDto requestTokenDto = RequestTokenDto.builder()
+        RequestLoginTokenDto requestTokenDto = RequestLoginTokenDto.builder()
                 .email("ttt@ttt.com")
                 .memberId("asdgbosdiv")
                 .build();
