@@ -14,6 +14,7 @@ import com.memberservice.member.service.port.IdentifierFactory;
 import com.memberservice.member.service.port.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,9 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
     private final IdentifierFactory identifierFactory;
+
+    @Value("${domain.local}")
+    private String domain;
 
 
     // 회원가입
@@ -62,7 +66,7 @@ public class MemberService {
                 throw new RuntimeException(e);
             }
 
-            String uri = "http://localhost:8089/jwt/login"; // jwt service
+            String uri = domain + ":8089/jwt/login"; // jwt service
 
 
             HttpClient client = HttpClient.newHttpClient();
