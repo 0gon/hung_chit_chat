@@ -52,10 +52,13 @@ public class MemberRestController {
     }
 
     /**
-     * 뭐하는 애일까?
+     * 로그인 시 멤버 ID로 사용자 체크 후 Role 담아서 반환 -> 추후 어드민 페이지시 필요
+     * 로그인에 넣으면 그 이후 단계 불필요한 조회 발생 X
+     * Gateway Service -> filter -> JwtRequestFilter 참고
+     * @param memberId - String: Member Id
      */
     @GetMapping("/auth/users/{memberId}")
-    public ResponseEntity<ResponseMemberDto> signIn (@PathVariable String memberId) {
+    public ResponseEntity<ResponseMemberDto> getMemberAndRoleByMemberId (@PathVariable String memberId) {
 
         ResponseMemberDto responseMemberDto = memberService.getMemberByMemberId(memberId);
         return ResponseEntity.ok(responseMemberDto);
