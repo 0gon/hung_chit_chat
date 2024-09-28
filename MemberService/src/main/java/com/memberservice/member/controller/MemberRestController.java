@@ -11,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/members")
 @RequiredArgsConstructor
@@ -26,17 +29,20 @@ public class MemberRestController {
 
     /**
      * 회원가입
-     * */
+     */
     @PostMapping("/auth/signUp")
-    public ResponseEntity<String> sighUp(@RequestBody @Valid SignUpMemberDto dto) {
+    public ResponseEntity<Map<String, String>> sighUp(@RequestBody @Valid SignUpMemberDto dto) {
 
         memberService.signUp(dto);
-        return ResponseEntity.ok("success");
+
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "success");
+        return ResponseEntity.ok(result);
     }
 
+
     /**
-     * 사용자의 아이디와 비밀번호를 받아 응답으로 엑세스와 리프레시 토큰을 반환
-     * todo: 토큰의 저장위치가 정해진다면 수정해야됨
+     * 로그인
      */
     @PostMapping("/auth/signIn")
     public ResponseEntity<ResponseTokenDto> signIn (@RequestBody RequestLoginDto requestLoginDto) {
@@ -46,7 +52,7 @@ public class MemberRestController {
     }
 
     /**
-     * 사용자의 아이디와 비밀번호를 받아 응답으로 엑세스와 리프레시 토큰을 반환
+     * 뭐하는 애일까?
      */
     @GetMapping("/auth/users/{memberId}")
     public ResponseEntity<ResponseMemberDto> signIn (@PathVariable String memberId) {

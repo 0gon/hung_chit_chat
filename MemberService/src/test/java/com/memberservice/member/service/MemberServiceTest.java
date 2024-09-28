@@ -48,4 +48,10 @@ class MemberServiceTest {
         Assertions.assertEquals(member.getId(), 0L);
         Assertions.assertEquals(member.getMemberId(), stubIdentifierFactory.generate());
     }
+
+//    @Test
+//    @DisplayName("로그인")
+//    public void signIn() {
+//
+//    }
 }
