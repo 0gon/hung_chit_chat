@@ -1,7 +1,6 @@
 package chat.jwtservice;
 
 import chat.jwtservice.jwt.dto.request.RequestLoginTokenDto;
-import chat.jwtservice.jwt.dto.request.RequestTokenDto;
 import chat.jwtservice.jwt.dto.response.ResponseTokenDto;
 import chat.jwtservice.jwt.entity.RefreshToken;
 import chat.jwtservice.jwt.repository.JwtRepository;
