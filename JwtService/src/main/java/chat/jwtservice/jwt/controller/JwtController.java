@@ -26,7 +26,7 @@ public class JwtController {
         return ResponseEntity.ok().body(responseTokenDto);
     }
 
-    @PostMapping("/generate")
+    @PostMapping("/refresh")
     public ResponseEntity<ResponseTokenDto> generatedRefreshToken(@Valid @RequestBody RequestTokenDto requestTokenDto) {
 
         try {
