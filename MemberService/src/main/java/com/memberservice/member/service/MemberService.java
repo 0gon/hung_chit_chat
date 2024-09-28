@@ -32,7 +32,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 @Slf4j
 public class MemberService {
 
-    private final MemberRepository memberJpaRepository;
+    private final MemberRepository memberRepositoryImpl;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
     private final IdentifierFactory identifierFactory;
@@ -46,16 +46,16 @@ public class MemberService {
         signUpMemberDto.EncodePassword(passwordEncoder.encode(signUpMemberDto.getPassword()));
         Member member = Converter.RequestToEntity(signUpMemberDto, identifierFactory.generate());
 
-        return memberJpaRepository.save(member);
+        return memberRepositoryImpl.save(member);
     }
 
     // 로그인
     public ResponseTokenDto signIn(RequestLoginDto requestLoginDto) {
 
-        Member member = memberJpaRepository.findByEmail(requestLoginDto.getEmail()).orElseThrow();
+        Member member = memberRepositoryImpl.findByEmail(requestLoginDto.getEmail()).orElseThrow();
         if (passwordEncoder.matches(requestLoginDto.getPassword(), member.getPassword())) {
             MemberView memberView = Converter.MemberToView(member);
-            String jsonBody = null;
+            String jsonBody;
             try {
                 jsonBody = objectMapper.writerWithView(Views.MemberIdAndEmail.class).writeValueAsString(memberView);
             } catch (JsonProcessingException e) {
@@ -96,7 +96,7 @@ public class MemberService {
 
 
     public ResponseMemberDto getMemberByMemberId(String memberId){
-        Member findMember = memberJpaRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalStateException("USER NOT FOUND"));
+        Member findMember = memberRepositoryImpl.findByMemberId(memberId).orElseThrow(() -> new IllegalStateException("USER NOT FOUND"));
 
         return ResponseMemberDto.builder()
                 .email(findMember.getEmail())
