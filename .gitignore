@@ -6,6 +6,7 @@
 #application.yml
 application.properties
 application-db.yml
+application-local.yml
 
 # Java class files
 *.class
