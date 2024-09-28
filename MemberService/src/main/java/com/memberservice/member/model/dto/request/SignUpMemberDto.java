@@ -1,7 +1,7 @@
-package com.memberservice.member.dto.request;
+package com.memberservice.member.model.dto.request;
 
-import com.memberservice.member.entity.Gender;
-import com.memberservice.member.entity.Role;
+import com.memberservice.member.model.entity.Gender;
+import com.memberservice.member.model.entity.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

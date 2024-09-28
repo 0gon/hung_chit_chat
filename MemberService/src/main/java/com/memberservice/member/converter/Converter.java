@@ -1,9 +1,9 @@
 package com.memberservice.member.converter;
 
-import com.memberservice.member.dto.jackson.MemberView;
-import com.memberservice.member.dto.request.SignUpMemberDto;
-import com.memberservice.member.entity.Member;
-import com.memberservice.member.entity.Role;
+import com.memberservice.member.model.dto.jackson.MemberView;
+import com.memberservice.member.model.dto.request.SignUpMemberDto;
+import com.memberservice.member.model.entity.Member;
+import com.memberservice.member.model.entity.Role;
 
 public class Converter {
 

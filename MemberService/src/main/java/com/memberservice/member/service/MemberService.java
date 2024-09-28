@@ -3,14 +3,13 @@ package com.memberservice.member.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.memberservice.member.converter.Converter;
-import com.memberservice.member.dto.jackson.MemberView;
-import com.memberservice.member.dto.request.RequestLoginDto;
-import com.memberservice.member.dto.request.SignUpMemberDto;
-import com.memberservice.member.dto.response.ResponseMemberDto;
-import com.memberservice.member.dto.response.ResponseMemberGatewayDto;
-import com.memberservice.member.dto.response.ResponseTokenDto;
-import com.memberservice.member.entity.Member;
-import com.memberservice.member.dto.jackson.Views;
+import com.memberservice.member.model.dto.jackson.MemberView;
+import com.memberservice.member.model.dto.request.RequestLoginDto;
+import com.memberservice.member.model.dto.request.SignUpMemberDto;
+import com.memberservice.member.model.dto.response.ResponseMemberDto;
+import com.memberservice.member.model.dto.response.ResponseTokenDto;
+import com.memberservice.member.model.entity.Member;
+import com.memberservice.member.model.dto.jackson.Views;
 import com.memberservice.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,10 +35,10 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
 
-    // todo: 만약에 memeber 바로 반환하는거 보기 싫으면 dto 만드셈
-    // todo:
+
+    // 회원가입
     @Transactional
-    public Member save(SignUpMemberDto signUpMemberDto) {
+    public Member signUp(SignUpMemberDto signUpMemberDto) {
 
         // 비밀번호 encode
         signUpMemberDto.EncodePassword(passwordEncoder.encode(signUpMemberDto.getPassword()));
@@ -49,6 +47,7 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    // 로그인
     public ResponseTokenDto signIn(RequestLoginDto requestLoginDto) {
 
         Member member = memberRepository.findByEmail(requestLoginDto.getEmail()).orElseThrow();
@@ -91,6 +90,8 @@ public class MemberService {
             throw new RuntimeException("no match password");
         }
     }
+
+
 
     public ResponseMemberDto getMemberByMemberId(String memberId){
         Member findMember = memberRepository.findByMemberId(memberId).orElseThrow(() -> new IllegalStateException("USER NOT FOUND"));

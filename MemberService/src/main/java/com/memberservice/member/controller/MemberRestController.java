@@ -1,9 +1,9 @@
 package com.memberservice.member.controller;
 
-import com.memberservice.member.dto.request.RequestLoginDto;
-import com.memberservice.member.dto.request.SignUpMemberDto;
-import com.memberservice.member.dto.response.ResponseMemberDto;
-import com.memberservice.member.dto.response.ResponseTokenDto;
+import com.memberservice.member.model.dto.request.RequestLoginDto;
+import com.memberservice.member.model.dto.request.SignUpMemberDto;
+import com.memberservice.member.model.dto.response.ResponseMemberDto;
+import com.memberservice.member.model.dto.response.ResponseTokenDto;
 import com.memberservice.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class MemberRestController {
     @PostMapping("/auth/signUp")
     public ResponseEntity<String> sighUp(@RequestBody @Valid SignUpMemberDto dto) {
 
-        memberService.save(dto);
+        memberService.signUp(dto);
         return ResponseEntity.ok("success");
     }
 

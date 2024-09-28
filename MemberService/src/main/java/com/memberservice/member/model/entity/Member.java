@@ -1,7 +1,7 @@
-package com.memberservice.member.entity;
+package com.memberservice.member.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.memberservice.member.dto.jackson.Views;
+import com.memberservice.member.model.dto.jackson.Views;
 import jakarta.persistence.*;
 import lombok.*;
 

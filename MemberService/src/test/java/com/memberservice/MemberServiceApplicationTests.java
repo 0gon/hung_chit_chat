@@ -1,9 +1,9 @@
 package com.memberservice;
 
-import com.memberservice.member.dto.request.SignUpMemberDto;
-import com.memberservice.member.entity.Gender;
-import com.memberservice.member.entity.Member;
-import com.memberservice.member.entity.Role;
+import com.memberservice.member.model.dto.request.SignUpMemberDto;
+import com.memberservice.member.model.entity.Gender;
+import com.memberservice.member.model.entity.Member;
+import com.memberservice.member.model.entity.Role;
 import com.memberservice.member.repository.MemberRepository;
 import com.memberservice.member.service.MemberService;
 import jakarta.persistence.EntityManager;
@@ -37,7 +37,7 @@ class MemberServiceApplicationTests {
     }
 
     @Test
-    public void testSave() {
+    public void testSignUp() {
 
         SignUpMemberDto signUpMemberDto = SignUpMemberDto.builder()
                 .email("aaaa@aaaa.com")
@@ -47,7 +47,7 @@ class MemberServiceApplicationTests {
                 .role(Role.USER)
                 .build();
 
-        Member savedMember = memberService.save(signUpMemberDto);
+        Member savedMember = memberService.signUp(signUpMemberDto);
 
         Member member = memberRepository.findById(savedMember.getId()).get();
 

@@ -1,4 +1,4 @@
-package com.memberservice.member.dto.response;
+package com.memberservice.member.model.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

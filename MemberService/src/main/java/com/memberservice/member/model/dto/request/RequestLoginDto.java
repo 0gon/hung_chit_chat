@@ -1,4 +1,4 @@
-package com.memberservice.member.dto.request;
+package com.memberservice.member.model.dto.request;
 
 import lombok.Getter;
 import lombok.ToString;
