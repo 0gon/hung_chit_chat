@@ -29,12 +29,13 @@ public class JwtService {
 
         String generateRefreshToken = jwtUtil.generateRefreshToken(requestLoginTokenDto.getEmail(), requestLoginTokenDto.getMemberId());
 
-        String accessToken = jwtUtil.generateAccessToken(requestLoginTokenDto.getEmail(), requestLoginTokenDto.getMemberId());
+        String accessToken = jwtUtil.generateAccessToken(requestLoginTokenDto.getEmail(), requestLoginTokenDto.getMemberId(), requestLoginTokenDto.getRole());
 
         RefreshToken refreshTokenEntity = RefreshToken.builder()
                 .refreshToken(generateRefreshToken)
                 .memberId(requestLoginTokenDto.getMemberId())
                 .email(requestLoginTokenDto.getEmail())
+                .role(requestLoginTokenDto.getRole())
                 .build();
 
         jwtRepository.save(refreshTokenEntity);
@@ -56,7 +57,7 @@ public class JwtService {
             throw new IllegalStateException("Refresh token Expired");
         }
 
-        String accessToken = jwtUtil.generateAccessToken(findRefreshToken.getEmail(), findRefreshToken.getMemberId());
+        String accessToken = jwtUtil.generateAccessToken(findRefreshToken.getEmail(), findRefreshToken.getMemberId(), findRefreshToken.getRole());
 
         return ResponseTokenDto.builder()
                 .accessToken(accessToken)

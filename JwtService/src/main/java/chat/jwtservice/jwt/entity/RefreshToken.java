@@ -25,17 +25,20 @@ public class RefreshToken {
 
     private String refreshToken;
 
+    private String role;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
     private LocalDateTime expiresAt;
 
     @Builder
-    public RefreshToken(Long id, String memberId, String email, String refreshToken, LocalDateTime createdAt, LocalDateTime expiresAt) {
+    public RefreshToken(Long id, String memberId, String email, String refreshToken, String role, LocalDateTime createdAt, LocalDateTime expiresAt) {
         this.id = id;
         this.memberId = memberId;
         this.email = email;
         this.refreshToken = refreshToken;
+        this.role = role;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
     }

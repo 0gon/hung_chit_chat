@@ -1,6 +1,7 @@
 package com.memberservice.member.service.port;
 
 import com.memberservice.member.domain.entity.Member;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Optional;
 

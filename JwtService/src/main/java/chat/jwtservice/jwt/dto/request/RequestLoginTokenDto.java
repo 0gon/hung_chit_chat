@@ -17,9 +17,12 @@ public class RequestLoginTokenDto {
     @NotBlank
     private String email;
 
+    private String role;
+
     @Builder
-    public RequestLoginTokenDto(String memberId, String email) {
+    public RequestLoginTokenDto(String memberId, String email, String role) {
         this.memberId = memberId;
         this.email = email;
+        this.role = role;
     }
 }

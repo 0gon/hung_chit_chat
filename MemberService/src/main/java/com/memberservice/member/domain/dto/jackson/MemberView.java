@@ -16,10 +16,10 @@ public class MemberView {
 
     private Long id;
 
-    @JsonView(Views.MemberIdAndEmail.class)
+    @JsonView(Views.MemberIdAndEmailAndRole.class)
     private String memberId;
 
-    @JsonView(Views.MemberIdAndEmail.class)
+    @JsonView(Views.MemberIdAndEmailAndRole.class)
     private String email;
 
     private String password;
@@ -30,5 +30,6 @@ public class MemberView {
 
     private String phoneNumber;
 
+    @JsonView(Views.MemberIdAndEmailAndRole.class)
     private Role role;
 }
