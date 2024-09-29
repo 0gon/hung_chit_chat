@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 9005
 
 
 spring:
@@ -15,4 +15,4 @@ spring:
         show_sql: true
         dialect: org.hibernate.dialect.MariaDBDialect
   application:
-    name: jwt-service
+    name: feed-service
