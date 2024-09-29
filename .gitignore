@@ -2,6 +2,8 @@
 ## 최상위 ignore 파일
 ## 빌더등 제외하고 싶은 폴더들은 하위 모듈에서 별도로 ignore 파일 생성해서 설정하기
 
+*.db
+
 # 앱정보
 #application.yml
 application.properties
@@ -15,7 +17,7 @@ application-local.yml
 *.log
 
 # Package Files 
-*.jar
+#*.jar
 *.war
 *.nar
 *.ear
@@ -36,7 +38,6 @@ application-local.yml
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
