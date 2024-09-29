@@ -2,6 +2,7 @@ package com.memberservice.member.domain;
 
 import com.memberservice.member.domain.dto.jackson.MemberView;
 import com.memberservice.member.domain.dto.request.SignUpMemberDto;
+import com.memberservice.member.domain.dto.response.ResponseMemberDto;
 import com.memberservice.member.domain.entity.Member;
 import com.memberservice.member.domain.entity.Role;
 
@@ -34,6 +35,16 @@ public class Converter {
                 .gender(member.getGender())
                 .phoneNumber(member.getPhoneNumber())
                 .role(member.getRole())
+                .build();
+    }
+
+    public static MemberView ResponseMemberDtoToView(ResponseMemberDto responseMemberDto) {
+
+        return MemberView.builder()
+                .memberId(responseMemberDto.getMemberId())
+                .email(responseMemberDto.getEmail())
+                .password(responseMemberDto.getPassword())
+                .role(responseMemberDto.getRole())
                 .build();
     }
 }

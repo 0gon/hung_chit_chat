@@ -1,16 +1,17 @@
 package chat.jwtservice.jwt.util;
 
+import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import com.auth0.jwt.JWT;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
 
 @Component
 @RequiredArgsConstructor
@@ -25,19 +26,22 @@ public class JwtUtil {
     @Value("${jwt.expires.RefreshTokenDay}")
     private Integer REFRESHTOKEN_DAY;
 
+    @Value("${domain.local}")
+    private String domain;
+
     /***
      * Access 토큰 생성
      * @param email 유저 ID
      * @return 생성된 JWT token 문자열 반환
      */
-    public String generateAccessToken(String email, String memberId) {
+    public String generateAccessToken(String email, String memberId, String role) {
         return JWT.create()
                 .withClaim("member_id", memberId)
                 .withSubject("access")                                                      // 토큰 주체, token_type
                 .withIssuedAt(new Date())                                                   // 토큰 발행 시간, 현재시간
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * ACCESSTOKEN_DAY))       // 1 hours 1000 * 60 * 60
                 .withClaim("email", email)                                            // claim 커스텀
-                .withClaim("role", extractUserRole(memberId))
+                .withClaim("role", "Role_" + role)
                 .sign(Algorithm.HMAC256(SECRET_KEY));                                       // 서명, SECRET_KEY 를 HMAC256 알고리즘으로 변환
     }
 
@@ -64,32 +68,6 @@ public class JwtUtil {
      * */
     public String extractSubject(String token) {
         return JWT.decode(token).getSubject();
-    }
-
-    /**
-     * MemberService 에 member Role 요청
-     * @param memberId
-     * @return String 타입 Role
-     * */
-    private String extractUserRole(String memberId) {
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        URI uri = null;
-        try {
-            uri  = new URI("http://localhost:8081/members/auth/users/" + memberId);
-        } catch (URISyntaxException e){
-            throw new IllegalArgumentException(e.getMessage());
-        }
-
-        ResponseEntity<HashMap> response = restTemplate.getForEntity(uri, HashMap.class);
-
-        if(response.getStatusCode().value() == 200 && response.getBody().get("role") != null) {
-            return "ROLE_" + response.getBody().get("role").toString();
-        }
-
-        throw new IllegalArgumentException("Invalid user");
-
     }
 
 }

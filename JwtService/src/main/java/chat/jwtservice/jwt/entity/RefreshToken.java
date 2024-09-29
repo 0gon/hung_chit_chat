@@ -5,8 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,7 +21,11 @@ public class RefreshToken {
 
     private String memberId;
 
+    private String email;
+
     private String refreshToken;
+
+    private String role;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -31,10 +33,12 @@ public class RefreshToken {
     private LocalDateTime expiresAt;
 
     @Builder
-    public RefreshToken(Long id, String memberId, String refreshToken, LocalDateTime createdAt, LocalDateTime expiresAt) {
+    public RefreshToken(Long id, String memberId, String email, String refreshToken, String role, LocalDateTime createdAt, LocalDateTime expiresAt) {
         this.id = id;
         this.memberId = memberId;
+        this.email = email;
         this.refreshToken = refreshToken;
+        this.role = role;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
     }

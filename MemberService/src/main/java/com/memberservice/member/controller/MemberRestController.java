@@ -2,12 +2,12 @@ package com.memberservice.member.controller;
 
 import com.memberservice.member.domain.dto.request.RequestLoginDto;
 import com.memberservice.member.domain.dto.request.SignUpMemberDto;
-import com.memberservice.member.domain.dto.response.ResponseMemberDto;
 import com.memberservice.member.domain.dto.response.ResponseTokenDto;
 import com.memberservice.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,11 +33,16 @@ public class MemberRestController {
     @PostMapping("/auth/signUp")
     public ResponseEntity<Map<String, String>> sighUp(@RequestBody @Valid SignUpMemberDto dto) {
 
-        memberService.signUp(dto);
+        try {
+            memberService.signUp(dto);
+            Map<String, String> result = new HashMap<>();
+            result.put("result", "success");
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            // 중복된 이메일
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
 
-        Map<String, String> result = new HashMap<>();
-        result.put("result", "success");
-        return ResponseEntity.ok(result);
     }
 
 
@@ -51,13 +56,4 @@ public class MemberRestController {
         return ResponseEntity.ok(responseTokenDto);
     }
 
-    /**
-     * 뭐하는 애일까?
-     */
-    @GetMapping("/auth/users/{memberId}")
-    public ResponseEntity<ResponseMemberDto> signIn (@PathVariable String memberId) {
-
-        ResponseMemberDto responseMemberDto = memberService.getMemberByMemberId(memberId);
-        return ResponseEntity.ok(responseMemberDto);
-    }
 }

@@ -1,6 +1,9 @@
 server:
   port: 8089
 
+domain:
+  local: "http://localhost"
+
 spring:
   datasource:
     hikari:

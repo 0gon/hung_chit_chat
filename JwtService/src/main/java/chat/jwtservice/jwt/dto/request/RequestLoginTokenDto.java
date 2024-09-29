@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RequestTokenDto {
-
-    private String refreshToken;
+public class RequestLoginTokenDto {
 
     @NotNull
     private String memberId;
@@ -19,10 +17,12 @@ public class RequestTokenDto {
     @NotBlank
     private String email;
 
+    private String role;
+
     @Builder
-    public RequestTokenDto(String refreshToken, String memberId, String email) {
-        this.refreshToken = refreshToken;
+    public RequestLoginTokenDto(String memberId, String email, String role) {
         this.memberId = memberId;
         this.email = email;
+        this.role = role;
     }
 }
