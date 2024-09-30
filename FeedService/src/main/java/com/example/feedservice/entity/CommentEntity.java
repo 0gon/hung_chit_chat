@@ -20,4 +20,8 @@ public class CommentEntity extends BaseEntity {
 
     @Column(columnDefinition = "LONGTEXT")
     private String contents;
+
+    /**
+     * TODO :: 편의메서드 적용 해야함
+     * */
 }

@@ -26,10 +26,10 @@ public class PostEntity extends BaseEntity {
     private String contents;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<FileEntity> fileList = new ArrayList<>();              // 양방향
+    private List<CommentEntity> commentList = new ArrayList<>();        // 양방향
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<CommentEntity> commentList = new ArrayList<>();        // 양방향
+    private List<FileEntity> fileList = new ArrayList<>();              // 양방향
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")

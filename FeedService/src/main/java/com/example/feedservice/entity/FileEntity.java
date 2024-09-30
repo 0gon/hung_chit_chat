@@ -27,4 +27,8 @@ public class FileEntity extends BaseEntity {
     private String filePath;
 
     private String fileExtension;
+
+    /**
+     * TODO :: 편의메서드 적용 해야함
+     * */
 }
