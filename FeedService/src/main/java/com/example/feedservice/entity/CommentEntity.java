@@ -9,6 +9,7 @@ import lombok.Getter;
 public class CommentEntity extends BaseEntity {
 
     @Id
+    @Column(name = "comment_id")
     private String commentId;
 
     private String parentCommentId;

@@ -13,13 +13,14 @@ import java.util.List;
 public class PostEntity extends BaseEntity {
 
     @Id
+    @Column(name = "post_id")
     private String postId;
 
     @Column(nullable = false)
     private String memberId;
 
-    @ColumnDefault("PUBLIC")        // 기본값
-    private String publicScope;     // 공개 범위 FRIEND, PUBLIC
+    // 공개 범위 FRIEND, PUBLIC
+    private String publicScope;
 
     @Column(columnDefinition = "LONGTEXT")
     private String contents;

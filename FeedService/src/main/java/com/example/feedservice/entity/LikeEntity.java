@@ -10,7 +10,7 @@ import lombok.Getter;
 public class LikeEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @Column(name = "like_id")
     private String likeId;
 
     @Column(name = "post_id", nullable = false)

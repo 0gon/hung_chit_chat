@@ -12,6 +12,7 @@ import java.util.List;
 public class FileEntity extends BaseEntity {
 
     @Id
+    @Column(name = "file_id")
     private String fileId;
 
     @ManyToOne(fetch = FetchType.LAZY)
