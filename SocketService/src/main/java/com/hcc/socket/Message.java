@@ -1,4 +1,4 @@
-package com.hcc.wss;
+package com.hcc.socket;
 
 import lombok.Builder;
 import lombok.Getter;

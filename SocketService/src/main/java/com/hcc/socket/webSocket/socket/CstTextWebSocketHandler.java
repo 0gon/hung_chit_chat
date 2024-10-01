@@ -1,14 +1,20 @@
-package com.hcc.wss;
+package com.hcc.socket.webSocket.socket;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hcc.socket.Message;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -17,22 +23,33 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Getter
 @Slf4j
-public class CustomWSHandler extends TextWebSocketHandler {
+@Component
+public class CstTextWebSocketHandler extends TextWebSocketHandler {
 
     private final Map<String, WebSocketSession> sessionMap;
 
-    public CustomWSHandler() {
+    public CstTextWebSocketHandler() {
         this.sessionMap = new ConcurrentHashMap<>();
     }
 
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        HttpHeaders headers = session.getHandshakeHeaders();
-        Map<String, String> cookies = parseCookies(headers.get(HttpHeaders.COOKIE).get(0));
-        String memberId = cookies.get("memberId");
-        if (memberId != null) {
-            sessionMap.put(memberId, session);
+    public void afterConnectionEstablished(WebSocketSession session) {
+
+        try {
+            Authentication authentication = (Authentication) session.getPrincipal();
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            String email = userDetails.getUsername();
+            Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) userDetails.getAuthorities();
+
+            if (email != null) {
+                sessionMap.put(email, session);
+                log.info("connection success email : {}", email);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("connection fail");
         }
     }
 

@@ -1,13 +1,13 @@
-package com.hcc.wss;
+package com.hcc.socket;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WssApplication {
+public class SocketApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WssApplication.class, args);
+		SpringApplication.run(SocketApplication.class, args);
 	}
 
 }
