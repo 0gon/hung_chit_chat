@@ -18,4 +18,5 @@ public class LikeEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String memberId;
+
 }

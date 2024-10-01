@@ -14,5 +14,12 @@ spring:
         format_sql: true
         show_sql: true
         dialect: org.hibernate.dialect.MariaDBDialect
+        #배치 인서트
+        jdbc:
+          batch_size: 10
   application:
     name: feed-service
+
+upload:
+  path: "/Users/yudong-yeob/desktop/filetest"    # MAC 파일 경로
+

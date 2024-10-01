@@ -2,13 +2,17 @@ package com.example.feedservice.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Getter
 @Table(name = "files")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FileEntity extends BaseEntity {
 
     @Id
@@ -22,13 +26,25 @@ public class FileEntity extends BaseEntity {
     private String fileName;
 
     @Lob
-    private Double fileSize;
+    private Long fileSize;
 
     private String filePath;
 
-    private String fileExtension;
+
+    @Builder
+    public FileEntity(String fileId, String fileName, Long fileSize, String filePath) {
+        this.fileId = fileId;
+        this.fileName = fileName;
+        this.fileSize = fileSize;
+        this.filePath = filePath;
+    }
 
     /**
      * TODO :: 편의메서드 적용 해야함
      * */
+
+    public void setPost(PostEntity post) {
+        this.post = post;
+//        post.getFileList().add(this);
+    }
 }

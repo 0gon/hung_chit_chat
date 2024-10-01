@@ -24,4 +24,8 @@ public class CommentEntity extends BaseEntity {
     /**
      * TODO :: 편의메서드 적용 해야함
      * */
+    public void setPost(PostEntity post) {
+        this.post = post;
+        post.getCommentList().add(this);
+    }
 }
