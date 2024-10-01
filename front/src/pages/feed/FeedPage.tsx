@@ -8,6 +8,14 @@ export default function FeedPage() {
       </div>
       <div>
         <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
       </div>
     </main>
   );
