@@ -5,6 +5,7 @@ import com.example.feedservice.entity.PostEntity;
 import com.example.feedservice.repository.FileRepository;
 import com.example.feedservice.util.FeedUtil;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +37,6 @@ public class FileService {
 
         List<FileEntity> fileEntities = new ArrayList<>();
 
-
         Path directoryPath = Paths.get(uploadDir);
         if(!Files.exists(directoryPath)){
             Files.createDirectory(directoryPath);
@@ -50,7 +50,22 @@ public class FileService {
         // uploadDir/post_id 폴더에 파일 저장
         for (MultipartFile multipartFile : fileList) {
             String fileId = feedUtil.getUUID();
-            String pathName = savedDirectoryPath + "/" + fileId;
+            String extension = "";
+            String contentType = multipartFile.getContentType();
+
+            if (contentType == null || (
+                            !contentType.equals("image/jpeg") &&
+                            !contentType.equals("image/png") &&
+                            !contentType.equals("image/gif") &&
+                            !contentType.equals("image/jpg")
+            )){
+                // 지원하지 않는 형식이면 continue;
+                continue;
+            }
+
+            extension = contentType.substring(contentType.lastIndexOf("/") + 1);
+
+            String pathName = savedDirectoryPath + "/" + fileId + "." + extension;
             multipartFile.transferTo(new File(pathName));
 
             FileEntity fileEntity = FileEntity.builder()
@@ -60,12 +75,11 @@ public class FileService {
                     .fileName(multipartFile.getOriginalFilename())
                     .build();
 
-            fileEntities.add(fileEntity);
-        }
+            // 연관관계 설정
+            fileEntity.setPost(post);
 
-        // 연관관계 설정
-        for (FileEntity fileEntity : fileEntities) {
-            post.addFile(fileEntity);
+            fileEntities.add(fileEntity);
+
         }
 
         fileRepository.saveAll(fileEntities);

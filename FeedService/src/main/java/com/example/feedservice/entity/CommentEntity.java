@@ -28,4 +28,9 @@ public class CommentEntity extends BaseEntity {
         this.post = post;
         post.getCommentList().add(this);
     }
+
+    @Override
+    public String getId() {
+        return this.commentId;
+    }
 }

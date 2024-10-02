@@ -24,4 +24,9 @@ public class NotificationEntity extends BaseEntity {
     private String memberId;
 
     private Boolean isRead;
+
+    @Override
+    public String getId() {
+        return this.notificationId;
+    }
 }

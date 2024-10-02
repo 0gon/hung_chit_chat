@@ -11,7 +11,7 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
-        format_sql: true
+        #format_sql: true
         show_sql: true
         dialect: org.hibernate.dialect.MariaDBDialect
         #배치 인서트
@@ -21,5 +21,6 @@ spring:
     name: feed-service
 
 upload:
-  path: "/Users/yudong-yeob/desktop/filetest"    # MAC 파일 경로
+  #path: "/Users/yudong-yeob/desktop/filetest"    # MAC 파일 경로
+  path: "C:/Users/User/Desktop/filetest"          # Windows 파일 경로
 

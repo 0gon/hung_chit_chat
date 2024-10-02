@@ -19,4 +19,8 @@ public class LikeEntity extends BaseEntity {
     @Column(nullable = false)
     private String memberId;
 
+    @Override
+    public String getId() {
+        return this.likeId;
+    }
 }

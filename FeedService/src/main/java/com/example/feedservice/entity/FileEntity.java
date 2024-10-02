@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class FileEntity extends BaseEntity {
     @Column(name = "file_id")
     private String fileId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "post_id")
     private PostEntity post;
 
@@ -45,6 +46,12 @@ public class FileEntity extends BaseEntity {
 
     public void setPost(PostEntity post) {
         this.post = post;
-//        post.getFileList().add(this);
+        post.addFile(this);
+    }
+
+
+    @Override
+    public String getId() {
+        return this.fileId;
     }
 }

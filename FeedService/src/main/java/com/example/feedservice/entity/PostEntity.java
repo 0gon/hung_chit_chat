@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.domain.Persistable;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,8 +33,8 @@ public class PostEntity extends BaseEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String contents;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<CommentEntity> commentList = new ArrayList<>();        // 양방향
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)            // 부모엔티티(PostEntity)가 모든 동작을 할때 자식엔티티(CommentEntity)가 영향 받음 Ex) PostEntity 삭제 -> 연관된 CommentEntity 모두 삭제
+    private List<CommentEntity> commentList = new ArrayList<>();        // 양방향  
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<FileEntity> fileList = new ArrayList<>();              // 양방향
@@ -58,6 +60,10 @@ public class PostEntity extends BaseEntity {
 
     public void addFile(FileEntity fileEntity) {
         this.fileList.add(fileEntity);
-        fileEntity.setPost(this);
+    }
+
+    @Override
+    public String getId() {
+        return this.postId;
     }
 }
