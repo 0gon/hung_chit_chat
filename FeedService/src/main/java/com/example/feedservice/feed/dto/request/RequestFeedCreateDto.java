@@ -10,23 +10,23 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RequestPostCreateDto {
+public class RequestFeedCreateDto {
 
     private String postId;
     private String memberId;
     private String publicScope;
     private String contents;
-    private List<MultipartFile> file;
+    private List<MultipartFile> media;
 
-    public RequestPostCreateDto(RequestPostCreateDto requestPostCreateDto) {
+    public RequestFeedCreateDto(RequestFeedCreateDto requestFeedCreateDto) {
     }
 
     @Builder
-    public RequestPostCreateDto(String postId, String memberId, String publicScope, String contents, List<MultipartFile> file) {
+    public RequestFeedCreateDto(String postId, String memberId, String publicScope, String contents, List<MultipartFile> media) {
         this.postId = postId;
         this.memberId = memberId;
         this.publicScope = publicScope;
         this.contents = contents;
-        this.file = file;
+        this.media = media;
     }
 }

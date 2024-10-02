@@ -30,9 +30,9 @@ public class MediaService {
 
     /**
      * 파일 저장
-     * @param post, fileList - PostEntity, List<MultipartFile>
+     * @param feed, fileList - feedEntity, List<MultipartFile>
      * */
-    public void uploadFileAtStore(FeedEntity feed, List<MultipartFile> fileList) throws IOException {
+    public void uploadMediaAtStore(FeedEntity feed, List<MultipartFile> mediaList) throws IOException, RuntimeException {
 
         List<MediaEntity> fileEntities = new ArrayList<>();
 
@@ -47,7 +47,7 @@ public class MediaService {
 
 
         // uploadDir/post_id 폴더에 파일 저장
-        for (MultipartFile multipartFile : fileList) {
+        for (MultipartFile multipartFile : mediaList) {
             String mediaId = feedUtil.getUUID();
             String extension = "";
             String contentType = multipartFile.getContentType();
@@ -83,5 +83,60 @@ public class MediaService {
 
         mediaRepository.saveAll(fileEntities);
 
+    }
+
+    public void updateMediaAtStore(FeedEntity feed, List<MultipartFile> mediaList) throws IOException, RuntimeException {
+
+        List<MediaEntity> fileEntities = new ArrayList<>();
+
+        List<MediaEntity> mediaEntities = mediaRepository.findByFeedId(feed.getFeedId());
+
+        if (mediaEntities == null) {
+            // uploadDir/feed_id 가 없으면 폴더 생성
+            Path savedDirectoryPath = Paths.get(uploadDir + "/" + feed.getFeedId());
+            if (!Files.exists(savedDirectoryPath)) {
+                Files.createDirectory(savedDirectoryPath);
+            }
+        }
+
+        // uploadDir/post_id
+//        if (mediaEntities != null) {
+//            for (MultipartFile multipartFile : mediaList) {
+//
+//                String mediaId = feedUtil.getUUID();
+//                String extension = "";
+//                String contentType = multipartFile.getContentType();
+//
+//                if (contentType == null || (
+//                        !contentType.equals("image/jpeg") &&
+//                                !contentType.equals("image/png") &&
+//                                !contentType.equals("image/gif") &&
+//                                !contentType.equals("image/jpg")
+//                )) {
+//                    // 지원하지 않는 형식이면 continue;
+//                    continue;
+//                }
+//
+//                extension = contentType.substring(contentType.lastIndexOf("/") + 1);
+//
+//                String pathName = savedDirectoryPath + "/" + mediaId + "." + extension;
+//                multipartFile.transferTo(new File(pathName));
+//
+//                MediaEntity mediaEntity = MediaEntity.builder()
+//                        .mediaId(mediaId)
+//                        .mediaPath(pathName)
+//                        .mediaSize(multipartFile.getSize())
+//                        .mediaName(multipartFile.getOriginalFilename())
+//                        .build();
+//
+//                // 연관관계 설정
+//                mediaEntity.setFeed(feed);
+//
+//                fileEntities.add(mediaEntity);
+//
+//            }
+//
+//            mediaRepository.saveAll(fileEntities);
+//        }
     }
 }

@@ -50,6 +50,10 @@ public class FeedEntity extends BaseEntity {
         this.contents = contents;
     }
 
+    public void changeContents(String contents) {
+        this.contents = contents;
+    }
+
     /**
      * 편의메서드
      * */

@@ -8,9 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MediaRepository extends JpaRepository<MediaEntity, String> {
-
-    void deleteAllByFeed(FeedEntity feed);
+public interface MediaRepository extends JpaRepository<MediaEntity, String>, MediaRepositoryCustom {
 
     List<MediaEntity> findAllByFeed(FeedEntity feed);
 

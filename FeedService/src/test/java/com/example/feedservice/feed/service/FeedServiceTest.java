@@ -1,7 +1,7 @@
 package com.example.feedservice.feed.service;
 
 import com.example.feedservice.media.service.MediaService;
-import com.example.feedservice.feed.dto.request.RequestPostCreateDto;
+import com.example.feedservice.feed.dto.request.RequestFeedCreateDto;
 import com.example.feedservice.media.repository.MediaRepository;
 import com.example.feedservice.common.util.FeedUtil;
 import org.junit.jupiter.api.DisplayName;
@@ -37,14 +37,14 @@ class FeedServiceTest {
         multipartFiles.add(new MockMultipartFile("testImage3",  "testImage3.jpg", "image/jpg", "test612312312312378Image".getBytes(StandardCharsets.UTF_8)));
         multipartFiles.add(new MockMultipartFile("testImage4",  "testImage4.amg", "image/amg", "tes6666tImage".getBytes(StandardCharsets.UTF_8)));
 
-        RequestPostCreateDto requestPostCreateDto = RequestPostCreateDto.builder()
+        RequestFeedCreateDto requestFeedCreateDto = RequestFeedCreateDto.builder()
                 .memberId("1234")
                 .contents("5678")
                 .publicScope("PUBLIC")
-                .file(multipartFiles)
+                .media(multipartFiles)
                 .build();
 
-        feedService.createFeed(requestPostCreateDto);
+        feedService.createFeed(requestFeedCreateDto);
         /**
          * 테스트 완료 2024-10-02
          * */

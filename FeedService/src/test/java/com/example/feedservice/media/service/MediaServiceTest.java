@@ -60,7 +60,7 @@ class MediaServiceTest {
 //        multipartFiles.add(new MockMultipartFile("testImage3",  "testImage3.jpg", "image/jpg", Files.readAllBytes(Paths.get(uploadPath + "/" + "test.jpg"))));    // 테스트 완료
 
 
-        mediaService.uploadFileAtStore(feed, multipartFiles);
+        mediaService.uploadMediaAtStore(feed, multipartFiles);
 
         long endTime = System.currentTimeMillis();
         long timeElapsed = endTime - startTime;

@@ -19,7 +19,7 @@ public class MediaEntity extends BaseEntity {
     @Column(name = "media_id")
     private String mediaId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "feed_id")
     private FeedEntity feed;
 
