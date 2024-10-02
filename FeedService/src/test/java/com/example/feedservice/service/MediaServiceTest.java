@@ -84,7 +84,7 @@ class MediaServiceTest {
         Assertions.assertThat(fileEntities.get(0).getFeed().getFeedId()).isEqualTo(feed.getFeedId());
         Assertions.assertThat(fileEntities.get(1).getFeed().getFeedId()).isEqualTo(feed.getFeedId());
         Assertions.assertThat(fileEntities.get(2).getFeed().getFeedId()).isEqualTo(feed.getFeedId());
-        Assertions.assertThat(feed.getFileList().get(0).getFeed().getFeedId()).isEqualTo(fileEntities.get(0).getFeed().getFeedId());
+        Assertions.assertThat(feed.getMediaList().get(0).getFeed().getFeedId()).isEqualTo(fileEntities.get(0).getFeed().getFeedId());
 
 
         Assertions.assertThat(fileEntities.get(0).getFeed()).isEqualTo(postEntity);
