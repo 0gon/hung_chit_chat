@@ -44,7 +44,7 @@ public class MediaEntity extends BaseEntity {
 
     public void setFeed(FeedEntity feed) {
         this.feed = feed;
-        feed.addFile(this);
+        feed.addMedia(this);
     }
 
 

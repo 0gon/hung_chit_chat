@@ -1,10 +1,9 @@
-package com.example.feedservice.service;
+package com.example.feedservice.feed.service;
 
 import com.example.feedservice.media.service.MediaService;
 import com.example.feedservice.feed.dto.request.RequestPostCreateDto;
 import com.example.feedservice.media.repository.MediaRepository;
 import com.example.feedservice.common.util.FeedUtil;
-import com.example.feedservice.feed.service.FeedService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

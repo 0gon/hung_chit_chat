@@ -17,8 +17,8 @@ public class CommentEntity extends BaseEntity {
     private String parentCommentId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id")
-    private FeedEntity post;
+    @JoinColumn(name = "feed_id")
+    private FeedEntity feed;
 
     @Column(columnDefinition = "LONGTEXT")
     private String contents;
@@ -26,9 +26,9 @@ public class CommentEntity extends BaseEntity {
     /**
      * TODO :: 편의메서드 적용 해야함
      * */
-    public void setPost(FeedEntity post) {
-        this.post = post;
-        post.getCommentList().add(this);
+    public void setFeed(FeedEntity feed) {
+        this.feed = feed;
+        feed.getCommentList().add(this);
     }
 
     @Override

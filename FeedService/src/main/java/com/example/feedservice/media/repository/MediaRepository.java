@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface MediaRepository extends JpaRepository<MediaEntity, String> {
 
-    void deleteAllByPost(FeedEntity post);
+    void deleteAllByFeed(FeedEntity feed);
 
     List<MediaEntity> findAllByFeed(FeedEntity feed);
 

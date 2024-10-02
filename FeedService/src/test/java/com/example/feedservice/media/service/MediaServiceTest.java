@@ -1,7 +1,6 @@
-package com.example.feedservice.service;
+package com.example.feedservice.media.service;
 
 import com.example.feedservice.media.entity.MediaEntity;
-import com.example.feedservice.media.service.MediaService;
 import com.example.feedservice.feed.entity.FeedEntity;
 import com.example.feedservice.media.repository.MediaRepository;
 import com.example.feedservice.feed.repository.FeedRepository;

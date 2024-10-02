@@ -32,7 +32,7 @@ public class MediaService {
      * 파일 저장
      * @param post, fileList - PostEntity, List<MultipartFile>
      * */
-    public void uploadFileAtStore(FeedEntity post, List<MultipartFile> fileList) throws IOException {
+    public void uploadFileAtStore(FeedEntity feed, List<MultipartFile> fileList) throws IOException {
 
         List<MediaEntity> fileEntities = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class MediaService {
         }
 
         // uploadDir/feed_id 로 폴더 생성
-        Path savedDirectoryPath = Paths.get(directoryPath + "/" + post.getFeedId());
+        Path savedDirectoryPath = Paths.get(directoryPath + "/" + feed.getFeedId());
         Files.createDirectory(savedDirectoryPath);
 
 
@@ -75,7 +75,7 @@ public class MediaService {
                     .build();
 
             // 연관관계 설정
-            mediaEntity.setFeed(post);
+            mediaEntity.setFeed(feed);
 
             fileEntities.add(mediaEntity);
 

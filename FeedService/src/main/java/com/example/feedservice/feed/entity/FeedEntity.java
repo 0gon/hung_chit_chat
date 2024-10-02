@@ -32,7 +32,7 @@ public class FeedEntity extends BaseEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String contents;
 
-    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)            // 부모엔티티(PostEntity)가 모든 동작을 할때 자식엔티티(CommentEntity)가 영향 받음 Ex) PostEntity 삭제 -> 연관된 CommentEntity 모두 삭제
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)            // 부모엔티티(feedEntity)가 모든 동작을 할때 자식엔티티(CommentEntity)가 영향 받음 Ex) feedEntity 삭제 -> 연관된 CommentEntity 모두 삭제
     private List<CommentEntity> commentList = new ArrayList<>();        // 양방향
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
@@ -57,7 +57,7 @@ public class FeedEntity extends BaseEntity {
         this.getReactionList().add(reactionEntity);
     }
 
-    public void addFile(MediaEntity mediaEntity) {
+    public void addMedia(MediaEntity mediaEntity) {
         this.mediaList.add(mediaEntity);
     }
 
