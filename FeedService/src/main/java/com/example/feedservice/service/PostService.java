@@ -38,13 +38,11 @@ public class PostService {
                 .build();
 
         try {
-            // File 로컬에 저장 및 연관관계 매핑
+            // File 로컬에 저장 및 연관관계 매핑, 영속성 컨텍스트에 들어간 Post Entity 저장
             fileService.uploadFileAtStore(post, requestPostCreateDto.getFile());
         } catch (IOException e) {
             throw new RuntimeException("Failed to upload file : " + e);
         }
-
-        postRepository.save(post);
 
     }
 
