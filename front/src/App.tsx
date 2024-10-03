@@ -1,35 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Suspense } from "react";
+import { HashRouter, Route, Routes } from "react-router-dom";
+// import PrivateRoute from "./utility/privateRoute";
+// import { useSelector } from "react-redux";
+// import "../style/style.scss";
 
-function App() {
-  const [count, setCount] = useState(0)
+const loading = (
+  <div className="pt-3 text-center">
+    <div className="sk-spinner sk-spinner-pulse"></div>
+  </div>
+);
+
+// // Containers
+// const DefaultLayout = React.lazy(
+//   () => import("./components/layout/defaultLayout")
+// );
+
+// Pages
+const Login = React.lazy(() => import("./page/login/login"));
+
+const App = () => {
+  // const session = useSelector((state) => state.app.session);
+  const session = "a";
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <HashRouter>
+      <Suspense fallback={loading}>
+        <Routes>
+          <Route
+            // exact
+            path="/login"
+            // name="Login Page"
+            element={session ? <Login /> : <Login />}
+            // element={<Login />}
+          />
+          {/* <Route
+            // exact
+            path="/"
+            // name="Login Page"
+            element={session ? <Login /> : <Login />}
+            // element={<Login />}
+          /> */}
+          {/* <Route
+            path="*"
+            // name="Home"
+            element={
+              <PrivateRoute
+                authenticated={session}
+                component={
+                  <DefaultLayout visible={undefined} setVisible={undefined} />
+                }
+              />
+            }
+          /> */}
+        </Routes>
+      </Suspense>
+    </HashRouter>
+  );
+};
 
-export default App
+export default App;
