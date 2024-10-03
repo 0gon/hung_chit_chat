@@ -1,15 +1,18 @@
 package com.memberservice.member.controller;
 
-import com.memberservice.member.dto.request.RequestLoginDto;
-import com.memberservice.member.dto.request.SignUpMemberDto;
-import com.memberservice.member.dto.response.ResponseMemberDto;
-import com.memberservice.member.dto.response.ResponseTokenDto;
+import com.memberservice.member.domain.dto.request.RequestLoginDto;
+import com.memberservice.member.domain.dto.request.SignUpMemberDto;
+import com.memberservice.member.domain.dto.response.ResponseTokenDto;
 import com.memberservice.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/members")
@@ -26,17 +29,25 @@ public class MemberRestController {
 
     /**
      * 회원가입
-     * */
+     */
     @PostMapping("/auth/signUp")
-    public ResponseEntity<String> sighUp(@RequestBody @Valid SignUpMemberDto dto) {
+    public ResponseEntity<Map<String, String>> sighUp(@RequestBody @Valid SignUpMemberDto dto) {
 
-        memberService.save(dto);
-        return ResponseEntity.ok("success");
+        try {
+            memberService.signUp(dto);
+            Map<String, String> result = new HashMap<>();
+            result.put("result", "success");
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            // 중복된 이메일
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
     }
 
+
     /**
-     * 사용자의 아이디와 비밀번호를 받아 응답으로 엑세스와 리프레시 토큰을 반환
-     * todo: 토큰의 저장위치가 정해진다면 수정해야됨
+     * 로그인
      */
     @PostMapping("/auth/signIn")
     public ResponseEntity<ResponseTokenDto> signIn (@RequestBody RequestLoginDto requestLoginDto) {
@@ -45,13 +56,4 @@ public class MemberRestController {
         return ResponseEntity.ok(responseTokenDto);
     }
 
-    /**
-     * 사용자의 아이디와 비밀번호를 받아 응답으로 엑세스와 리프레시 토큰을 반환
-     */
-    @GetMapping("/auth/users/{memberId}")
-    public ResponseEntity<ResponseMemberDto> signIn (@PathVariable String memberId) {
-
-        ResponseMemberDto responseMemberDto = memberService.getMemberByMemberId(memberId);
-        return ResponseEntity.ok(responseMemberDto);
-    }
 }

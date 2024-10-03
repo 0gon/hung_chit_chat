@@ -1,0 +1,11 @@
+# Production stage
+FROM gradle:8.8.0-jdk17
+
+WORKDIR /app
+
+# 빌드된 JAR 파일을 이미지로 복사
+ARG JAR_FILE =build/libs/*.jar
+COPY ${JAR_FILE} app.jar
+
+# 애플리케이션 실행
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
