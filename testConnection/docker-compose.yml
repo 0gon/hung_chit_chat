@@ -1,0 +1,42 @@
+services:
+  database:
+    container_name: h2
+    image: oscarfonts/h2:latest
+    ports:
+      - 1521:1521
+      - 8082:81
+    environment:
+      H2_OPTIONS: -ifNotExists -web -webAllowOthers
+    volumes:
+      - ./h2/:/opt/h2-data
+    restart: always
+
+#  member_service:
+#    container_name: member_service
+#    restart: on-failure
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile_MemberService
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:h2:tcp://h2:1521/demo
+#      SPRING_DATASOURCE_USERNAME: sa
+#      SPRING_DATASOURCE_PASSWORD:
+#    depends_on:
+#      - database
+
+  jwt_service:
+    container_name: jwt_service
+    restart: on-failure
+    build:
+      context: ./
+      dockerfile: Dockerfile_JwtService
+    ports:
+      - "8089:8089"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:tcp://h2:1521/demo
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD:
+    depends_on:
+      - database
