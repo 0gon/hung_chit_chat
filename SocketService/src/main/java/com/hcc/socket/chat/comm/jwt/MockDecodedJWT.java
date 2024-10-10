@@ -1,7 +1,6 @@
-package com.hcc.socket.webSocket.comm.jwt;
+package com.hcc.socket.chat.comm.jwt;
 
-import com.auth0.jwt.JWT;
-import com.hcc.socket.webSocket.comm.jwt.port.DecodedJWT;
+import com.hcc.socket.chat.comm.jwt.port.DecodedJWT;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;

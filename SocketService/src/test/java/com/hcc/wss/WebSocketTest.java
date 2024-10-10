@@ -2,7 +2,7 @@ package com.hcc.wss;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hcc.socket.Message;
-import com.hcc.socket.webSocket.config.WebSocketConfig;
+import com.hcc.socket.chat.config.WebSocketConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

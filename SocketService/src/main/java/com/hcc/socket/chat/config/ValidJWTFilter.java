@@ -1,7 +1,7 @@
-package com.hcc.socket.webSocket.config;
+package com.hcc.socket.chat.config;
 
-import com.hcc.socket.webSocket.comm.jwt.JWTHolder;
-import com.hcc.socket.webSocket.comm.jwt.MockDecodedJWT;
+import com.hcc.socket.chat.comm.jwt.JWTHolder;
+import com.hcc.socket.chat.comm.jwt.MockDecodedJWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

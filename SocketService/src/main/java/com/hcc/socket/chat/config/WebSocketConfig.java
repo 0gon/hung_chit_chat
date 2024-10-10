@@ -1,4 +1,4 @@
-package com.hcc.socket.webSocket.config;
+package com.hcc.socket.chat.config;
 
 
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.hcc.socket.webSocket.comm.jwt;
+package com.hcc.socket.chat.comm.jwt;
 
-import com.hcc.socket.webSocket.comm.jwt.port.DecodedJWT;
+import com.hcc.socket.chat.comm.jwt.port.DecodedJWT;
 import org.springframework.security.core.Authentication;
 
 public class JWTHolder {

@@ -1,4 +1,4 @@
-package com.hcc.socket.webSocket.mock;
+package com.hcc.socket.chat.mock;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;

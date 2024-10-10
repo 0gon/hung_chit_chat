@@ -1,12 +1,10 @@
-package com.hcc.socket.webSocket.config;
+package com.hcc.socket.chat.config;
 
-import com.hcc.socket.webSocket.mock.FakeHttpSerwvletReuqest;
+import com.hcc.socket.chat.mock.FakeHttpSerwvletReuqest;
 import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ValidJWTFilterTest {
 

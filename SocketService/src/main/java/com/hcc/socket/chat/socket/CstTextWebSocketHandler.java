@@ -1,4 +1,4 @@
-package com.hcc.socket.webSocket.socket;
+package com.hcc.socket.chat.socket;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hcc.socket.Message;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.hcc.socket.webSocket.comm.jwt.port;
+package com.hcc.socket.chat.comm.jwt.port;
 
 import org.springframework.security.core.Authentication;
 
